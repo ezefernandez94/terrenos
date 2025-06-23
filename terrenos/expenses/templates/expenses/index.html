@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if expenses %}
+        <ul>
+        {% for expense in expenses %}
+            <li><a href="{% url 'expenses:detail' expense.id %}">{{ expense.detail }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay gastos disponibles</p>
+    {% endif %}
+    <a href="{% url 'expenses:create' %}" class="btn btn-primary">Crear nuevo gasto</a>
+{% endblock %}

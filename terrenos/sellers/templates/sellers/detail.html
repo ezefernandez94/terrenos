@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="card text-center">
+        <div class="card-header">
+            {{ seller.name }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ seller.notes }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'sellers:edit' seller.id %}" class="btn btn-warning">Editar Vendedor</a>
+            <a href="{% url 'sellers:delete' seller.id %}" class="btn btn-danger">Eliminar Vendedor</a>
+        </div>
+    </div>
+
+{% endblock %}
+

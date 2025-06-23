@@ -15,5 +15,5 @@ class LandForm(forms.ModelForm):
                 ('taxes', 'Impuestos'),
                 ('other', 'Otro')
             ]),
-            'seller': forms.ModelChoiceField(queryset=Seller.objects.all(), empty_label="Seleccione un vendedor")
+            'seller': forms.Select(choices=Seller.objects.all())
         }

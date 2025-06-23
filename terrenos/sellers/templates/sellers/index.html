@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if sellers %}
+        <ul>
+        {% for seller in sellers %}
+            <li><a href="{% url 'sellers:detail' seller.id %}">{{ seller.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay vendedores disponibles</p>
+    {% endif %}
+    <a href="{% url 'sellers:create' %}" class="btn btn-primary">Crear nuevo vendedor</a>
+{% endblock %}

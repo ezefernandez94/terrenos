@@ -22,8 +22,8 @@ def index(request):
     """
     Render the index page of the peoples app.
     """
-    peoples = People.objects.all()
-    return render(request, 'peoples/index.html', {"peoples": peoples})
+    people = People.objects.all()
+    return render(request, 'people/index.html', {"people": people})
 
 def detail(request, people_id):
     """
@@ -33,7 +33,7 @@ def detail(request, people_id):
         people = People.objects.get(id=people_id)
     except People.DoesNotExist:
         raise Http404("<h1>People not found</h1>", status=404)
-    return render(request, "peoples/detail.html", {"people": people})
+    return render(request, "people/detail.html", {"people": people})
 
 def create(request):
     """

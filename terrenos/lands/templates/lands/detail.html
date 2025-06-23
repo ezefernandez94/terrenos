@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>{{ land.manual_id }}{{ land.block }}</h1>
+    <p>{{ land.size }}</p>
+    <p>{{ land.price }}</p>
+
+{% endblock %}
+
+{% block sidebar %}
+    <h2>Acciones</h2>
+    <ul>
+        <li><a href="{% url 'lands:edit' land.id %}">Editar Terreno</a></li>
+        <li><a href="{% url 'lands:delete' land.id %}">Eliminar Terreno</a></li>
+    </ul>
+{% endblock %}

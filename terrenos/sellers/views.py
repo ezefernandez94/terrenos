@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Seller
 from .forms import SellerForm
@@ -18,6 +18,15 @@ class SellerCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
+class SellerDeleteView(DeleteView):
+    """
+    View to delete a seller.
+    """
+    model = Seller
+    template_name = 'sellers/confirm_delete.html'
+    success_url = reverse_lazy('sellers:index')
+    
+
 def index(request):
     """
     Render the index page of the sellers app.
@@ -46,15 +55,24 @@ def edit(request, seller_id):
     """
     Render the edit page for a specific seller.
     """
-    # Here you would typically fetch the seller from the database using the seller_id
-    # For now, we'll just return a placeholder response
-    return HttpResponse(f"<h1>Edit Seller ID: {seller_id}</h1>")
+    seller = get_object_or_404(Seller, pk=seller_id)
+    if request.method == 'POST':
+        form = SellerForm(request.POST, instance=seller)
+        if form.is_valid():
+            form.save()
+            return render(request, 'sellers/detail.html', {"seller": seller})
+    else:
+        form = SellerForm(instance=seller)
+    return render(request, 'sellers/edit.html', {'form': form})
+
 
 def delete(request, seller_id):
     """
     Render the delete confirmation page for a specific seller.
     """
-    # Here you would typically fetch the seller from the database using the seller_id
-    # For now, we'll just return a placeholder response
-    return HttpResponse(f"<h1>Delete Seller ID: {seller_id}</h1>")
-
+    seller = get_object_or_404(Seller, pk=seller_id)
+    if request.method == 'POST':
+        seller.delete()
+        return HttpResponse("<h1>Seller deleted successfully</h1>")
+    
+    return render(request, 'sellers/delete.html', {'seller': seller})

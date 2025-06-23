@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if sales %}
+        <ul>
+        {% for sale in sales %}
+            <li><a href="{% url 'sales:detail' sale.id %}">{{ sale.land.manual_id }}{{ sale.land.block }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay ventas disponibles</p>
+    {% endif %}
+{% endblock %}

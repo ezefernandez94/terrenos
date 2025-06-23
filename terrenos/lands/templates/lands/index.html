@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if lands %}
+        <ul>
+        {% for land in lands %}
+            <li><a href="{% url 'lands:detail' land.id %}">{{ land.manual_id }}{{ land.block }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay terrenos disponibles</p>
+    {% endif %}
+{% endblock %}

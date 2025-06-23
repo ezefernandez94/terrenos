@@ -17,5 +17,5 @@ class ExpenseForm(forms.ModelForm):
                 ('other', 'Otro')
             ]),
             'accountant': forms.CheckboxInput(),
-            'seller': forms.ModelChoiceField(queryset=Seller.objects.all(), empty_label="Seleccione un vendedor")
+            'seller': forms.Select(choices=Seller.objects.all())
         }

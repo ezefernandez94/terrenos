@@ -1,0 +1,8 @@
+{% block content %}
+  <h2>Cargar un Nuevo Contacto</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear</button>
+  </form>
+{% endblock %}
