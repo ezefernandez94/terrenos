@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Terrenos Bragado</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'projects:index' %}">Proyectos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'lands:index' %}">Terrenos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'people:index' %}">Personas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'sales:index' %}">Ventas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'sales_summary:index' %}">Resumen Ventas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'expenses:index' %}">Gastos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'sellers:index' %}">Vendedores</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
