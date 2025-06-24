@@ -2,7 +2,21 @@
 
 {% block content %}
 
-    <h1>{{ project.name }}</h1>
-    <p>{{ project.start_date }}</p>
+    <div class="card text-center">
+        <div class="card-header">
+            {{ project.name }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ project.name }}</p>
+            <p class="card-text">{{ project.start_date }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'lands:create_multiple' project.id %}" class="btn btn-primary">Crear terrenos</a>
+            <a href="{% url 'projects:edit' project.id %}" class="btn btn-warning">Editar Proyecto</a>
+            <a href="{% url 'projects:delete' project.id %}" class="btn btn-danger">Eliminar Proyecto</a>
+        </div>
+    </div>
 
 {% endblock %}

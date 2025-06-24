@@ -2,9 +2,19 @@
 
 {% block content %}
 
-    <h1>{{ people.name }}</h1>
-    <p>{{ people.type }}</p>
-    <p>{{ people.email }}</p>
-    <p>{{ people.phone }}</p>
-
+    <div class="card text-center">
+        <div class="card-header">
+            {{ people.name }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ people.type }}</p>
+            <p class="card-text">{{ people.phone }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'people:edit' people.id %}" class="btn btn-warning">Editar Contacto</a>
+            <a href="{% url 'people:delete' people.id %}" class="btn btn-danger">Eliminar Contacto</a>
+        </div>
+    </div>
 {% endblock %}

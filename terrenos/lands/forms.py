@@ -6,7 +6,8 @@ from sellers.models import Seller
 class LandForm(forms.ModelForm):
     class Meta:
         model = Land
-        fields = ['project', 'manual_id', 'block', 'size', 'type', 'price', 'status', 'notes', 'seller']
+        fields = ['manual_id', 'block', 'width', 'length', 'type', 'price', 'status', 'notes', 'seller']
+        exclude = ['project']
         widgets = {
             'project': forms.Select(choices=Project.objects.all()),
             'type': forms.Select(choices=[

@@ -10,4 +10,5 @@ urlpatterns = [
     path("create/", SaleSummaryCreateView.as_view(), name='create'),
     path("<int:sale_summary_id>/edit/", views.edit, name='edit'),
     path("<int:sale_summary_id>/delete/", views.delete, name='delete'),
+    path("add_payment/<int:sale_id>/", views.add_payment, name='add_payment'),
 ]

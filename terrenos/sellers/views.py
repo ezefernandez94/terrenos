@@ -23,7 +23,7 @@ class SellerDeleteView(DeleteView):
     View to delete a seller.
     """
     model = Seller
-    template_name = 'sellers/confirm_delete.html'
+    template_name = 'sellers/delete.html'
     success_url = reverse_lazy('sellers:index')
     
 

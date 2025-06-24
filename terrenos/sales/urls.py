@@ -10,4 +10,5 @@ urlpatterns = [
     path("create/", SaleCreateView.as_view(), name='create'),
     path("<int:sale_id>/edit/", views.edit, name='edit'),
     path("<int:sale_id>/delete/", views.delete, name='delete'),
+    path("sell/<int:land_id>/", views.sell_land, name='sell_land'),
 ]

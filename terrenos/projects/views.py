@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Project
 from .forms import ProjectForm
@@ -19,6 +19,14 @@ class ProjectCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
+class ProjectDeleteView(DeleteView):
+    """
+    View to delete a project.
+    """
+    model = Project
+    template_name = 'projects/delete.html'
+    success_url = reverse_lazy('projects:index')
+
 def index(request):
     """
     Render the index page of the projects app.
@@ -48,14 +56,24 @@ def edit(request, project_id):
     """
     Render the edit page for a specific project.
     """
-    # Here you would typically fetch the project from the database using the project_id
-    # For now, we'll just return a placeholder response
-    return HttpResponse(f"<h1>Edit Project ID: {project_id}</h1>")
+    project = get_object_or_404(Project, pk=project_id)
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            return render(request, 'projects/detail.html', {"project": project})
+    else:
+        form = ProjectForm(instance=project)
+    return render(request, 'projects/edit.html', {'form': form})
+
 
 def delete(request, project_id):
     """
     Render the delete confirmation page for a specific project.
     """
-    # Here you would typically fetch the project from the database using the project_id
-    # For now, we'll just return a placeholder response
-    return HttpResponse(f"<h1>Delete Project ID: {project_id}</h1>")
+    project = get_object_or_404(Project, pk=project_id)
+    if request.method == 'POST':
+        project.delete()
+        return HttpResponse("<h1>Project deleted successfully</h1>")
+    
+    return render(request, 'projects/delete.html', {'project': project})

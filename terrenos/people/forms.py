@@ -11,8 +11,8 @@ class PeopleForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={'placeholder': 'Teléfono'}),
             'notes': forms.Textarea(attrs={'placeholder': 'Notas adicionales', 'rows': 3}),
             'type': forms.Select(choices=[
-                ('individual', 'Individual'),
-                ('company', 'Empresa'),
+                ('buyer', 'Comprador'),
+                ('interested', 'Interesado'),
                 ('other', 'Otro')
             ]),
         }

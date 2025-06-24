@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import SaleSummary
 from .forms import SaleSummaryForm
+from sales.models import Sale
 
 class SaleSummaryCreateView(CreateView):
     """
@@ -18,6 +19,14 @@ class SaleSummaryCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
+class SaleSummaryDeleteView(DeleteView):
+    """
+    View to delete a seller.
+    """
+    model = SaleSummary
+    template_name = 'sales_summary/delete.html'
+    success_url = reverse_lazy('sales_summary:index')
+
 def index(request):
     """
     Render the index page of the sales_summary app.
@@ -44,17 +53,41 @@ def create(request):
 
 def edit(request, sale_summary_id):
     """
-    Render the edit page for a specific sale_summary.
+    Render the edit page for a specific seller.
     """
-    # Here you would typically fetch the sale_summary from the database using the sale_summary_id
-    # For now, we'll just return a placeholder response
-    return HttpResponse(f"<h1>Edit SaleSummary ID: {sale_summary_id}</h1>")
+    sale_summary = get_object_or_404(SaleSummary, pk=sale_summary_id)
+    if request.method == 'POST':
+        form = SaleSummaryForm(request.POST, instance=sale_summary)
+        if form.is_valid():
+            form.save()
+            return render(request, 'sales_summary/detail.html', {"sale_summary": sale_summary})
+    else:
+        form = SaleSummaryForm(instance=sale_summary)
+    return render(request, 'sales_summary/edit.html', {'form': form})
+
 
 def delete(request, sale_summary_id):
     """
-    Render the delete confirmation page for a specific sale_summary.
+    Render the delete confirmation page for a specific seller.
     """
-    # Here you would typically fetch the sale_summary from the database using the sale_summary_id
-    # For now, we'll just return a placeholder response
-    return HttpResponse(f"<h1>Delete SaleSummary ID: {sale_summary_id}</h1>")
+    sale_summary = get_object_or_404(SaleSummary, pk=sale_summary_id)
+    if request.method == 'POST':
+        sale_summary.delete()
+        return HttpResponse("<h1>Ingreso eliminado exitosamente</h1>")
+    
+    return render(request, 'sales_summary/delete.html', {'sale_summary': sale_summary})
 
+def add_payment(request, sale_id):
+    """
+    Add a payment to a sale.
+    """
+    sale = get_object_or_404(Sale, pk=sale_id)
+    if request.method == 'POST':
+        form = SaleSummaryForm(request.POST)
+        if form.is_valid():
+            sale_summary = form.save()
+            return render(request, 'sales_summary/detail.html', {"sale_summary": sale_summary})
+    else:
+        form = SaleSummaryForm(initial={'sale': sale})
+
+    return render(request, 'sales_summary/add_payment.html', {'form': form, 'sale': sale})

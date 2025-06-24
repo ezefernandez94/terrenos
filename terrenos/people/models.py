@@ -11,9 +11,9 @@ class People(models.Model):
     type = models.CharField(
         max_length=50,
         choices=[
-            ('individual', 'Individual'),
-            ('company', 'Company'),
-            ('other', 'Other')
+            ('buyer', 'Comprador'),
+            ('interested', 'Interesado'),
+            ('other', 'Otro')
         ],
         default='individual'
     )

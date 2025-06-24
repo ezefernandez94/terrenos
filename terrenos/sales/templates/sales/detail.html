@@ -2,8 +2,20 @@
 
 {% block content %}
 
-    <h1>{{ sale.land.manual_id }}{{ sale.land.block }}</h1>
-    <p>{{ sale.sale_date }}</p>
-    <p>{{ sale.sale_price }}</p>
+    <div class="card text-center">
+        <div class="card-header">
+            {{ sale.land.manual_id }}{{ sale.land.block }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ sale.sale_price }}</p>
+            <p class="card-text">{{ sale.sale_date }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'sales:edit' sale.id %}" class="btn btn-warning">Editar Venta</a>
+            <a href="{% url 'sales:delete' sale.id %}" class="btn btn-danger">Eliminar Venta</a>
+        </div>
+    </div>
 
 {% endblock %}

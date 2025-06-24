@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Eliminar Contacto</h2>
+    <p>Esta seguro de querer eliminar el contacto "{{ people.name }}"?</p>
+
+    <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Si, eliminar</button>
+    <a href="{% url 'people:detail' seller.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+{% endblock %}

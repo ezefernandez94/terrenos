@@ -8,6 +8,11 @@ class Sale(models.Model):
     sale_date = models.DateField()
     sale_price = models.DecimalField(max_digits=10, decimal_places=2)
     n_payments = models.IntegerField(default=1)
+    status = models.CharField(max_length=20, choices=[
+        ('pending', 'Pendiente'),
+        ('completed', 'Completada'),
+        ('cancelled', 'Cancelada'),
+    ], default='pending')
     boletus_date = models.DateField(blank=True, null=True)
     deed_date = models.DateField(blank=True, null=True)
     deed_number = models.CharField(max_length=20, blank=True, null=True)
@@ -20,3 +25,10 @@ class Sale(models.Model):
         verbose_name = "Venta"
         verbose_name_plural = "Ventas"
         ordering = ['sale_date']
+
+    @property
+    def is_paid(self):
+        """
+        Check if the sale is fully paid.
+        """
+        return self.status == 'completed'

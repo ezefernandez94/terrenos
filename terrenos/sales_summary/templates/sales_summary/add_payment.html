@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Agregar Pago para {{ sale.land.manual_id}}{{ sale.land.block }} de {{ sale.land.project.name}}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Agregar</button>
+    </form>
+{% endblock %}

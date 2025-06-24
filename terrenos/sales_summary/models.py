@@ -11,12 +11,20 @@ class SaleSummary(models.Model):
     type = models.CharField(
         max_length=50,
         choices=[
-            ('sale', 'Venta'),
-            ('payment', 'Pago'),
-            ('boletus', 'Boletus'),
-            ('deed', 'Escritura')
+            ('initial_payment', 'Pago Inicial'),
+            ('monthly_payment', 'Cuota'),
+            ('remaining_payment', 'Pago de Saldo Restante')
         ],
         default='sale'
+    )
+    payment_option = models.CharField(
+        max_length=50,
+        choices=[
+            ('pesos', 'Pesos'),
+            ('usd', 'Dolares'),
+            ('cheque', 'Cheque'),
+            ('tranfer', 'Tranferencia')
+        ]
     )
     accountant = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)

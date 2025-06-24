@@ -2,7 +2,20 @@
 
 {% block content %}
 
-    <h1>{{ sale_summary.amount }}</h1>
-    <p>{{ sale_summary.date }}</p>
+    <div class="card text-center">
+        <div class="card-header">
+            Ingreso {{ sale_summary.id }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ sale_summary.amoun }}</p>
+            <p class="card-text">{{ sale_summary.date }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'sales_summary:edit' sale_summary.id %}" class="btn btn-warning">Editar Ingreso</a>
+            <a href="{% url 'sales_summary:delete' sale_summary.id %}" class="btn btn-danger">Eliminar Ingreso</a>
+        </div>
+    </div>
 
 {% endblock %}

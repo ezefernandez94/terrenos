@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Expense
 from .forms import ExpenseForm
@@ -18,6 +18,14 @@ class ExpenseCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
+class ExpenseDeleteView(DeleteView):
+    """
+    View to delete a expense.
+    """
+    model = Expense
+    template_name = 'expenses/delete.html'
+    success_url = reverse_lazy('expenses:index')
+
 def index(request):
     """
     Render the index page of the expenses app.
@@ -46,15 +54,25 @@ def edit(request, expense_id):
     """
     Render the edit page for a specific expense.
     """
-    # Here you would typically fetch the expense from the database using the expense_id
-    # For now, we'll just return a placeholder response
-    return HttpResponse(f"<h1>Edit Expense ID: {expense_id}</h1>")
+    expense = get_object_or_404(Expense, pk=expense_id)
+    if request.method == 'POST':
+        form = ExpenseForm(request.POST, instance=expense)
+        if form.is_valid():
+            form.save()
+            return render(request, 'expenses/detail.html', {"expense": expense})
+    else:
+        form = ExpenseForm(instance=expense)
+    return render(request, 'expenses/edit.html', {'form': form})
+
 
 def delete(request, expense_id):
     """
     Render the delete confirmation page for a specific expense.
     """
-    # Here you would typically fetch the expense from the database using the expense_id
-    # For now, we'll just return a placeholder response
-    return HttpResponse(f"<h1>Delete Expense ID: {expense_id}</h1>")
+    expense = get_object_or_404(Expense, pk=expense_id)
+    if request.method == 'POST':
+        expense.delete()
+        return HttpResponse("<h1>Expense deleted successfully</h1>")
+    
+    return render(request, 'expenses/delete.html', {'expense': expense})
 

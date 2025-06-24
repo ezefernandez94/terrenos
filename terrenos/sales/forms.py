@@ -7,7 +7,7 @@ class SaleForm(forms.ModelForm):
         model = Sale
         fields = ['land', 'sale_date', 'sale_price', 'notes', 'n_payments', 'boletus_date', 'deed_date', 'deed_number']
         widgets = {
-            'land': forms.Select(choices=Land.objects.all()),
+            'land': forms.HiddenInput(),
             'sale_date': forms.DateInput(attrs={'type': 'date'}),
             'boletus_date': forms.DateInput(attrs={'type': 'date'}),
             'deed_date': forms.DateInput(attrs={'type': 'date'}),

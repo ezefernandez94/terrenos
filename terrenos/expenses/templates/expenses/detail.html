@@ -2,8 +2,20 @@
 
 {% block content %}
 
-    <h1>{{ expense.project.name }}</h1>
-    <p>{{ expense.detail }}</p>
-    <p>{{ expense.amount }}</p>
+    <div class="card text-center">
+        <div class="card-header">
+            Gasto {{ expense.id }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ expense.detail }}</p>
+            <p class="card-text">{{ expense.amoun }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'expenses:edit' expense.id %}" class="btn btn-warning">Editar Gasto</a>
+            <a href="{% url 'expenses:delete' expense.id %}" class="btn btn-danger">Eliminar Gasto</a>
+        </div>
+    </div>
 
 {% endblock %}

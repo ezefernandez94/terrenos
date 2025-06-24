@@ -2,16 +2,20 @@
 
 {% block content %}
 
-    <h1>{{ land.manual_id }}{{ land.block }}</h1>
-    <p>{{ land.size }}</p>
-    <p>{{ land.price }}</p>
-
-{% endblock %}
-
-{% block sidebar %}
-    <h2>Acciones</h2>
-    <ul>
-        <li><a href="{% url 'lands:edit' land.id %}">Editar Terreno</a></li>
-        <li><a href="{% url 'lands:delete' land.id %}">Eliminar Terreno</a></li>
-    </ul>
+    <div class="card text-center">
+        <div class="card-header">
+            Terreno {{ land.manual_id }}{{ land.block }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ land.width }} x {{ land.length }}</p>
+            <p class="card-text">{{ land.price }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'lands:edit' land.id %}" class="btn btn-warning">Editar Terreno</a>
+            <a href="{% url 'lands:delete' land.id %}" class="btn btn-danger">Eliminar Terreno</a>
+        </div>
+    </div>
+    
 {% endblock %}

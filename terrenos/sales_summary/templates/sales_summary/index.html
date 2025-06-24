@@ -2,12 +2,47 @@
 
 {% block content %}
     {% if sales_summary %}
-        <ul>
-        {% for sale_summary in sales_summary %}
-            <li><a href="{% url 'sales_summary:detail' sale_summary.id %}">{{ sale_summary.id }}</a></li>
-        {% endfor %}
-        </ul>
+        <h1>Resumen de Pagos</h1>
+        <table id="sales_summary_table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Pago</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Opción de Pago</th>
+                    <th>Ver</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale_summary in sales_summary %}
+                    <tr>
+                        <td>{{ sale_summary.sale.land.manual_id }}{{ sale_summary.sale.land.block }} - {{ sale_summary.sale.land.project.name }} - {{ sale_summary.id }}</td>
+                        <td>{{ sale_summary.amount }}</td>
+                        <td>{{ sale_summary.date }}</td>
+                        <td>{{ sale_summary.get_type_display }}</td>
+                        <td>{{ sale_summary.get_payment_option_display }}</td>
+                        <td><a href="{% url 'sales_summary:detail' sale_summary.id %}">Ver</a></td>
+                        <td><a href="{% url 'sales_summary:edit' sale_summary.id %}">Editar</a></td>
+                        <td><a href="{% url 'sales_summary:delete' sale_summary.id %}">Eliminar</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% else %}
         <p>No hay pagos disponibles</p>
     {% endif %}
+    <a href="{% url 'sales_summary:create' %}" class="btn btn-primary">Cargar nuevo ingreso</a>
+
+    <script>
+        $(document).ready(function() {
+            $('#sales_summary_table').DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+                }
+            });
+        });
+    </script>
 {% endblock %}

@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import People
 from .forms import PeopleForm
@@ -11,16 +11,24 @@ class PeopleCreateView(CreateView):
     """
     model = People
     form_class = PeopleForm
-    template_name = 'peoples/create.html'
+    template_name = 'people/create.html'
     ## Redirect to the index page after successful creation
-    success_url = reverse_lazy('peoples:index')
+    success_url = reverse_lazy('people:index')
     
     def form_valid(self, form):
         return super().form_valid(form)
     
+class PeopleDeleteView(DeleteView):
+    """
+    View to delete a people.
+    """
+    model = People
+    template_name = 'people/delete.html'
+    success_url = reverse_lazy('people:index')
+
 def index(request):
     """
-    Render the index page of the peoples app.
+    Render the index page of the people app.
     """
     people = People.objects.all()
     return render(request, 'people/index.html', {"people": people})
@@ -44,17 +52,26 @@ def create(request):
 
 def edit(request, people_id):
     """
-    Render the edit page for a specific people.
+    Render the edit page for a specific person.
     """
-    # Here you would typically fetch the people from the database using the people_id
-    # For now, we'll just return a placeholder response
-    return HttpResponse(f"<h1>Edit People ID: {people_id}</h1>")
+    people = get_object_or_404(People, pk=people_id)
+    if request.method == 'POST':
+        form = PeopleForm(request.POST, instance=people)
+        if form.is_valid():
+            form.save()
+            return render(request, 'people/detail.html', {"people": people})
+    else:
+        form = PeopleForm(instance=people)
+    return render(request, 'people/edit.html', {'form': form})
+
 
 def delete(request, people_id):
     """
-    Render the delete confirmation page for a specific people.
+    Render the delete confirmation page for a specific person.
     """
-    # Here you would typically fetch the people from the database using the people_id
-    # For now, we'll just return a placeholder response
-    return HttpResponse(f"<h1>Delete People ID: {people_id}</h1>")
-
+    people = get_object_or_404(People, pk=people_id)
+    if request.method == 'POST':
+        people.delete()
+        return HttpResponse("<h1>People deleted successfully</h1>")
+    
+    return render(request, 'people/delete.html', {'people': people})

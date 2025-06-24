@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Eliminar Ingreso</h2>
+    <p>Esta seguro de querer eliminar el ingreso "{{ sale_summary.id }}"?</p>
+
+    <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Si, eliminar</button>
+    <a href="{% url 'sales_summary:detail' sale_summary.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+{% endblock %}
