@@ -1,5 +1,7 @@
 from django import forms
 from .models import Sale
+from people_to_lands.forms import PeopleToLandsForm
+from people_to_lands.models import PeopleToLands
 from lands.models import Land
 
 class SaleForm(forms.ModelForm):
@@ -14,3 +16,12 @@ class SaleForm(forms.ModelForm):
             'deed_number': forms.TextInput(attrs={'placeholder': 'Número de escritura'}),
             'notes': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Notas adicionales'})
         }
+
+PeopleToLandFormSet = forms.inlineformset_factory(
+    Land,
+    PeopleToLands,
+    form=PeopleToLandsForm,
+    fields=('person', 'land', 'notes'),
+    extra=0,
+    can_delete=True
+)

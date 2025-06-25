@@ -3,8 +3,9 @@ from django.http import HttpResponse, Http404
 from django.views.generic import CreateView,DeleteView
 from django.urls import reverse_lazy
 from .models import Sale
-from .forms import SaleForm
+from .forms import SaleForm, PeopleToLandFormSet
 from lands.models import Land
+from people_to_lands.models import PeopleToLands
 
 class SaleCreateView(CreateView):
     """
@@ -85,16 +86,31 @@ def sell_land(request, land_id):
 
     if request.method == 'POST':
         form = SaleForm(request.POST)
-        if form.is_valid():
-            sale = form.save()
-            # Optional: mark land as sold
+        formset = PeopleToLandFormSet(request.POST)
+        
+        if form.is_valid() and formset.is_valid():
+            sale = form.save(commit=False)
+            sale.land = land
+            sale.save()
+            for form in formset:
+                ownership = form.save(commit=False)
+                ownership.land = land
+                ownership.save()
+            # Update the land status to 'sold'
             land.status = 'sold'
             land.save()
             return render(request, 'sales/detail.html', {"sale": sale})
+        else:
+            print("Form errors:")
+            print(form.errors)
+            print("Formset errors:")
+            print(formset.errors)
     else:
         form = SaleForm(initial={'land': land})
+        formset = PeopleToLandFormSet(queryset=PeopleToLands.objects.none())
 
     return render(request, 'sales/sell_land.html', {
         'form': form,
+        'formset': formset,
         'land': land
     })

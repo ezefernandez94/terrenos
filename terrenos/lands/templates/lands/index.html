@@ -8,6 +8,7 @@
                 <tr>
                     <th>Terreno</th>
                     <th>Vender</th>
+                    <th>Dueño/s</th>
                     <th>Ver</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
@@ -23,6 +24,14 @@
                             {% else %}
                                 <a href="{% url 'sales:sell_land' land.id %}" class="btn btn-warning">Vender</a>
                             {% endif %}
+                        </td>
+                        <td>
+                            {% for ownership in land.peopletolands_set.all %}
+                                <li>{{ ownership.person.name }}</li>
+                            {% empty %}
+                                <li>No hay comprador asignado</li>
+                            {% endfor %}
+                        </td>
                         <td><a href="{% url 'lands:detail' land.id %}">Ver {{ land.manual_id }}{{ land.block }}</a></td>
                         <td><a href="{% url 'lands:edit' land.id %}">Editar {{ land.manual_id }}{{ land.block }}</a></td>
                         <td><a href="{% url 'lands:delete' land.id %}">Eliminar {{ land.manual_id }}{{ land.block }}</a></td>

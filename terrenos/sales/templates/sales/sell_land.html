@@ -6,6 +6,117 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Vender</button>
+        <h4>Compradores</h4>
+        {{ formset.management_form }}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Persona</th>
+                    <th>Notas</th>
+                    <th>Crear Persona</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody class="formset-body" id="formset-body">
+            {% if formset.non_form_errors %}
+                <tr>
+                    <td colspan="5">
+                        <div class="alert alert-danger">
+                            {{ formset.non_form_errors }}
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+            {% for form in formset %}
+                <tr class="form-row">
+                    <td>{{ form.person }}</td>
+                    <td>{{ form.notes }}</td>
+                    <td>{{ form.create_new_person }}</td>
+                    <td>{{ form.new_name }}</td>
+                    <td>{{ form.new_phone }}</td>
+                    <td><a class="btn btn-sm btn-outline-danger delete-row">Eliminar</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <button type="button" id="add-row" class="btn btn-secondary">Agregar comprador</button>
+        <button type="submit" class="btn btn-success">Vender</button>
     </form>
+
+    <!-- Hidden template row -->
+    <table style="display: none">
+        <tbody>
+            <tr id="empty-form-row">
+            {% with form=formset.empty_form %}
+                <td>{{ form.person }}</td>
+                <td>{{ form.notes }}</td>
+                <td>{{ form.create_new_person }}</td>
+                <td>{{ form.new_name }}</td>
+                <td>{{ form.new_phone }}</td>
+                <td><a class="btn btn-sm btn-outline-danger delete-row">Eliminar</a></td>
+            {% endwith %}
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const addRowBtn = document.getElementById("add-row");
+            const totalForms = document.querySelector("#id_peopletolands_set-TOTAL_FORMS");
+            const formsetBody = document.getElementById("formset-body");
+            const template = document.getElementById("empty-form-row");
+            
+            addRowBtn.addEventListener("click", () => {
+                const formCount = parseInt(totalForms.value);
+                const newRow = template.cloneNode(true);
+                newRow.removeAttribute("id");
+                // Replace __prefix__ in names and ids
+                newRow.querySelectorAll("input, select, textarea, label").forEach(el => {
+                    if (el.name) {
+                        el.name = el.name.replace(/__prefix__/, formCount);
+                    }
+                    if (el.id) {
+                        el.id = el.id.replace(/__prefix__/, formCount);
+                    }
+                    if (el.htmlFor) {
+                        el.htmlFor = el.htmlFor.replace(/__prefix__/, formCount);
+                    }
+                });
+                
+                newRow.querySelectorAll("input[name*='new_name'], input[name*='new_phone']").forEach(input => {
+                    input.disabled = true;
+                });
+
+                formsetBody.appendChild(newRow);
+                totalForms.value = formCount + 1;
+            });
+
+            // Toggle fields based on checkbox
+            document.addEventListener("change", (e) => {
+                if (e.target.type === "checkbox" && e.target.name.includes("create_new_person")) {
+                    const row = e.target.closest("tr");
+                    const checked = e.target.checked;
+
+                    row.querySelectorAll("input[name*='new_name'], input[name*='new_phone']").forEach(input => {
+                    input.disabled = !checked;
+                    });
+
+                    row.querySelector("select[name*='person']").disabled = checked;
+                }
+            });
+
+            // Event delegation for copy/delete
+            formsetBody.addEventListener('click', function (e) {
+                if (e.target.classList.contains('delete-row')) {
+                    e.target.closest('tr').remove();
+                }
+            });
+        });
+
+
+    </script>
+
 {% endblock %}

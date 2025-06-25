@@ -19,7 +19,7 @@ class Sale(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"Sale of {self.land} to {self.buyer} on {self.sale_date}"
+        return f"Sale of {self.land} on {self.sale_date}"
 
     class Meta:
         verbose_name = "Venta"
