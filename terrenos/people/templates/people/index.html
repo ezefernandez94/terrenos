@@ -7,12 +7,18 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
+                    <th>Ver</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
                 {% for person in people %}
                     <tr>
-                        <td><a href="{% url 'people:detail' person.id %}">{{ person.name }}</a></td>
+                        <td>{{ person.name }}</td>
+                        <td><a href="{% url 'people:detail' person.id %}">Ver {{ person.name }}</a></td>
+                        <td><a href="{% url 'people:edit' person.id %}">Editar {{ person.name }}</a></td>
+                        <td><a href="{% url 'people:delete' person.id %}">Eliminar {{ person.name }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

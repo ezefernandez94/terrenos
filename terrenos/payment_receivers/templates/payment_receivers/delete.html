@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Eliminar Cobrador</h2>
+    <p>Esta seguro de querer eliminar el cobrador "{{ receiver.name }}"?</p>
+
+    <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Si, eliminar</button>
+    <a href="{% url 'payment_receivers:detail' receiver.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+{% endblock %}

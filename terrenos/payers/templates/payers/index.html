@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if payers %}
+        <h1>Lista de Contactos</h1>
+        <table id="payers_table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Ver</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payer in payers %}
+                    <tr>
+                        <td>{{ payer.name }}</td>
+                        <td><a href="{% url 'payers:detail' payer.id %}">Ver {{ payer.name }}</a></td>
+                        <td><a href="{% url 'payers:edit' payer.id %}">Editar {{ payer.name }}</a></td>
+                        <td><a href="{% url 'payers:delete' payer.id %}">Eliminar {{ payer.name }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay pagadores disponibles</p>
+    {% endif %}
+    <a href="{% url 'payers:create' %}" class="btn btn-primary">Crear nuevo pagador</a>
+
+    <script>
+        $(document).ready(function() {
+            $('#payers_table').DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+                }
+            });
+        });
+    </script>
+{% endblock %}

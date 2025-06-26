@@ -2,8 +2,11 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
+from django.db.models import Q
+
 from .models import Project
 from .forms import ProjectForm
+from expenses.models import Expense
 
 class ProjectCreateView(CreateView):
     """
@@ -42,8 +45,27 @@ def detail(request, project_id):
     try:
         project = Project.objects.get(id=project_id)
     except Project.DoesNotExist:
-        raise Http404("<h1>Project not found</h1>", status=404)
-    return render(request, "projects/detail.html", {"project": project})
+        raise Http404("<h1>El proyecto que está solicitando no existe</h1>", status=404)
+    
+    general_expenses = Expense.objects.filter(project_id=project_id)
+    property_expenses = general_expenses.filter(type="property")
+    light_materials_expenses = general_expenses.filter(type="light_project", detail="materials")
+    light_labour_expenses = general_expenses.filter(type="light_project", detail="labour")
+    gas_expenses = general_expenses.filter(type="gas_project")
+    streets_expenses = general_expenses.filter(type="streets")
+    plans_measurements_expense = general_expenses.filter(Q(type="plans") | Q(type="measurement"))
+    other_expenses = general_expenses.filter(type="other")
+
+    return render(request, "projects/detail.html", {
+        "project": project,
+        "property_expenses": property_expenses,
+        "light_materials_expenses": light_materials_expenses,
+        "light_labour_expenses": light_labour_expenses,
+        "gas_expenses": gas_expenses,
+        "streets_expenses": streets_expenses,
+        "plans_measurements_expense": plans_measurements_expense,
+        "other_expenses": other_expenses
+    })
 
 def create(request):
     """

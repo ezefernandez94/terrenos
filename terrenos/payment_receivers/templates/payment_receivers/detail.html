@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="card text-center">
+        <div class="card-header">
+            Cobrador {{ receiver.name }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ receiver.name }}</p>
+            <p class="card-text">{{ receiver.notes }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'payment_receivers:edit' receiver.id %}" class="btn btn-warning">Editar Cobrador</a>
+            <a href="{% url 'payment_receivers:delete' receiver.id %}" class="btn btn-danger">Eliminar Cobrador</a>
+        </div>
+    </div>
+
+{% endblock %}

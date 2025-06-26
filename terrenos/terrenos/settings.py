@@ -50,6 +50,8 @@ CUSTOM_APPS = [
     "expenses",
     "people",
     "people_to_lands",
+    "payers",
+    "payment_receivers"
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + CUSTOM_APPS

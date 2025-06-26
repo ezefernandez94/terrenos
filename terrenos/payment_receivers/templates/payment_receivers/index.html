@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if payment_receivers %}
+        <h1>Lista de Cobradores</h1>
+        <table id="receivers_table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Ver</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for receiver in payment_receivers %}
+                    <tr>
+                        <td>{{ receiver.name }}</td>
+                        <td><a href="{% url 'payment_receivers:detail' receiver.id %}">Ver {{ receiver.name }}</a></td>
+                        <td><a href="{% url 'payment_receivers:edit' receiver.id %}">Editar {{ receiver.name }}</a></td>
+                        <td><a href="{% url 'payment_receivers:delete' receiver.id %}">Eliminar {{ receiver.name }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay cobradores disponibles</p>
+    {% endif %}
+    <a href="{% url 'payment_receivers:create' %}" class="btn btn-primary">Crear nuevo cobrador</a>
+
+    <script>
+        $(document).ready(function() {
+            $('#receivers_table').DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+                }
+            });
+        });
+    </script>
+{% endblock %}
