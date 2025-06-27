@@ -85,7 +85,9 @@
                 cloneRowWithValues(row);
             }
             if (e.target.classList.contains('delete-row')) {
+                const formCount = parseInt(totalForms.value);
                 e.target.closest('tr').remove();
+                totalForms.value = formCount + 1;
             }
         });
 
