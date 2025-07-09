@@ -107,7 +107,7 @@ WSGI_APPLICATION = "terrenos.wsgi.application"
 ## }
 
 DATABASES = {
-    "default": dj_database_url.parse(os.environ.get("NEON_DB_URL"), conn_max_age=600, conn_health_cookies=True)
+    "default": dj_database_url.parse(os.environ.get("NEON_DB_URL"), conn_max_age=600, conn_health_checks=True)
 }
 
 # Password validation
