@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if investments %}
+        <h1>Lista de Inversiones</h1>
+        <table id="investments_table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Proyecto</th>
+                    <th>Fecha</th>
+                    <th>Detalle</th>
+                    <th>Pagador</th>
+                    <th>Valor</th>
+                    <th>TC</th>
+                    <th>Contable</th>
+                    <th>Notas</th>
+                    <th>Ver</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for investment in investments %}
+                    <tr>
+                        <td>{{ investment.project.name }}</td>
+                        <td>{{ investment.date }}</td>
+                        <td>{{ investment.get_detail_display }} ({{ investment.get_type_display }})</td>
+                        <td>{{ investment.payer.name }}</td>
+                        <td>{{ investment.amount|floatformat }} {{ investment.currency|upper }}</td>
+                        <td>{{ investment.exchange_rate|floatformat }}</td>
+                        {% if investment.accountant %}
+                            {% if investment.accountant_amount %}
+                                <td>{{ investment.accountant_amount|floatformat }} {{ investment.accountant_currency|upper }}</td>
+                            {% else %}
+                                <td>{{ investment.amount|floatformat }} {{ investment.currency|upper }}</td>
+                            {% endif %}
+                        {% else %}
+                            <td>No</td>
+                        {% endif %}
+                        <td>{{ investment.notes }}</td>
+                        <td><a href="{% url 'investments:detail' investment.id %}">Ver</a></td>
+                        <td><a href="{% url 'investments:edit' investment.id %}">Editar</a></td>
+                        <td><a href="{% url 'investments:delete' investment.id %}">Eliminar</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay inversiones disponibles</p>
+    {% endif %}
+    <a href="{% url 'investments:create' %}" class="btn btn-primary">Agregar nueva inversión</a>
+
+    <script>
+        $(document).ready(function() {
+            $('#investments_table').DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+                }
+            });
+        });
+    </script>
+{% endblock %}

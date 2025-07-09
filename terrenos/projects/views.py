@@ -6,7 +6,7 @@ from django.db.models import Q, Sum, Case, When, DecimalField, F, Value
 
 from .models import Project
 from .forms import ProjectForm
-from expenses.models import Expense
+from investments.models import Investment
 
 class ProjectCreateView(CreateView):
     """
@@ -47,18 +47,20 @@ def detail(request, project_id):
     except Project.DoesNotExist:
         raise Http404("<h1>El proyecto que está solicitando no existe</h1>", status=404)
     
+    
     total_lands = project.land_set.count()
-    general_expenses = Expense.objects.filter(project_id=project_id)
-    property_expenses = general_expenses.filter(type="property")
-    light_materials_expenses = general_expenses.filter(type="light_project", detail="materials")
-    light_labour_expenses = general_expenses.filter(type="light_project", detail="labour")
-    public_light_expenses = general_expenses.filter(type="public_light")
-    gas_expenses = general_expenses.filter(type="gas_project")
-    streets_expenses = general_expenses.filter(type="streets")
-    plans_measurements_expense = general_expenses.filter(Q(type="plans") | Q(type="measurement"))
-    other_expenses = general_expenses.filter(type="other")
+    ## total_lands = 38
+    general_investments = Investment.objects.filter(project_id=project_id)
+    property_investments = general_investments.filter(type="property")
+    light_materials_investments = general_investments.filter(type="light_project", detail="materials")
+    light_labour_investments = general_investments.filter(type="light_project", detail="labour")
+    public_light_investments = general_investments.filter(type="public_light")
+    gas_investments = general_investments.filter(type="gas_project")
+    streets_investments = general_investments.filter(type="streets")
+    plans_measurements_investment = general_investments.filter(Q(type="plans") | Q(type="measurement"))
+    other_investments = general_investments.filter(type="other")
     
-    total_property_expenses = property_expenses.aggregate(
+    total_property_investments = property_investments.aggregate(
         total_ars= Sum(
             Case(
                 When(currency="ars", then=F("amount")), 
@@ -95,13 +97,13 @@ def detail(request, project_id):
         )
     )
 
-    total_property_expenses_ars = total_property_expenses["total_ars"] or 0
-    total_property_expenses_usd = total_property_expenses["total_usd"] or 0
-    property_ars_per_land = total_property_expenses_ars / total_lands
-    property_usd_per_land = total_property_expenses_usd / total_lands
+    total_property_investments_ars = total_property_investments["total_ars"] or 0
+    total_property_investments_usd = total_property_investments["total_usd"] or 0
+    property_ars_per_land = total_property_investments_ars / total_lands
+    property_usd_per_land = total_property_investments_usd / total_lands
     
 
-    total_light_materials_expenses = light_materials_expenses.aggregate(
+    total_light_materials_investments = light_materials_investments.aggregate(
         total_ars= Sum(
             Case(
                 When(currency="ars", then=F("amount")), 
@@ -138,12 +140,12 @@ def detail(request, project_id):
         )
     )
 
-    total_light_materials_expenses_ars = total_light_materials_expenses["total_ars"] or 0
-    total_light_materials_expenses_usd = total_light_materials_expenses["total_usd"] or 0
-    light_materials_ars_per_land = total_light_materials_expenses_ars / total_lands
-    light_materials_usd_per_land = total_light_materials_expenses_usd / total_lands
+    total_light_materials_investments_ars = total_light_materials_investments["total_ars"] or 0
+    total_light_materials_investments_usd = total_light_materials_investments["total_usd"] or 0
+    light_materials_ars_per_land = total_light_materials_investments_ars / total_lands
+    light_materials_usd_per_land = total_light_materials_investments_usd / total_lands
 
-    total_light_labour_expenses = light_labour_expenses.aggregate(
+    total_light_labour_investments = light_labour_investments.aggregate(
         total_ars= Sum(
             Case(
                 When(currency="ars", then=F("amount")), 
@@ -180,12 +182,12 @@ def detail(request, project_id):
         )
     )
 
-    total_light_labour_expenses_ars = total_light_labour_expenses["total_ars"] or 0
-    total_light_labour_expenses_usd = total_light_labour_expenses["total_usd"] or 0
-    light_labour_ars_per_land = total_light_labour_expenses_ars / total_lands
-    light_labour_usd_per_land = total_light_labour_expenses_usd / total_lands
+    total_light_labour_investments_ars = total_light_labour_investments["total_ars"] or 0
+    total_light_labour_investments_usd = total_light_labour_investments["total_usd"] or 0
+    light_labour_ars_per_land = total_light_labour_investments_ars / total_lands
+    light_labour_usd_per_land = total_light_labour_investments_usd / total_lands
 
-    total_public_light_expenses = public_light_expenses.aggregate(
+    total_public_light_investments = public_light_investments.aggregate(
         total_ars= Sum(
             Case(
                 When(currency="ars", then=F("amount")), 
@@ -222,12 +224,12 @@ def detail(request, project_id):
         )
     )
 
-    total_public_light_expenses_ars = total_public_light_expenses["total_ars"] or 0
-    total_public_light_expenses_usd = total_public_light_expenses["total_usd"] or 0
-    public_light_ars_per_land = total_public_light_expenses_ars / total_lands
-    public_light_usd_per_land = total_public_light_expenses_usd / total_lands
+    total_public_light_investments_ars = total_public_light_investments["total_ars"] or 0
+    total_public_light_investments_usd = total_public_light_investments["total_usd"] or 0
+    public_light_ars_per_land = total_public_light_investments_ars / total_lands
+    public_light_usd_per_land = total_public_light_investments_usd / total_lands
 
-    total_gas_expenses = gas_expenses.aggregate(
+    total_gas_investments = gas_investments.aggregate(
         total_ars= Sum(
             Case(
                 When(currency="ars", then=F("amount")), 
@@ -264,12 +266,12 @@ def detail(request, project_id):
         )
     )
 
-    total_gas_expenses_ars = total_gas_expenses["total_ars"] or 0
-    total_gas_expenses_usd = total_gas_expenses["total_usd"] or 0
-    gas_ars_per_land = total_gas_expenses_ars / total_lands
-    gas_usd_per_land = total_gas_expenses_usd / total_lands
+    total_gas_investments_ars = total_gas_investments["total_ars"] or 0
+    total_gas_investments_usd = total_gas_investments["total_usd"] or 0
+    gas_ars_per_land = total_gas_investments_ars / total_lands
+    gas_usd_per_land = total_gas_investments_usd / total_lands
 
-    total_streets_expenses = streets_expenses.aggregate(
+    total_streets_investments = streets_investments.aggregate(
         total_ars= Sum(
             Case(
                 When(currency="ars", then=F("amount")), 
@@ -306,12 +308,12 @@ def detail(request, project_id):
         )
     )
 
-    total_streets_expenses_ars = total_streets_expenses["total_ars"] or 0
-    total_streets_expenses_usd = total_streets_expenses["total_usd"] or 0
-    street_ars_per_land = total_streets_expenses_ars / total_lands
-    street_usd_per_land = total_streets_expenses_usd / total_lands
+    total_streets_investments_ars = total_streets_investments["total_ars"] or 0
+    total_streets_investments_usd = total_streets_investments["total_usd"] or 0
+    street_ars_per_land = total_streets_investments_ars / total_lands
+    street_usd_per_land = total_streets_investments_usd / total_lands
 
-    total_plans_measurements_expense = plans_measurements_expense.aggregate(
+    total_plans_measurements_investment = plans_measurements_investment.aggregate(
         total_ars= Sum(
             Case(
                 When(currency="ars", then=F("amount")), 
@@ -348,12 +350,12 @@ def detail(request, project_id):
         )
     )
 
-    total_plans_measurements_expense_ars = total_plans_measurements_expense["total_ars"] or 0
-    total_plans_measurements_expense_usd = total_plans_measurements_expense["total_usd"] or 0
-    plans_measurement_ars_per_land = total_plans_measurements_expense_ars / total_lands
-    plans_measurement_usd_per_land = total_plans_measurements_expense_usd / total_lands
+    total_plans_measurements_investment_ars = total_plans_measurements_investment["total_ars"] or 0
+    total_plans_measurements_investment_usd = total_plans_measurements_investment["total_usd"] or 0
+    plans_measurement_ars_per_land = total_plans_measurements_investment_ars / total_lands
+    plans_measurement_usd_per_land = total_plans_measurements_investment_usd / total_lands
 
-    total_other_expenses = other_expenses.aggregate(
+    total_other_investments = other_investments.aggregate(
         total_ars= Sum(
             Case(
                 When(currency="ars", then=F("amount")), 
@@ -390,45 +392,45 @@ def detail(request, project_id):
         )
     )
 
-    total_other_expenses_ars = total_other_expenses["total_ars"] or 0
-    total_other_expenses_usd = total_other_expenses["total_usd"] or 0
-    other_ars_per_land = total_other_expenses_ars / total_lands
-    other_usd_per_land = total_other_expenses_usd / total_lands
+    total_other_investments_ars = total_other_investments["total_ars"] or 0
+    total_other_investments_usd = total_other_investments["total_usd"] or 0
+    other_ars_per_land = total_other_investments_ars / total_lands
+    other_usd_per_land = total_other_investments_usd / total_lands
 
     
     return render(request, "projects/detail.html", {
         "project": project,
         "total_lands": total_lands,
-        "property_expenses": property_expenses,
-        "light_materials_expenses": light_materials_expenses,
-        "light_labour_expenses": light_labour_expenses,
-        "public_light_expenses": public_light_expenses,
-        "gas_expenses": gas_expenses,
-        "streets_expenses": streets_expenses,
-        "plans_measurements_expense": plans_measurements_expense,
-        "other_expense": other_expenses,
-        "total_property_expenses": total_property_expenses,
+        "property_investments": property_investments,
+        "light_materials_investments": light_materials_investments,
+        "light_labour_investments": light_labour_investments,
+        "public_light_investments": public_light_investments,
+        "gas_investments": gas_investments,
+        "streets_investments": streets_investments,
+        "plans_measurements_investment": plans_measurements_investment,
+        "other_investment": other_investments,
+        "total_property_investments": total_property_investments,
         "property_ars_per_land": property_ars_per_land,
         "property_usd_per_land": property_usd_per_land,
-        "total_light_materials_expenses": total_light_materials_expenses,
+        "total_light_materials_investments": total_light_materials_investments,
         "light_materials_ars_per_land": light_materials_ars_per_land,
         "light_materials_usd_per_land": light_materials_usd_per_land,
-        "total_light_labour_expenses": total_light_labour_expenses,
+        "total_light_labour_investments": total_light_labour_investments,
         "light_labour_ars_per_land": light_labour_ars_per_land,
         "light_labour_usd_per_land": light_labour_usd_per_land,
-        "total_public_light_expenses": total_public_light_expenses,
+        "total_public_light_investments": total_public_light_investments,
         "public_light_ars_per_land": public_light_ars_per_land,
         "public_light_usd_per_land": public_light_usd_per_land,
-        "total_gas_expenses": total_gas_expenses,
+        "total_gas_investments": total_gas_investments,
         "gas_ars_per_land": gas_ars_per_land,
         "gas_usd_per_land": gas_usd_per_land,
-        "total_street_expenses": total_streets_expenses,
+        "total_street_investments": total_streets_investments,
         "street_ars_per_land": street_ars_per_land,
         "street_usd_per_land": street_usd_per_land,
-        "total_plans_measurements_expenses": total_plans_measurements_expense,
+        "total_plans_measurements_investments": total_plans_measurements_investment,
         "plans_measurement_ars_per_land": plans_measurement_ars_per_land,
         "plans_measurement_usd_per_land": plans_measurement_usd_per_land,
-        "total_other_expenses": total_other_expenses,
+        "total_other_investments": total_other_investments,
         "other_ars_per_land": other_ars_per_land,
         "other_usd_per_land": other_usd_per_land,
     })

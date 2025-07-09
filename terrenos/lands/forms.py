@@ -13,7 +13,7 @@ class LandForm(forms.ModelForm):
             'type': forms.Select(choices=[
                 ('maintenance', 'Mantenimiento'),
                 ('utilities', 'Servicios'),
-                ('taxes', 'Impuestos'),
+                ('expenses', 'Impuestos'),
                 ('other', 'Otro')
             ]),
             'seller': forms.Select(choices=Seller.objects.all())

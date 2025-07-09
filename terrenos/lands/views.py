@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404
 from django.views.generic import CreateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.forms import modelformset_factory
 from .models import Land
 from .forms import LandForm
@@ -96,7 +96,7 @@ def delete(request, land_id):
     land = get_object_or_404(Land, pk=land_id)
     if request.method == 'POST':
         land.delete()
-        return HttpResponse("<h1>Land deleted successfully</h1>")
+        return redirect(reverse("lands:index"))
     
     return render(request, 'lands/delete.html', {'land': land})
 

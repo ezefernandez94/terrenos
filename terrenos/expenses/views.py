@@ -4,6 +4,7 @@ from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Expense
 from .forms import ExpenseForm
+import os
 
 class ExpenseCreateView(CreateView):
     """
@@ -42,6 +43,20 @@ def detail(request, expense_id):
     except Expense.DoesNotExist:
         raise Http404("<h1>Expense not found</h1>", status=404)
     return render(request, "expenses/detail.html", {"expense": expense})
+
+def serve_file(request, expense_id):
+    record = get_object_or_404(Expense, pk=expense_id)
+    
+    if not record.receipt:
+        raise Http404("File not found")
+    
+    file_path = record.receipt.path
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/octet-stream")
+            response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
+            return response
+    raise Http404("File not found")
 
 def create(request):
     """

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="card text-center">
+        <div class="card-header">
+            Tipo de Gasto {{ expense_type.id }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ expense_type.description }}</p>
+            <p class="card-text">{{ expense_type.notes }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'expense_types:edit' expense_type.id %}" class="btn btn-warning">Editar Tipo de Gasto</a>
+            <a href="{% url 'expense_types:delete' expense_type.id %}" class="btn btn-danger">Eliminar Tipo de Gasto</a>
+        </div>
+    </div>
+
+{% endblock %}

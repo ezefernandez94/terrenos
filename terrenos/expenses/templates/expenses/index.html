@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if expenses %}
-        <h1>Lista de Gastos</h1>
+        <h1>Lista de Gastos/Impuestos</h1>
         <table id="expenses_table" class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -46,9 +46,9 @@
             </tbody>
         </table>
     {% else %}
-        <p>No hay gastos disponibles</p>
+        <p>No hay inversiones disponibles</p>
     {% endif %}
-    <a href="{% url 'expenses:create' %}" class="btn btn-primary">Crear nuevo gasto</a>
+    <a href="{% url 'expenses:create' %}" class="btn btn-primary">Agregar nueva inversión</a>
 
     <script>
         $(document).ready(function() {

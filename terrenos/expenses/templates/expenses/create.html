@@ -4,10 +4,10 @@
   <div class="container">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title">Cargar un Gasto</h5>
+        <h5 class="card-title">Cargar un Gasto/Impuesto</h5>
       </div>
       <div class="card-body">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form.as_p }}
           <button type="submit" class="btn btn-success">Cargar</button>

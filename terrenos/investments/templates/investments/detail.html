@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="card text-center">
+        <div class="card-header">
+            Inversión {{ investment.id }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ investment.detail }}</p>
+            <p class="card-text">{{ investment.amoun }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="{% url 'investments:edit' investment.id %}" class="btn btn-warning">Editar Inversión</a>
+            <a href="{% url 'investments:delete' investment.id %}" class="btn btn-danger">Eliminar Inversión</a>
+        </div>
+    </div>
+
+{% endblock %}

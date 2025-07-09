@@ -2,7 +2,7 @@ from django.db import models
 
 class Payer(models.Model):
     """
-    Model representing a payer for land expense.
+    Model representing a payer for land investment.
     """
     name = models.CharField(max_length=100, blank=False, null=False)
     notes = models.TextField(blank=True, null=True)

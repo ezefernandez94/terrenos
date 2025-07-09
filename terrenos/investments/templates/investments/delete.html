@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Eliminar Inversión</h2>
+    <p>Esta seguro de querer eliminar la inversión "{{ investment.id }}"?</p>
+
+    <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Si, eliminar</button>
+    <a href="{% url 'investments:detail' investment.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+{% endblock %}

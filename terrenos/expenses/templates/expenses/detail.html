@@ -4,17 +4,20 @@
 
     <div class="card text-center">
         <div class="card-header">
-            Gasto {{ expense.id }}
+            Gasto/Impuesto {{ expense.id }}
         </div>
         <div class="card-body">
             <h5 class="card-title">Special title treatment</h5>
             <p class="card-text">{{ expense.detail }}</p>
-            <p class="card-text">{{ expense.amoun }}</p>
+            <p class="card-text">{{ expense.amount }}</p>
+            {% if expense.receipt %}
+                <p class="card-text">Archivo: <a href="{% url 'expenses:serve_file' expense.id %}" target="_blank">{{ expense.receipt.name }}</p>
+            {% endif %}
             <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
         <div class="card-footer text-muted">
-            <a href="{% url 'expenses:edit' expense.id %}" class="btn btn-warning">Editar Gasto</a>
-            <a href="{% url 'expenses:delete' expense.id %}" class="btn btn-danger">Eliminar Gasto</a>
+            <a href="{% url 'expenses:edit' expense.id %}" class="btn btn-warning">Editar Gasto/Impuesto</a>
+            <a href="{% url 'expenses:delete' expense.id %}" class="btn btn-danger">Eliminar Gasto/Impuesto</a>
         </div>
     </div>
 

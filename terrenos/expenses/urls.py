@@ -10,4 +10,5 @@ urlpatterns = [
     path("create/", ExpenseCreateView.as_view(), name='create'),
     path("<int:expense_id>/edit/", views.edit, name='edit'),
     path("<int:expense_id>/delete/", views.delete, name='delete'),
+    path("<int:expense_id>/serve_file/", views.serve_file, name='serve_file'),
 ]

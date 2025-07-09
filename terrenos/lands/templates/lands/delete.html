@@ -6,9 +6,9 @@
     <p>Esta seguro de querer eliminar el terreno "{{ land.manual_id }}{{ land.block }}"?</p>
 
     <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Si, eliminar</button>
-    <a href="{% url 'lands:detail' land.id %}" class="btn btn-secondary">Cancelar</a>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Si, eliminar</button>
+        <a href="{% url 'lands:detail' land.id %}" class="btn btn-secondary">Cancelar</a>
     </form>
 
 {% endblock %}

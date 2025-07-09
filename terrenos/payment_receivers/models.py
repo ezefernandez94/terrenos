@@ -2,7 +2,7 @@ from django.db import models
 
 class PaymentReceiver(models.Model):
     """
-    Model representing a payment receiver for land expense.
+    Model representing a payment receiver for land investment.
     """
     name = models.CharField(max_length=100, blank=False, null=False)
     notes = models.TextField(blank=True, null=True)

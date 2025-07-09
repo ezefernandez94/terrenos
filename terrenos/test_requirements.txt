@@ -1,0 +1,17 @@
+# Testing dependencies
+pytest>=7.0.0
+pytest-django>=4.5.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
+pytest-html>=3.1.0
+pytest-xvfb>=3.0.0  # For headless browser testing if needed
+factory-boy>=3.2.0  # For creating test data
+faker>=18.0.0  # For generating fake data
+coverage>=7.0.0
+model-bakery>=1.10.0  # Alternative to factory-boy
+
+# Optional: For more advanced testing
+## pytest-benchmark>=4.0.0  # For performance testing
+## pytest-asyncio>=0.21.0  # For async testing
+## pytest-timeout>=2.1.0  # For test timeouts
+## pytest-randomly>=3.12.0  # For random test order

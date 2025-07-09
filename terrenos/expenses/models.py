@@ -3,38 +3,11 @@ import requests
 
 class Expense(models.Model):
     """
-    Model representing an expense related to a project
+    Model representing a expense related to a project
     """
     project = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
     date = models.DateField()
-    type = models.CharField(max_length=50, choices=[
-        ('plans', 'Planos'),
-        ('measurement', 'Mensura'),
-        ('streets', 'Calles'),
-        ('property', 'Inmueble'),
-        ('gas_project', 'Obra de Gas'),
-        ('light_project', 'Obra de Luz'),
-        ('other', 'Otro')
-    ])
-    detail = models.CharField(max_length=50, choices=[
-        ('boletus', 'Boleto'),
-        ('deed', 'Escritura'),
-        ('absa_feasibility', 'Factibilidad ABSA'),
-        ('municipal_visa', 'Visado Municipal'),
-        ('honorarium', 'Honorarios'),
-        ('sign', 'Cartel'),
-        ('wiring', 'Alambrado'),
-        ('labour', 'Mano de Obra'),
-        ('materials', 'Materiales'),
-        ('taxes', 'Impuestos'),
-        ('freight', 'Flete'),
-        ('cleaning', 'Limpieza'),
-        ('maintainance', 'Mantenimiento'),
-        ('street_opening', 'Apertura de Calles'),
-        ('street_canal', 'Canal'),
-        ('street_filling', 'Relleno de Calles'),
-        ('other', 'Otro')
-    ])
+    ## type = models.ForeignKey('expense_types.ExpenseType', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=3, choices=[
         ('ars', 'Pesos'),
@@ -56,6 +29,7 @@ class Expense(models.Model):
         null=True
     )
     receipt_number = models.CharField(max_length=20, blank=True, null=True)
+    receipt = models.FileField(upload_to="uploads/")
     accountant = models.BooleanField(default=False)
     accountant_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     accountant_currency = models.CharField(max_length=3, choices=[
@@ -71,12 +45,12 @@ class Expense(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"Expense for {self.land.manual_id} on {self.date}"
+        return f"Tipo de gasto: {self.type} para el proyecto {self.project.name} realizado el {self.date}"
 
     def save(self, *args, **kwargs):
         if not self.exchange_rate:
             ## Search USD value from an API
-            response = requests.get("https://dolarapi.com/v1/dolares/blue")
+            response = requests.get(f"https://dolarapi.com/v1/dolares/oficial/{self.date}")
             if response.status_code == 200:
                 data = response.json()
                 self.exchange_rate = data['compra']

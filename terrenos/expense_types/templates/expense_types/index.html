@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="{% url 'expense_types:create' %}" class="btn btn-primary">Agregar nuevo Tipo de Gasto</a>
+    <br><br>
+    {% if expense_types %}
+        <h1>Lista de Tipos de Gastos</h1>
+        <table id="expense_types_table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Notas</th>
+                    <th>Ver</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense_type in expense_types %}
+                    <tr>
+                        <td>{{ expense_type.description }}</td>
+                        <td>{{ expense_type.notes }}</td>
+                        <td><a href="{% url 'expense_types:detail' expense_type.id %}">Ver</a></td>
+                        <td><a href="{% url 'expense_types:edit' expense_type.id %}">Editar</a></td>
+                        <td><a href="{% url 'expense_types:delete' expense_type.id %}">Eliminar</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay tipos de gastos disponibles</p>
+    {% endif %}
+
+    <script>
+        $(document).ready(function() {
+            $('#expense_types_table').DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+                }
+            });
+        });
+    </script>
+{% endblock %}

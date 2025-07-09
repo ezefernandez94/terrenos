@@ -17,7 +17,7 @@
             <tbody>
                 {% for land in lands %}
                     <tr>
-                        <td>{{ land.manual_id }}{{ land.block }} - {{ land.project.name }}</td>
+                        <td>{{ land.manual_id }} - {{ land.block }} - {{ land.project.name }}</td>
                         <td>
                             {% if land.is_sold %}
                                 <span class="badge bg-success">Vendido</span>
@@ -32,9 +32,9 @@
                                 <li>No hay comprador asignado</li>
                             {% endfor %}
                         </td>
-                        <td><a href="{% url 'lands:detail' land.id %}">Ver {{ land.manual_id }}{{ land.block }}</a></td>
-                        <td><a href="{% url 'lands:edit' land.id %}">Editar {{ land.manual_id }}{{ land.block }}</a></td>
-                        <td><a href="{% url 'lands:delete' land.id %}">Eliminar {{ land.manual_id }}{{ land.block }}</a></td>
+                        <td><a href="{% url 'lands:detail' land.id %}">Ver {{ land.manual_id }} - {{ land.block }}</a></td>
+                        <td><a href="{% url 'lands:edit' land.id %}">Editar {{ land.manual_id }} - {{ land.block }}</a></td>
+                        <td><a href="{% url 'lands:delete' land.id %}">Eliminar {{ land.manual_id }} - {{ land.block }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

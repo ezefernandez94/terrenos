@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Cargar una Inversión</h5>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-success">Cargar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function(){
+
+      const check_accountability = document.getElementById("id_accountant");
+      const accuntant_amount = document.getElementById("id_accountant_amount");
+      const accuntant_currency = document.getElementById("id_accountant_currency");
+      
+      check_accountability.addEventListener('change', function(){
+        if(check_accountability.checked){
+          // show accountant elements
+          accuntant_amount.style.display = "block";
+          accuntant_currency.style.display = "block";
+        } else {
+          // hide accountant elements
+          accuntant_amount.style.display = "none";
+          accuntant_currency.style.display = "none";
+        }
+      })
+    })
+  </script>
+{% endblock %}
