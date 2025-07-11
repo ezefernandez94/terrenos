@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Terrenos Bragado{% endblock %}</title>
-    {% load bootstrap5 %}
+    {% load django_bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
@@ -14,6 +14,7 @@
 <body>
     <div>
         {% include  "includes/navbar.html" %}
+        {% bootstrap_messages %}
         {% block content %}
         {% endblock %}
     </div>
