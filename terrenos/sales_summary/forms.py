@@ -1,6 +1,5 @@
 from django import forms
 from .models import SaleSummary
-from sales.models import Sale
 from sellers.models import Seller
 
 class SaleSummaryForm(forms.ModelForm):

@@ -7,7 +7,8 @@ class Expense(models.Model):
     """
     project = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
     date = models.DateField()
-    ## type = models.ForeignKey('expense_types.ExpenseType', on_delete=models.CASCADE)
+    expense_type = models.ForeignKey('expense_types.ExpenseType', on_delete=models.CASCADE)
+    expense_type_detail = models.ForeignKey('expense_type_details.ExpenseTypeDetail', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=3, choices=[
         ('ars', 'Pesos'),

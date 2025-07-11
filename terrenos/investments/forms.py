@@ -3,14 +3,18 @@ from .models import Investment
 from projects.models import Project
 from payers.models import Payer
 from payment_receivers.models import PaymentReceiver
+from expense_types.models import ExpenseType
+from expense_type_details.models import ExpenseTypeDetail
 
 class InvestmentForm(forms.ModelForm):
     class Meta:
         model = Investment
-        fields = ['project', 'date', 'amount', 'currency', 'exchange_rate', 'payment_type', 'payer', 'receipt_number', 'accountant', 'accountant_amount', 'accountant_currency', 'payment_receiver', 'notes']
+        fields = ['project', 'date', 'expense_type', 'expense_type_detail', 'amount', 'currency', 'exchange_rate', 'payment_type', 'payer', 'receipt_number', 'accountant', 'accountant_amount', 'accountant_currency', 'payment_receiver', 'notes']
         labels = {
             'project': 'Proyecto',
             'date': 'Fecha de Pago',
+            'expense_type': 'Tipo de Inversión',
+            'expense_type_detail': 'Detalle de Inversión',
             'amount': 'Valor',
             'currency': 'Moneda',
             'exchange_rate': 'Tasa de Cambio',
@@ -26,35 +30,8 @@ class InvestmentForm(forms.ModelForm):
         widgets = {
             'project': forms.Select(attrs={'class': 'form-control'}, choices=Project.objects.all()),
             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'type': forms.Select(attrs={'class': 'form-control'}, choices=[
-                ('plans', 'Planos'),
-                ('measurement', 'Mensura'),
-                ('streets', 'Calles'),
-                ('property', 'Inmueble'),
-                ('gas_project', 'Obra de Gas'),
-                ('light_project', 'Obra de Luz'),
-                ('public_light', 'Alumbrado Público'),
-                ('other', 'Otro')
-            ]),
-            'detail': forms.Select(attrs={'class': 'form-control'}, choices=[
-                ('boletus', 'Boleto'),
-                ('deed', 'Escritura'),
-                ('absa_feasibility', 'Factibilidad ABSA'),
-                ('municipal_visa', 'Visado Municipal'),
-                ('honorarium', 'Honorarios'),
-                ('sign', 'Cartel'),
-                ('wiring', 'Alambrado'),
-                ('labour', 'Mano de Obra'),
-                ('materials', 'Materiales'),
-                ('expenses', 'Impuestos'),
-                ('freight', 'Flete'),
-                ('cleaning', 'Limpieza'),
-                ('maintainance', 'Mantenimiento'),
-                ('street_opening', 'Apertura de Calles'),
-                ('street_canal', 'Canal'),
-                ('street_filling', 'Relleno de Calles'),
-                ('other', 'Otro')
-            ]),
+            'expense_type': forms.Select(attrs={'class': 'form-control'}, choices=ExpenseType.objects.all()),
+            'expense_type_detail': forms.Select(attrs={'class': 'form-control'}, choices=ExpenseTypeDetail.objects.all()),
             'amount': forms.NumberInput(attrs={'class': 'form-control'}),
             'currency': forms.Select(attrs={'class': 'form-control'}, choices=[
                 ('ars', 'Pesos'),
