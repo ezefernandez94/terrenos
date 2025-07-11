@@ -10,7 +10,6 @@ django-heroku==0.3.1
 dotenv==0.9.9
 factory_boy==3.3.3
 Faker==37.4.0
-gunicorn==23.0.0
 idna==3.10
 iniconfig==2.1.0
 Jinja2==3.1.6
