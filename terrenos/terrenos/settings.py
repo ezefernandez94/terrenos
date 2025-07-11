@@ -14,7 +14,9 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 from urllib.parse import urlparse, parse_qsl
+import django_heroku
 
+django_heroku.settings(locals())
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,7 +32,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-## ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'localhost']
+ALLOWED_HOSTS = ['terrenos-429b9d4cf9d7.herokuapp.com/', 'localhost']
 
 
 # Application definition
