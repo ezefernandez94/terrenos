@@ -4,6 +4,7 @@ from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import People
 from .forms import PeopleForm
+from django.contrib.auth.decorators import login_required
 
 class PeopleCreateView(CreateView):
     """
@@ -26,6 +27,7 @@ class PeopleDeleteView(DeleteView):
     template_name = 'people/delete.html'
     success_url = reverse_lazy('people:index')
 
+@login_required
 def index(request):
     """
     Render the index page of the people app.
@@ -33,6 +35,7 @@ def index(request):
     people = People.objects.all()
     return render(request, 'people/index.html', {"people": people})
 
+@login_required
 def detail(request, people_id):
     """
     Render the detail page for a specific people.
@@ -43,6 +46,7 @@ def detail(request, people_id):
         raise Http404("<h1>People not found</h1>", status=404)
     return render(request, "people/detail.html", {"people": people})
 
+@login_required
 def create(request):
     """
     Render the create people page.
@@ -50,6 +54,7 @@ def create(request):
     # In a real application, you would handle form submission here
     return HttpResponse("<h1>Create a New People</h1>")
 
+@login_required
 def edit(request, people_id):
     """
     Render the edit page for a specific person.
@@ -64,7 +69,7 @@ def edit(request, people_id):
         form = PeopleForm(instance=people)
     return render(request, 'people/edit.html', {'form': form})
 
-
+@login_required
 def delete(request, people_id):
     """
     Render the delete confirmation page for a specific person.

@@ -4,6 +4,7 @@ from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Payer
 from .forms import PayerForm
+from django.contrib.auth.decorators import login_required
 
 class PayerCreateView(CreateView):
     """
@@ -26,7 +27,7 @@ class PayerDeleteView(DeleteView):
     template_name = 'payers/delete.html'
     success_url = reverse_lazy('payers:index')
     
-
+@login_required
 def index(request):
     """
     Render the index page of the payers app.
@@ -34,6 +35,7 @@ def index(request):
     payers = Payer.objects.all()
     return render(request, 'payers/index.html', {"payers": payers})
 
+@login_required
 def detail(request, payer_id):
     """
     Render the detail page for a specific payer.
@@ -44,6 +46,7 @@ def detail(request, payer_id):
         raise Http404("<h1>Payer not found</h1>", status=404)
     return render(request, "payers/detail.html", {"payer": payer})
 
+@login_required
 def create(request):
     """
     Render the create payer page.
@@ -51,6 +54,7 @@ def create(request):
     # In a real application, you would handle form submission here
     return HttpResponse("<h1>Create a New Payer</h1>")
 
+@login_required
 def edit(request, payer_id):
     """
     Render the edit page for a specific payer.
@@ -65,7 +69,7 @@ def edit(request, payer_id):
         form = PayerForm(instance=payer)
     return render(request, 'payers/edit.html', {'form': form})
 
-
+@login_required
 def delete(request, payer_id):
     """
     Render the delete confirmation page for a specific payer.

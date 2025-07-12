@@ -4,6 +4,7 @@ from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Seller
 from .forms import SellerForm
+from django.contrib.auth.decorators import login_required
 
 class SellerCreateView(CreateView):
     """
@@ -26,7 +27,7 @@ class SellerDeleteView(DeleteView):
     template_name = 'sellers/delete.html'
     success_url = reverse_lazy('sellers:index')
     
-
+@login_required
 def index(request):
     """
     Render the index page of the sellers app.
@@ -34,6 +35,7 @@ def index(request):
     sellers = Seller.objects.all()
     return render(request, 'sellers/index.html', {"sellers": sellers})
 
+@login_required
 def detail(request, seller_id):
     """
     Render the detail page for a specific seller.
@@ -44,6 +46,7 @@ def detail(request, seller_id):
         raise Http404("<h1>Seller not found</h1>", status=404)
     return render(request, "sellers/detail.html", {"seller": seller})
 
+@login_required
 def create(request):
     """
     Render the create seller page.
@@ -51,6 +54,7 @@ def create(request):
     # In a real application, you would handle form submission here
     return HttpResponse("<h1>Create a New Seller</h1>")
 
+@login_required
 def edit(request, seller_id):
     """
     Render the edit page for a specific seller.
@@ -65,7 +69,7 @@ def edit(request, seller_id):
         form = SellerForm(instance=seller)
     return render(request, 'sellers/edit.html', {'form': form})
 
-
+@login_required
 def delete(request, seller_id):
     """
     Render the delete confirmation page for a specific seller.

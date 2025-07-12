@@ -7,6 +7,7 @@ from django.db.models import Q, Sum, Case, When, DecimalField, F, Value
 from .models import Project
 from .forms import ProjectForm
 from investments.models import Investment
+from django.contrib.auth.decorators import login_required
 
 class ProjectCreateView(CreateView):
     """
@@ -30,6 +31,7 @@ class ProjectDeleteView(DeleteView):
     template_name = 'projects/delete.html'
     success_url = reverse_lazy('projects:index')
 
+@login_required
 def index(request):
     """
     Render the index page of the projects app.
@@ -38,6 +40,7 @@ def index(request):
     ## return render(request, 'projects/index.html')
     return render(request, 'projects/index.html', {"projects": projects})
 
+@login_required
 def detail(request, project_id):
     """
     Render the detail page for a specific project.
@@ -435,6 +438,7 @@ def detail(request, project_id):
         "other_usd_per_land": other_usd_per_land,
     })
 
+@login_required
 def create(request):
     """
     Render the create project page.
@@ -442,6 +446,7 @@ def create(request):
     # In a real application, you would handle form submission here
     return HttpResponse("<h1>Create a New Project</h1>")
 
+@login_required
 def edit(request, project_id):
     """
     Render the edit page for a specific project.
@@ -456,7 +461,7 @@ def edit(request, project_id):
         form = ProjectForm(instance=project)
     return render(request, 'projects/edit.html', {'form': form})
 
-
+@login_required
 def delete(request, project_id):
     """
     Render the delete confirmation page for a specific project.

@@ -6,6 +6,7 @@ from django.forms import modelformset_factory
 from .models import Land
 from .forms import LandForm
 from projects.models import Project
+from django.contrib.auth.decorators import login_required
 
 class LandCreateView(CreateView):
     """
@@ -28,6 +29,7 @@ class LandDeleteView(DeleteView):
     template_name = 'lands/delete.html'
     success_url = reverse_lazy('lands:index')
 
+@login_required
 def index(request):
     """
     Render the index page of the lands app.
@@ -35,6 +37,7 @@ def index(request):
     lands = Land.objects.all()
     return render(request, 'lands/index.html', {"lands": lands})
 
+@login_required
 def detail(request, land_id):
     """
     Render the detail page for a specific land.
@@ -45,6 +48,7 @@ def detail(request, land_id):
         raise Http404("<h1>Land not found</h1>", status=404)
     return render(request, "lands/detail.html", {"land": land})
 
+@login_required
 def create(request):
     """
     Render the create land page.
@@ -52,6 +56,7 @@ def create(request):
     # In a real application, you would handle form submission here
     return HttpResponse("<h1>Create a New Land</h1>")
 
+@login_required
 def create_multiple(request, project_id):
     """
     Render the page to create multiple lands.
@@ -74,6 +79,7 @@ def create_multiple(request, project_id):
 
     return render(request, 'lands/create_multiple.html', {'formset': formset, 'project': project})
 
+@login_required
 def edit(request, land_id):
     """
     Render the edit page for a specific land.
@@ -88,7 +94,7 @@ def edit(request, land_id):
         form = LandForm(instance=land)
     return render(request, 'lands/edit.html', {'form': form})
 
-
+@login_required
 def delete(request, land_id):
     """
     Render the delete confirmation page for a specific land.
@@ -100,6 +106,7 @@ def delete(request, land_id):
     
     return render(request, 'lands/delete.html', {'land': land})
 
+@login_required
 def sell(request, land_id):
     """
     Render the sell page for a specific land.

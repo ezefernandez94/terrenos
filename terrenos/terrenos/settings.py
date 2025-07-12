@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['terrenos-429b9d4cf9d7.herokuapp.com/', 'localhost']
 
@@ -60,7 +60,8 @@ CUSTOM_APPS = [
     "projects",
     "sales",
     "sales_summary",
-    "sellers"
+    "sellers",
+    "users"
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + CUSTOM_APPS
@@ -99,30 +100,29 @@ WSGI_APPLICATION = "terrenos.wsgi.app"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-## DATABASES = {
-##     "default": {
-##         "ENGINE": "django.db.backends.postgresql",
-##         "NAME": "terrenos_db",
-##         "USER": os.environ.get("db_dev_username"),
-##         "PASSWORD": os.environ.get("db_dev_password"),
-##         "HOST": "localhost",
-##         "PORT": "5432"
-##     }
-## }
-
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
-        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "terrenos_db",
+        "USER": os.environ.get("db_dev_username"),
+        "PASSWORD": os.environ.get("db_dev_password"),
+        "HOST": "localhost",
+        "PORT": "5432"
     }
 }
+
+## tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+## DATABASES = {
+##     'default': {
+##         'ENGINE': 'django.db.backends.postgresql',
+##         'NAME': tmpPostgres.path.replace('/', ''),
+##         'USER': tmpPostgres.username,
+##         'PASSWORD': tmpPostgres.password,
+##         'HOST': tmpPostgres.hostname,
+##         'PORT': 5432,
+##         'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+##     }
+## }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -160,7 +160,7 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-## STATIC_URL = "staticfiles/"
+STATIC_URL = "staticfiles/"
 ## 
 ## STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
@@ -173,4 +173,6 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-django_heroku.settings(locals())
+LOGIN_REDIRECT_URL = "dashboard"
+
+## django_heroku.settings(locals())

@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from .models import SaleSummary
 from .forms import SaleSummaryForm
 from sales.models import Sale
+from django.contrib.auth.decorators import login_required
 
 class SaleSummaryCreateView(CreateView):
     """
@@ -27,6 +28,7 @@ class SaleSummaryDeleteView(DeleteView):
     template_name = 'sales_summary/delete.html'
     success_url = reverse_lazy('sales_summary:index')
 
+@login_required
 def index(request):
     """
     Render the index page of the sales_summary app.
@@ -34,6 +36,7 @@ def index(request):
     sales_summary = SaleSummary.objects.all()
     return render(request, 'sales_summary/index.html', {"sales_summary": sales_summary})
 
+@login_required
 def detail(request, sale_summary_id):
     """
     Render the detail page for a specific sale_summary.
@@ -44,6 +47,7 @@ def detail(request, sale_summary_id):
         raise Http404("<h1>SaleSummary not found</h1>", status=404)
     return render(request, "sales_summary/detail.html", {"sale_summary": sale_summary})
 
+@login_required
 def create(request):
     """
     Render the create sale_summary page.
@@ -51,6 +55,7 @@ def create(request):
     # In a real application, you would handle form submission here
     return HttpResponse("<h1>Create a New SaleSummary</h1>")
 
+@login_required
 def edit(request, sale_summary_id):
     """
     Render the edit page for a specific seller.
@@ -65,7 +70,7 @@ def edit(request, sale_summary_id):
         form = SaleSummaryForm(instance=sale_summary)
     return render(request, 'sales_summary/edit.html', {'form': form})
 
-
+@login_required
 def delete(request, sale_summary_id):
     """
     Render the delete confirmation page for a specific seller.
@@ -77,6 +82,7 @@ def delete(request, sale_summary_id):
     
     return render(request, 'sales_summary/delete.html', {'sale_summary': sale_summary})
 
+@login_required
 def add_payment(request, sale_id):
     """
     Add a payment to a sale.

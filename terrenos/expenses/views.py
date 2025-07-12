@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from .models import Expense
 from .forms import ExpenseForm
 import os
+from django.contrib.auth.decorators import login_required
 
 class ExpenseCreateView(CreateView):
     """
@@ -27,6 +28,7 @@ class ExpenseDeleteView(DeleteView):
     template_name = 'expenses/delete.html'
     success_url = reverse_lazy('expenses:index')
 
+@login_required
 def index(request):
     """
     Render the index page of the expenses app.
@@ -34,6 +36,7 @@ def index(request):
     expenses = Expense.objects.all()
     return render(request, 'expenses/index.html', {"expenses": expenses})
 
+@login_required
 def detail(request, expense_id):
     """
     Render the detail page for a specific expense.
@@ -44,6 +47,7 @@ def detail(request, expense_id):
         raise Http404("<h1>Expense not found</h1>", status=404)
     return render(request, "expenses/detail.html", {"expense": expense})
 
+@login_required
 def serve_file(request, expense_id):
     record = get_object_or_404(Expense, pk=expense_id)
     
@@ -58,6 +62,7 @@ def serve_file(request, expense_id):
             return response
     raise Http404("File not found")
 
+@login_required
 def create(request):
     """
     Render the create expense page.
@@ -65,6 +70,7 @@ def create(request):
     # In a real application, you would handle form submission here
     return HttpResponse("<h1>Create a New Expense</h1>")
 
+@login_required
 def edit(request, expense_id):
     """
     Render the edit page for a specific expense.
@@ -79,7 +85,7 @@ def edit(request, expense_id):
         form = ExpenseForm(instance=expense)
     return render(request, 'expenses/edit.html', {'form': form})
 
-
+@login_required
 def delete(request, expense_id):
     """
     Render the delete confirmation page for a specific expense.

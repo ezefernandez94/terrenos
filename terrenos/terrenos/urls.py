@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="home.html")),
+    path("", include("users.urls")),
     path("admin/", admin.site.urls),
     path("expense_type_details/", include("expense_type_details.urls")),
     path("expense_types/", include("expense_types.urls")),
@@ -34,7 +34,7 @@ urlpatterns = [
     path("projects/", include("projects.urls")),
     path("sales/", include("sales.urls")),
     path("sales_summary/", include("sales_summary.urls")),
-    path("sellers/", include("sellers.urls")),
+    path("sellers/", include("sellers.urls"))
 ]
 
 if settings.DEBUG:

@@ -6,6 +6,7 @@ from .models import Sale
 from .forms import SaleForm, PeopleToLandFormSet
 from lands.models import Land
 from people_to_lands.models import PeopleToLands
+from django.contrib.auth.decorators import login_required
 
 class SaleCreateView(CreateView):
     """
@@ -28,6 +29,7 @@ class SaleDeleteView(DeleteView):
     template_name = 'sales/delete.html'
     success_url = reverse_lazy('sales:index')
 
+@login_required
 def index(request):
     """
     Render the index page of the sales app.
@@ -35,6 +37,7 @@ def index(request):
     sales = Sale.objects.all()
     return render(request, 'sales/index.html', {"sales": sales})
 
+@login_required
 def detail(request, sale_id):
     """
     Render the detail page for a specific sale.
@@ -45,6 +48,7 @@ def detail(request, sale_id):
         raise Http404("<h1>Sale not found</h1>", status=404)
     return render(request, "sales/detail.html", {"sale": sale})
 
+@login_required
 def create(request):
     """
     Render the create sale page.
@@ -52,6 +56,7 @@ def create(request):
     # In a real application, you would handle form submission here
     return HttpResponse("<h1>Create a New Sale</h1>")
 
+@login_required
 def edit(request, sale_id):
     """
     Render the edit page for a specific sale.
@@ -66,7 +71,7 @@ def edit(request, sale_id):
         form = SaleForm(instance=sale)
     return render(request, 'sales/edit.html', {'form': form})
 
-
+@login_required
 def delete(request, sale_id):
     """
     Render the delete confirmation page for a specific sale.
@@ -78,6 +83,7 @@ def delete(request, sale_id):
     
     return render(request, 'sales/delete.html', {'sale': sale})
 
+@login_required
 def sell_land(request, land_id):
     """
     Render the page to sell a specific land.
