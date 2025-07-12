@@ -56,7 +56,7 @@
                     {% csrf_token %}
                     {{ form.as_p }}
                     <input type="submit" class="nav-link" value="Cerrar Sesión" />
-                    <input type="hidden" name="next" value="{% url 'dashboard' %}" />
+                    <input type="hidden" name="next" value="/" />
                   </form>
               </li>
             </ul>
