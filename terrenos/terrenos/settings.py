@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DJANGO_TERRENOS_DEBUG")
 
 ALLOWED_HOSTS = ['terrenos-429b9d4cf9d7.herokuapp.com/', 'localhost']
 
