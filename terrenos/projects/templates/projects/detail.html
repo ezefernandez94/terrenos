@@ -7,454 +7,456 @@
     <a href="{% url 'lands:create_multiple' project.id %}" class="btn btn-primary">Agregar terrenos</a>
     <br><br>
     <div class="card">
-        <div class="card-header text-center">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="detail-investments-tab" data-bs-toggle="tab" data-bs-target="#detail_investments" type="button" role="tab" aria-controls="detail_investments" aria-selected="true">Detalle de Inversiones</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="summary-investments-tab" data-bs-toggle="tab" data-bs-target="#summary_investments" type="button" role="tab" aria-controls="summary_investments" aria-selected="false">Resumen de Costos</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="accountant-investments-tab" data-bs-toggle="tab" data-bs-target="#accountant_investments" type="button" role="tab" aria-controls="accountant_investments" aria-selected="false">Costo Impositivo</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="earnings-investment-tab" data-bs-toggle="tab" data-bs-target="#earning_investment" type="button" role="tab" aria-controls="earning_investment" aria-selected="false">Inversiones para Ganancias</button>
-                </li>
-            </ul>
-        </div>
-        <div class="card-body tab-content" id="tab_content">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="detail-investments-tab">
-                <h4>Inmueble</h4>
-                <table id="property_investments_table" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Detalle</th>
-                            <th>Pagador</th>
-                            <th>Valor</th>
-                            <th>TC</th>
-                            <th>Contable</th>
-                            <th>Notas</th>
-                            <th>Ver</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for property_investment in property_investments %}
-                            <tr>
-                                <td>{{ property_investment.date }}</td>
-                                <td>{{ property_investment.get_detail_display }}</td>
-                                <td>{{ property_investment.payer.name }}</td>
-                                <td>{{ property_investment.amount|floatformat }} {{ property_investment.currency|upper }}</td>
-                                <td>{{ property_investment.exchange_rate|floatformat }}</td>
-                                {% if property_investment.accountant %}
-                                    {% if property_investment.accountant_amount %}
-                                        <td>{{ property_investment.accountant_amount|floatformat }} {{ property_investment.accountant_currency|upper }}</td>
-                                    {% else %}
-                                        <td>{{ property_investment.amount|floatformat }} {{ property_investment.currency|upper }}</td>
-                                    {% endif %}
-                                {% else %}
-                                    <td>No</td>
-                                {% endif %}
-                                <td>{{ property_investment.notes }}</td>
-                                <td><a href="{% url 'investments:detail' property_investment.id %}">Ver</a></td>
-                                <td><a href="{% url 'investments:edit' property_investment.id %}">Editar</a></td>
-                                <td><a href="{% url 'investments:delete' property_investment.id %}">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <h4>Planos y Mensura</h4>
-                <table id="plans_measurements_investments_table" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Detalle</th>
-                            <th>Pagador</th>
-                            <th>Valor</th>
-                            <th>TC</th>
-                            <th>Contable</th>
-                            <th>Notas</th>
-                            <th>Ver</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for plans_measurements_investment in plans_measurements_investment %}
-                            <tr>
-                                <td>{{ plans_measurements_investment.date }}</td>
-                                <td>{{ plans_measurements_investment.get_detail_display }}</td>
-                                <td>{{ plans_measurements_investment.payer.name }}</td>
-                                <td>{{ plans_measurements_investment.amount|floatformat }} {{ plans_measurements_investment.currency|upper }}</td>
-                                <td>{{ plans_measurements_investment.exchange_rate|floatformat }}</td>
-                                {% if plans_measurements_investment.accountant %}
-                                    {% if plans_measurements_investment.accountant_amount %}
-                                        <td>{{ plans_measurements_investment.accountant_amount|floatformat }} {{ plans_measurements_investment.accountant_currency|upper }}</td>
-                                    {% else %}
-                                        <td>{{ plans_measurements_investment.amount|floatformat }} {{ plans_measurements_investment.currency|upper }}</td>
-                                    {% endif %}
-                                {% else %}
-                                    <td>No</td>
-                                {% endif %}
-                                <td>{{ plans_measurements_investment.notes }}</td>
-                                <td><a href="{% url 'investments:detail' plans_measurements_investment.id %}">Ver</a></td>
-                                <td><a href="{% url 'investments:edit' plans_measurements_investment.id %}">Editar</a></td>
-                                <td><a href="{% url 'investments:delete' plans_measurements_investment.id %}">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <h4>Limpieza, Rellenado y Apertura de Calles</h4>
-                <table id="street_investments_table" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Detalle</th>
-                            <th>Pagador</th>
-                            <th>Valor</th>
-                            <th>TC</th>
-                            <th>Contable</th>
-                            <th>Notas</th>
-                            <th>Ver</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for street_investment in street_investments %}
-                            <tr>
-                                <td>{{ street_investment.date }}</td>
-                                <td>{{ street_investment.get_detail_display }}</td>
-                                <td>{{ street_investment.payer.name }}</td>
-                                <td>{{ street_investment.amount|floatformat }} {{ street_investment.currency|upper }}</td>
-                                <td>{{ street_investment.exchange_rate|floatformat }}</td>
-                                {% if street_investment.accountant %}
-                                    {% if street_investment.accountant_amount %}
-                                        <td>{{ street_investment.accountant_amount|floatformat }} {{ street_investment.accountant_currency|upper }}</td>
-                                    {% else %}
-                                        <td>{{ street_investment.amount|floatformat }} {{ street_investment.currency|upper }}</td>
-                                    {% endif %}
-                                {% else %}
-                                    <td>No</td>
-                                {% endif %}
-                                <td>{{ street_investment.notes }}</td>
-                                <td><a href="{% url 'investments:detail' street_investment.id %}">Ver</a></td>
-                                <td><a href="{% url 'investments:edit' street_investment.id %}">Editar</a></td>
-                                <td><a href="{% url 'investments:delete' street_investment.id %}">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <h4>Obra de Luz - Materiales</h4>
-                <table id="light_materials_investments_table" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Detalle</th>
-                            <th>Pagador</th>
-                            <th>Valor</th>
-                            <th>TC</th>
-                            <th>Contable</th>
-                            <th>Notas</th>
-                            <th>Ver</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for light_materials_investment in light_materials_investments %}
-                            <tr>
-                                <td>{{ light_materials_investment.date }}</td>
-                                <td>{{ light_materials_investment.get_detail_display }}</td>
-                                <td>{{ light_materials_investment.payer.name }}</td>
-                                <td>{{ light_materials_investment.amount|floatformat }} {{ light_materials_investment.currency|upper }}</td>
-                                <td>{{ light_materials_investment.exchange_rate|floatformat }}</td>
-                                {% if light_materials_investment.accountant %}
-                                    {% if light_materials_investment.accountant_amount %}
-                                        <td>{{ light_materials_investment.accountant_amount|floatformat }} {{ light_materials_investment.accountant_currency|upper }}</td>
-                                    {% else %}
-                                        <td>{{ light_materials_investment.amount|floatformat }} {{ light_materials_investment.currency|upper }}</td>
-                                    {% endif %}
-                                {% else %}
-                                    <td>No</td>
-                                {% endif %}
-                                <td>{{ light_materials_investment.notes }}</td>
-                                <td><a href="{% url 'investments:detail' light_materials_investment.id %}">Ver</a></td>
-                                <td><a href="{% url 'investments:edit' light_materials_investment.id %}">Editar</a></td>
-                                <td><a href="{% url 'investments:delete' light_materials_investment.id %}">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <h4>Obra de Luz - Mano de Obra</h4>
-                <table id="light_labour_investments_table" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Detalle</th>
-                            <th>Pagador</th>
-                            <th>Valor</th>
-                            <th>TC</th>
-                            <th>Contable</th>
-                            <th>Notas</th>
-                            <th>Ver</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for light_labour_investment in light_labour_investments %}
-                            <tr>
-                                <td>{{ light_labour_investment.date }}</td>
-                                <td>{{ light_labour_investment.get_detail_display }}</td>
-                                <td>{{ light_labour_investment.payer.name }}</td>
-                                <td>{{ light_labour_investment.amount|floatformat }} {{ light_labour_investment.currency|upper }}</td>
-                                <td>{{ light_labour_investment.exchange_rate|floatformat }}</td>
-                                {% if light_labour_investment.accountant %}
-                                    {% if light_labour_investment.accountant_amount %}
-                                        <td>{{ light_labour_investment.accountant_amount|floatformat }} {{ light_labour_investment.accountant_currency|upper }}</td>
-                                    {% else %}
-                                        <td>{{ light_labour_investment.amount|floatformat }} {{ light_labour_investment.currency|upper }}</td>
-                                    {% endif %}
-                                {% else %}
-                                    <td>No</td>
-                                {% endif %}
-                                <td>{{ light_labour_investment.notes }}</td>
-                                <td><a href="{% url 'investments:detail' light_labour_investment.id %}">Ver</a></td>
-                                <td><a href="{% url 'investments:edit' light_labour_investment.id %}">Editar</a></td>
-                                <td><a href="{% url 'investments:delete' light_labour_investment.id %}">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <h4>Alumbrado Público</h4>
-                <table id="public_light_investments_table" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Detalle</th>
-                            <th>Pagador</th>
-                            <th>Valor</th>
-                            <th>TC</th>
-                            <th>Contable</th>
-                            <th>Notas</th>
-                            <th>Ver</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for public_light_investment in public_light_investments %}
-                            <tr>
-                                <td>{{ public_light_investment.date }}</td>
-                                <td>{{ public_light_investment.get_detail_display }}</td>
-                                <td>{{ public_light_investment.payer.name }}</td>
-                                <td>{{ public_light_investment.amount|floatformat }} {{ public_light_investment.currency|upper }}</td>
-                                <td>{{ public_light_investment.exchange_rate|floatformat }}</td>
-                                {% if public_light_investment.accountant %}
-                                    {% if public_light_investment.accountant_amount %}
-                                        <td>{{ public_light_investment.accountant_amount|floatformat }} {{ public_light_investment.accountant_currency|upper }}</td>
-                                    {% else %}
-                                        <td>{{ public_light_investment.amount|floatformat }} {{ public_light_investment.currency|upper }}</td>
-                                    {% endif %}
-                                {% else %}
-                                    <td>No</td>
-                                {% endif %}
-                                <td>{{ public_light_investment.notes }}</td>
-                                <td><a href="{% url 'investments:detail' public_light_investment.id %}">Ver</a></td>
-                                <td><a href="{% url 'investments:edit' public_light_investment.id %}">Editar</a></td>
-                                <td><a href="{% url 'investments:delete' public_light_investment.id %}">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <h4>Obra de Gas</h4>
-                <table id="gas_investments_table" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Detalle</th>
-                            <th>Pagador</th>
-                            <th>Valor</th>
-                            <th>TC</th>
-                            <th>Contable</th>
-                            <th>Notas</th>
-                            <th>Ver</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for gas_investment in gas_investments %}
-                            <tr>
-                                <td>{{ gas_investment.date }}</td>
-                                <td>{{ gas_investment.get_detail_display }}</td>
-                                <td>{{ gas_investment.payer.name }}</td>
-                                <td>{{ gas_investment.amount|floatformat }} {{ gas_investment.currency|upper }}</td>
-                                <td>{{ gas_investment.exchange_rate|floatformat }}</td>
-                                {% if gas_investment.accountant %}
-                                    {% if gas_investment.accountant_amount %}
-                                        <td>{{ gas_investment.accountant_amount|floatformat }} {{ gas_investment.accountant_currency|upper }}</td>
-                                    {% else %}
-                                        <td>{{ gas_investment.amount|floatformat }} {{ gas_investment.currency|upper }}</td>
-                                    {% endif %}
-                                {% else %}
-                                    <td>No</td>
-                                {% endif %}
-                                <td>{{ gas_investment.notes }}</td>
-                                <td><a href="{% url 'investments:detail' gas_investment.id %}">Ver</a></td>
-                                <td><a href="{% url 'investments:edit' gas_investment.id %}">Editar</a></td>
-                                <td><a href="{% url 'investments:delete' gas_investment.id %}">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <h4>Otros</h4>
-                <table id="other_investments_table" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Detalle</th>
-                            <th>Pagador</th>
-                            <th>Valor</th>
-                            <th>TC</th>
-                            <th>Contable</th>
-                            <th>Notas</th>
-                            <th>Ver</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for other_investment in other_investments %}
-                            <tr>
-                                <td>{{ other_investment.date }}</td>
-                                <td>{{ other_investment.get_detail_display }}</td>
-                                <td>{{ other_investment.payer.name }}</td>
-                                <td>{{ other_investment.amount|floatformat }} {{ other_investment.currency|upper }}</td>
-                                <td>{{ other_investment.exchange_rate|floatformat }}</td>
-                                {% if other_investment.accountant %}
-                                    {% if other_investment.accountant_amount %}
-                                        <td>{{ other_investment.accountant_amount|floatformat }} {{ other_investment.accountant_currency|upper }}</td>
-                                    {% else %}
-                                        <td>{{ other_investment.amount|floatformat }} {{ other_investment.currency|upper }}</td>
-                                    {% endif %}
-                                {% else %}
-                                    <td>No</td>
-                                {% endif %}
-                                <td>{{ other_investment.notes }}</td>
-                                <td><a href="{% url 'investments:detail' other_investment.id %}">Ver</a></td>
-                                <td><a href="{% url 'investments:edit' other_investment.id %}">Editar</a></td>
-                                <td><a href="{% url 'investments:delete' other_investment.id %}">Eliminar</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        {% if total_lands > 0 %}
+            <div class="card-header text-center">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="detail-investments-tab" data-bs-toggle="tab" data-bs-target="#detail_investments" type="button" role="tab" aria-controls="detail_investments" aria-selected="true">Detalle de Inversiones</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="summary-investments-tab" data-bs-toggle="tab" data-bs-target="#summary_investments" type="button" role="tab" aria-controls="summary_investments" aria-selected="false">Resumen de Costos</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="accountant-investments-tab" data-bs-toggle="tab" data-bs-target="#accountant_investments" type="button" role="tab" aria-controls="accountant_investments" aria-selected="false">Costo Impositivo</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="earnings-investment-tab" data-bs-toggle="tab" data-bs-target="#earning_investment" type="button" role="tab" aria-controls="earning_investment" aria-selected="false">Inversiones para Ganancias</button>
+                    </li>
+                </ul>
             </div>
-            <div class="tab-pane fade" id="summary_investments" role="tabpanel" aria-labelledby="summary-investments-tab">
-                <table id="investments_summary_table" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Concepto</th>
-                            <th>Pesos</th>
-                            <th>TC</th>
-                            <th>Dolares</th>
-                            <th>u$s/lote</th>
-                            <th>Part.</th>
-                            <th>Contable</th>
-                            <th>$/lote</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tierra</td>
-                            <td>{{ total_property_investments.total_ars|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_property_investments.total_usd|floatformat }}</td>
-                            <td>{{ property_usd_per_land|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_property_investments.total_accountable_ars|floatformat }}</td>
-                            <td>{{ property_ars_per_land|floatformat }}</td>
-                        </tr>
-                        <tr>
-                            <td>Planos y Mensura</td>
-                            <td>{{ total_plans_measurements_investments.total_ars|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_plans_measurements_investments.total_usd|floatformat }}</td>
-                            <td>{{ plans_measurement_usd_per_land|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_plans_measurements_investments.total_accountable_ars|floatformat }}</td>
-                            <td>{{ plans_measurement_ars_per_land|floatformat }}</td>
-                        </tr>
-                        <tr>
-                            <td>Limpieza, Rellenado y Apertura de Calles</td>
-                            <td>{{ total_street_investments.total_ars|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_street_investments.total_usd|floatformat }}</td>
-                            <td>{{ street_usd_per_land|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_street_investments.total_accountable_ars|floatformat }}</td>
-                            <td>{{ street_ars_per_land|floatformat }}</td>
-                        </tr>
-                        <tr>
-                            <td>Obra de Luz - Materiales</td>
-                            <td>{{ total_light_materials_investments.total_ars|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_light_materials_investments.total_usd|floatformat }}</td>
-                            <td>{{ light_materials_usd_per_land|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_light_materials_investments.total_accountable_ars|floatformat }}</td>
-                            <td>{{ light_materials_ars_per_land|floatformat }}</td>
-                        </tr>
-                        <tr>
-                            <td>Obra de Luz - Mano de Obra</td>
-                            <td>{{ total_light_labour_investments.total_ars|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_light_labour_investments.total_usd|floatformat }}</td>
-                            <td>{{ light_labour_usd_per_land|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_light_labour_investments.total_accountable_ars|floatformat }}</td>
-                            <td>{{ light_labour_ars_per_land|floatformat }}</td>
-                        </tr>
-                        <tr>
-                            <td>Alumbrado Público</td>
-                            <td>{{ total_public_light_investments.total_ars|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_public_light_investments.total_usd|floatformat }}</td>
-                            <td>{{ public_light_usd_per_land|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_public_light_investments.total_accountable_ars|floatformat }}</td>
-                            <td>{{ public_light_ars_per_land|floatformat }}</td>
-                        </tr>
-                        <tr>
-                            <td>Gas</td>
-                            <td>{{ total_gas_investments.total_ars|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_gas_investments.total_usd|floatformat }}</td>
-                            <td>{{ gas_usd_per_land|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_gas_investments.total_accountable_ars|floatformat }}</td>
-                            <td>{{ gas_ars_per_land|floatformat }}</td>
-                        </tr>
-                        <tr>
-                            <td>Otros</td>
-                            <td>{{ total_other_investments.total_ars|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_other_investments.total_usd|floatformat }}</td>
-                            <td>{{ other_usd_per_land|floatformat }}</td>
-                            <td></td>
-                            <td>{{ total_other_investments.total_accountable_ars|floatformat }}</td>
-                            <td>{{ other_ars_per_land|floatformat }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card-body tab-content" id="tab_content">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="detail-investments-tab">
+                    <h4>Inmueble</h4>
+                    <table id="property_investments_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Detalle</th>
+                                <th>Pagador</th>
+                                <th>Valor</th>
+                                <th>TC</th>
+                                <th>Contable</th>
+                                <th>Notas</th>
+                                <th>Ver</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for property_investment in property_investments %}
+                                <tr>
+                                    <td>{{ property_investment.date }}</td>
+                                    <td>{{ property_investment.get_detail_display }}</td>
+                                    <td>{{ property_investment.payer.name }}</td>
+                                    <td>{{ property_investment.amount|floatformat }} {{ property_investment.currency|upper }}</td>
+                                    <td>{{ property_investment.exchange_rate|floatformat }}</td>
+                                    {% if property_investment.accountant %}
+                                        {% if property_investment.accountant_amount %}
+                                            <td>{{ property_investment.accountant_amount|floatformat }} {{ property_investment.accountant_currency|upper }}</td>
+                                        {% else %}
+                                            <td>{{ property_investment.amount|floatformat }} {{ property_investment.currency|upper }}</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>{{ property_investment.notes }}</td>
+                                    <td><a href="{% url 'investments:detail' property_investment.id %}">Ver</a></td>
+                                    <td><a href="{% url 'investments:edit' property_investment.id %}">Editar</a></td>
+                                    <td><a href="{% url 'investments:delete' property_investment.id %}">Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <h4>Planos y Mensura</h4>
+                    <table id="plans_measurements_investments_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Detalle</th>
+                                <th>Pagador</th>
+                                <th>Valor</th>
+                                <th>TC</th>
+                                <th>Contable</th>
+                                <th>Notas</th>
+                                <th>Ver</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for plans_measurements_investment in plans_measurements_investment %}
+                                <tr>
+                                    <td>{{ plans_measurements_investment.date }}</td>
+                                    <td>{{ plans_measurements_investment.get_detail_display }}</td>
+                                    <td>{{ plans_measurements_investment.payer.name }}</td>
+                                    <td>{{ plans_measurements_investment.amount|floatformat }} {{ plans_measurements_investment.currency|upper }}</td>
+                                    <td>{{ plans_measurements_investment.exchange_rate|floatformat }}</td>
+                                    {% if plans_measurements_investment.accountant %}
+                                        {% if plans_measurements_investment.accountant_amount %}
+                                            <td>{{ plans_measurements_investment.accountant_amount|floatformat }} {{ plans_measurements_investment.accountant_currency|upper }}</td>
+                                        {% else %}
+                                            <td>{{ plans_measurements_investment.amount|floatformat }} {{ plans_measurements_investment.currency|upper }}</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>{{ plans_measurements_investment.notes }}</td>
+                                    <td><a href="{% url 'investments:detail' plans_measurements_investment.id %}">Ver</a></td>
+                                    <td><a href="{% url 'investments:edit' plans_measurements_investment.id %}">Editar</a></td>
+                                    <td><a href="{% url 'investments:delete' plans_measurements_investment.id %}">Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <h4>Limpieza, Rellenado y Apertura de Calles</h4>
+                    <table id="street_investments_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Detalle</th>
+                                <th>Pagador</th>
+                                <th>Valor</th>
+                                <th>TC</th>
+                                <th>Contable</th>
+                                <th>Notas</th>
+                                <th>Ver</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for street_investment in street_investments %}
+                                <tr>
+                                    <td>{{ street_investment.date }}</td>
+                                    <td>{{ street_investment.get_detail_display }}</td>
+                                    <td>{{ street_investment.payer.name }}</td>
+                                    <td>{{ street_investment.amount|floatformat }} {{ street_investment.currency|upper }}</td>
+                                    <td>{{ street_investment.exchange_rate|floatformat }}</td>
+                                    {% if street_investment.accountant %}
+                                        {% if street_investment.accountant_amount %}
+                                            <td>{{ street_investment.accountant_amount|floatformat }} {{ street_investment.accountant_currency|upper }}</td>
+                                        {% else %}
+                                            <td>{{ street_investment.amount|floatformat }} {{ street_investment.currency|upper }}</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>{{ street_investment.notes }}</td>
+                                    <td><a href="{% url 'investments:detail' street_investment.id %}">Ver</a></td>
+                                    <td><a href="{% url 'investments:edit' street_investment.id %}">Editar</a></td>
+                                    <td><a href="{% url 'investments:delete' street_investment.id %}">Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <h4>Obra de Luz - Materiales</h4>
+                    <table id="light_materials_investments_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Detalle</th>
+                                <th>Pagador</th>
+                                <th>Valor</th>
+                                <th>TC</th>
+                                <th>Contable</th>
+                                <th>Notas</th>
+                                <th>Ver</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for light_materials_investment in light_materials_investments %}
+                                <tr>
+                                    <td>{{ light_materials_investment.date }}</td>
+                                    <td>{{ light_materials_investment.get_detail_display }}</td>
+                                    <td>{{ light_materials_investment.payer.name }}</td>
+                                    <td>{{ light_materials_investment.amount|floatformat }} {{ light_materials_investment.currency|upper }}</td>
+                                    <td>{{ light_materials_investment.exchange_rate|floatformat }}</td>
+                                    {% if light_materials_investment.accountant %}
+                                        {% if light_materials_investment.accountant_amount %}
+                                            <td>{{ light_materials_investment.accountant_amount|floatformat }} {{ light_materials_investment.accountant_currency|upper }}</td>
+                                        {% else %}
+                                            <td>{{ light_materials_investment.amount|floatformat }} {{ light_materials_investment.currency|upper }}</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>{{ light_materials_investment.notes }}</td>
+                                    <td><a href="{% url 'investments:detail' light_materials_investment.id %}">Ver</a></td>
+                                    <td><a href="{% url 'investments:edit' light_materials_investment.id %}">Editar</a></td>
+                                    <td><a href="{% url 'investments:delete' light_materials_investment.id %}">Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <h4>Obra de Luz - Mano de Obra</h4>
+                    <table id="light_labour_investments_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Detalle</th>
+                                <th>Pagador</th>
+                                <th>Valor</th>
+                                <th>TC</th>
+                                <th>Contable</th>
+                                <th>Notas</th>
+                                <th>Ver</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for light_labour_investment in light_labour_investments %}
+                                <tr>
+                                    <td>{{ light_labour_investment.date }}</td>
+                                    <td>{{ light_labour_investment.get_detail_display }}</td>
+                                    <td>{{ light_labour_investment.payer.name }}</td>
+                                    <td>{{ light_labour_investment.amount|floatformat }} {{ light_labour_investment.currency|upper }}</td>
+                                    <td>{{ light_labour_investment.exchange_rate|floatformat }}</td>
+                                    {% if light_labour_investment.accountant %}
+                                        {% if light_labour_investment.accountant_amount %}
+                                            <td>{{ light_labour_investment.accountant_amount|floatformat }} {{ light_labour_investment.accountant_currency|upper }}</td>
+                                        {% else %}
+                                            <td>{{ light_labour_investment.amount|floatformat }} {{ light_labour_investment.currency|upper }}</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>{{ light_labour_investment.notes }}</td>
+                                    <td><a href="{% url 'investments:detail' light_labour_investment.id %}">Ver</a></td>
+                                    <td><a href="{% url 'investments:edit' light_labour_investment.id %}">Editar</a></td>
+                                    <td><a href="{% url 'investments:delete' light_labour_investment.id %}">Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <h4>Alumbrado Público</h4>
+                    <table id="public_light_investments_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Detalle</th>
+                                <th>Pagador</th>
+                                <th>Valor</th>
+                                <th>TC</th>
+                                <th>Contable</th>
+                                <th>Notas</th>
+                                <th>Ver</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for public_light_investment in public_light_investments %}
+                                <tr>
+                                    <td>{{ public_light_investment.date }}</td>
+                                    <td>{{ public_light_investment.get_detail_display }}</td>
+                                    <td>{{ public_light_investment.payer.name }}</td>
+                                    <td>{{ public_light_investment.amount|floatformat }} {{ public_light_investment.currency|upper }}</td>
+                                    <td>{{ public_light_investment.exchange_rate|floatformat }}</td>
+                                    {% if public_light_investment.accountant %}
+                                        {% if public_light_investment.accountant_amount %}
+                                            <td>{{ public_light_investment.accountant_amount|floatformat }} {{ public_light_investment.accountant_currency|upper }}</td>
+                                        {% else %}
+                                            <td>{{ public_light_investment.amount|floatformat }} {{ public_light_investment.currency|upper }}</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>{{ public_light_investment.notes }}</td>
+                                    <td><a href="{% url 'investments:detail' public_light_investment.id %}">Ver</a></td>
+                                    <td><a href="{% url 'investments:edit' public_light_investment.id %}">Editar</a></td>
+                                    <td><a href="{% url 'investments:delete' public_light_investment.id %}">Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <h4>Obra de Gas</h4>
+                    <table id="gas_investments_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Detalle</th>
+                                <th>Pagador</th>
+                                <th>Valor</th>
+                                <th>TC</th>
+                                <th>Contable</th>
+                                <th>Notas</th>
+                                <th>Ver</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for gas_investment in gas_investments %}
+                                <tr>
+                                    <td>{{ gas_investment.date }}</td>
+                                    <td>{{ gas_investment.get_detail_display }}</td>
+                                    <td>{{ gas_investment.payer.name }}</td>
+                                    <td>{{ gas_investment.amount|floatformat }} {{ gas_investment.currency|upper }}</td>
+                                    <td>{{ gas_investment.exchange_rate|floatformat }}</td>
+                                    {% if gas_investment.accountant %}
+                                        {% if gas_investment.accountant_amount %}
+                                            <td>{{ gas_investment.accountant_amount|floatformat }} {{ gas_investment.accountant_currency|upper }}</td>
+                                        {% else %}
+                                            <td>{{ gas_investment.amount|floatformat }} {{ gas_investment.currency|upper }}</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>{{ gas_investment.notes }}</td>
+                                    <td><a href="{% url 'investments:detail' gas_investment.id %}">Ver</a></td>
+                                    <td><a href="{% url 'investments:edit' gas_investment.id %}">Editar</a></td>
+                                    <td><a href="{% url 'investments:delete' gas_investment.id %}">Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <h4>Otros</h4>
+                    <table id="other_investments_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Detalle</th>
+                                <th>Pagador</th>
+                                <th>Valor</th>
+                                <th>TC</th>
+                                <th>Contable</th>
+                                <th>Notas</th>
+                                <th>Ver</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for other_investment in other_investments %}
+                                <tr>
+                                    <td>{{ other_investment.date }}</td>
+                                    <td>{{ other_investment.get_detail_display }}</td>
+                                    <td>{{ other_investment.payer.name }}</td>
+                                    <td>{{ other_investment.amount|floatformat }} {{ other_investment.currency|upper }}</td>
+                                    <td>{{ other_investment.exchange_rate|floatformat }}</td>
+                                    {% if other_investment.accountant %}
+                                        {% if other_investment.accountant_amount %}
+                                            <td>{{ other_investment.accountant_amount|floatformat }} {{ other_investment.accountant_currency|upper }}</td>
+                                        {% else %}
+                                            <td>{{ other_investment.amount|floatformat }} {{ other_investment.currency|upper }}</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>{{ other_investment.notes }}</td>
+                                    <td><a href="{% url 'investments:detail' other_investment.id %}">Ver</a></td>
+                                    <td><a href="{% url 'investments:edit' other_investment.id %}">Editar</a></td>
+                                    <td><a href="{% url 'investments:delete' other_investment.id %}">Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="summary_investments" role="tabpanel" aria-labelledby="summary-investments-tab">
+                    <table id="investments_summary_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Pesos</th>
+                                <th>TC</th>
+                                <th>Dolares</th>
+                                <th>u$s/lote</th>
+                                <th>Part.</th>
+                                <th>Contable</th>
+                                <th>$/lote</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tierra</td>
+                                <td>{{ total_property_investments.total_ars|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_property_investments.total_usd|floatformat }}</td>
+                                <td>{{ property_usd_per_land|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_property_investments.total_accountable_ars|floatformat }}</td>
+                                <td>{{ property_ars_per_land|floatformat }}</td>
+                            </tr>
+                            <tr>
+                                <td>Planos y Mensura</td>
+                                <td>{{ total_plans_measurements_investments.total_ars|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_plans_measurements_investments.total_usd|floatformat }}</td>
+                                <td>{{ plans_measurement_usd_per_land|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_plans_measurements_investments.total_accountable_ars|floatformat }}</td>
+                                <td>{{ plans_measurement_ars_per_land|floatformat }}</td>
+                            </tr>
+                            <tr>
+                                <td>Limpieza, Rellenado y Apertura de Calles</td>
+                                <td>{{ total_street_investments.total_ars|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_street_investments.total_usd|floatformat }}</td>
+                                <td>{{ street_usd_per_land|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_street_investments.total_accountable_ars|floatformat }}</td>
+                                <td>{{ street_ars_per_land|floatformat }}</td>
+                            </tr>
+                            <tr>
+                                <td>Obra de Luz - Materiales</td>
+                                <td>{{ total_light_materials_investments.total_ars|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_light_materials_investments.total_usd|floatformat }}</td>
+                                <td>{{ light_materials_usd_per_land|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_light_materials_investments.total_accountable_ars|floatformat }}</td>
+                                <td>{{ light_materials_ars_per_land|floatformat }}</td>
+                            </tr>
+                            <tr>
+                                <td>Obra de Luz - Mano de Obra</td>
+                                <td>{{ total_light_labour_investments.total_ars|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_light_labour_investments.total_usd|floatformat }}</td>
+                                <td>{{ light_labour_usd_per_land|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_light_labour_investments.total_accountable_ars|floatformat }}</td>
+                                <td>{{ light_labour_ars_per_land|floatformat }}</td>
+                            </tr>
+                            <tr>
+                                <td>Alumbrado Público</td>
+                                <td>{{ total_public_light_investments.total_ars|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_public_light_investments.total_usd|floatformat }}</td>
+                                <td>{{ public_light_usd_per_land|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_public_light_investments.total_accountable_ars|floatformat }}</td>
+                                <td>{{ public_light_ars_per_land|floatformat }}</td>
+                            </tr>
+                            <tr>
+                                <td>Gas</td>
+                                <td>{{ total_gas_investments.total_ars|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_gas_investments.total_usd|floatformat }}</td>
+                                <td>{{ gas_usd_per_land|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_gas_investments.total_accountable_ars|floatformat }}</td>
+                                <td>{{ gas_ars_per_land|floatformat }}</td>
+                            </tr>
+                            <tr>
+                                <td>Otros</td>
+                                <td>{{ total_other_investments.total_ars|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_other_investments.total_usd|floatformat }}</td>
+                                <td>{{ other_usd_per_land|floatformat }}</td>
+                                <td></td>
+                                <td>{{ total_other_investments.total_accountable_ars|floatformat }}</td>
+                                <td>{{ other_ars_per_land|floatformat }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="accountant_investments" role="tabpanel" aria-labelledby="accountant-investments-tab"></div>
+                <div class="tab-pane fade" id="earning_investment" role="tabpanel" aria-labelledby="earning-investment-tab"></div>
             </div>
-            <div class="tab-pane fade" id="accountant_investments" role="tabpanel" aria-labelledby="accountant-investments-tab"></div>
-            <div class="tab-pane fade" id="earning_investment" role="tabpanel" aria-labelledby="earning-investment-tab"></div>
-        </div>
+        {% endif %}
         <div class="card-footer text-muted text-center">
             <a href="{% url 'projects:edit' project.id %}" class="btn btn-warning">Editar Proyecto</a>
             <a href="{% url 'projects:delete' project.id %}" class="btn btn-danger">Eliminar Proyecto</a>

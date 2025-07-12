@@ -5,6 +5,7 @@ class ExpenseType(models.Model):
     Model representing a expense type
     """
     description = models.TextField(blank=True, null=True)
+    key = models.CharField(max_length=100, unique=True, null=False, blank=False)
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):

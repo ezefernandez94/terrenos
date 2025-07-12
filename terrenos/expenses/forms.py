@@ -30,8 +30,8 @@ class ExpenseForm(forms.ModelForm):
         widgets = {
             'project': forms.Select(attrs={'class': 'form-control'}, choices=Project.objects.all()),
             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'type': forms.Select(attrs={'class': 'form-control'}, choices=ExpenseType.objects.all()),
-            'detail': forms.Select(attrs={'class': 'form-control'}, choices=ExpenseTypeDetail.objects.all()),
+            'expense_type': forms.Select(attrs={'class': 'form-control'}, choices=ExpenseType.objects.all()),
+            'expense_type_detail': forms.Select(attrs={'class': 'form-control'}, choices=ExpenseTypeDetail.objects.all()),
             'amount': forms.NumberInput(attrs={'class': 'form-control'}),
             'currency': forms.Select(attrs={'class': 'form-control'}, choices=[
                 ('ars', 'Pesos'),
