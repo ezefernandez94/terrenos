@@ -104,29 +104,29 @@ WSGI_APPLICATION = "terrenos.wsgi.app"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "terrenos_db",
-        "USER": os.environ.get("db_dev_username"),
-        "PASSWORD": os.environ.get("db_dev_password"),
-        "HOST": "localhost",
-        "PORT": "5432"
-    }
-}
-
-## tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 ## DATABASES = {
-##     'default': {
-##         'ENGINE': 'django.db.backends.postgresql',
-##         'NAME': tmpPostgres.path.replace('/', ''),
-##         'USER': tmpPostgres.username,
-##         'PASSWORD': tmpPostgres.password,
-##         'HOST': tmpPostgres.hostname,
-##         'PORT': 5432,
-##         'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+##     "default": {
+##         "ENGINE": "django.db.backends.postgresql",
+##         "NAME": "terrenos_db",
+##         "USER": os.environ.get("db_dev_username"),
+##         "PASSWORD": os.environ.get("db_dev_password"),
+##         "HOST": "localhost",
+##         "PORT": "5432"
 ##     }
 ## }
+
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
+        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -165,8 +165,6 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATIC_URL = "staticfiles/"
-## 
-## STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -179,4 +177,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = "/"
 
-## django_heroku.settings(locals())
+django_heroku.settings(locals())
