@@ -33,7 +33,7 @@ DEBUG = os.environ.get("DJANGO_TERRENOS_DEBUG")
 
 ALLOWED_HOSTS = ['terrenos-429b9d4cf9d7.herokuapp.com/', 'localhost']
 
-CSFR_TRUSTED_ORIGINS = [
+CSRF_TRUSTED_ORIGINS = [
     'https://terrenos-429b9d4cf9d7.herokuapp.com',
     'http://localhost:8000'
 ]
