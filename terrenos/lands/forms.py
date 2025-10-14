@@ -9,12 +9,12 @@ class LandForm(forms.ModelForm):
         fields = ['manual_id', 'block', 'width', 'length', 'type', 'price', 'status', 'notes', 'seller']
         exclude = ['project']
         widgets = {
-            'project': forms.Select(choices=Project.objects.all()),
-            'type': forms.Select(choices=[
+            'project': forms.Select(attrs={'class': 'form-control'}),
+            'type': forms.Select(attrs={'class': 'form-control'}, choices=[
                 ('maintenance', 'Mantenimiento'),
                 ('utilities', 'Servicios'),
                 ('expenses', 'Impuestos'),
                 ('other', 'Otro')
             ]),
-            'seller': forms.Select(choices=Seller.objects.all())
+            'seller': forms.Select(attrs={'class': 'form-control'})
         }

@@ -57,23 +57,23 @@ def detail(request, project_id):
     ## total_lands = 38
     if total_lands > 0:
         general_investments = Investment.objects.filter(project_id=project_id)
-        property_expense_type_id = ExpenseType.objects.filter(key="property").first.id
+        property_expense_type_id = ExpenseType.objects.filter(key="property").first().id
         property_investments = general_investments.filter(expense_type_id=property_expense_type_id)
-        light_project_expense_type_id = ExpenseType.objects.filter(key="light_project").first.id
-        light_materials_expense_type_detail_id  = ExpenseTypeDetail.objects.filter(key="materials").first.id
+        light_project_expense_type_id = ExpenseType.objects.filter(key="light_project").first().id
+        light_materials_expense_type_detail_id  = ExpenseTypeDetail.objects.filter(key="materials").first().id
         light_materials_investments = general_investments.filter(expense_type_id=light_project_expense_type_id, expense_type_detail_id=light_materials_expense_type_detail_id)
-        light_labour_expense_type_detail_id  = ExpenseTypeDetail.objects.filter(key="labour").first.id
+        light_labour_expense_type_detail_id  = ExpenseTypeDetail.objects.filter(key="labour").first().id
         light_labour_investments = general_investments.filter(expense_type_id=light_project_expense_type_id, expense_type_detail_id=light_labour_expense_type_detail_id)
-        public_light_expense_type_id = ExpenseType.objects.filter(key="public_light").first.id
+        public_light_expense_type_id = ExpenseType.objects.filter(key="public_light").first().id
         public_light_investments = general_investments.filter(expense_type_id=public_light_expense_type_id)
-        gas_project_expense_type_id = ExpenseType.objects.filter(key="gas_project").first.id
+        gas_project_expense_type_id = ExpenseType.objects.filter(key="gas_project").first().id
         gas_investments = general_investments.filter(expense_type_id=gas_project_expense_type_id)
-        streets_expense_type_id = ExpenseType.objects.filter(key="streets").first.id
+        streets_expense_type_id = ExpenseType.objects.filter(key="streets").first().id
         streets_investments = general_investments.filter(expense_type_id=streets_expense_type_id)
-        measurement_expense_type_id = ExpenseType.objects.filter(key="measurement").first.id
-        plans_expense_type_id = ExpenseType.objects.filter(key="plans").first.id
+        measurement_expense_type_id = ExpenseType.objects.filter(key="measurement").first().id
+        plans_expense_type_id = ExpenseType.objects.filter(key="plans").first().id
         plans_measurements_investment = general_investments.filter(Q(expense_type_id=plans_expense_type_id) | Q(expense_type_id=measurement_expense_type_id))
-        other_expense_type_id = ExpenseType.objects.filter(key="other").first.id
+        other_expense_type_id = ExpenseType.objects.filter(key="other").first().id
         other_investments = general_investments.filter(expense_type_id=other_expense_type_id)
         
         total_property_investments = property_investments.aggregate(

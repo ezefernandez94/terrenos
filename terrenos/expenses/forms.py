@@ -28,10 +28,10 @@ class ExpenseForm(forms.ModelForm):
             'notes': 'Notas'
         }
         widgets = {
-            'project': forms.Select(attrs={'class': 'form-control'}, choices=Project.objects.all()),
+            'project': forms.Select(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'expense_type': forms.Select(attrs={'class': 'form-control'}, choices=ExpenseType.objects.all()),
-            'expense_type_detail': forms.Select(attrs={'class': 'form-control'}, choices=ExpenseTypeDetail.objects.all()),
+            'expense_type': forms.Select(attrs={'class': 'form-control'}),
+            'expense_type_detail': forms.Select(attrs={'class': 'form-control'}),
             'amount': forms.NumberInput(attrs={'class': 'form-control'}),
             'currency': forms.Select(attrs={'class': 'form-control'}, choices=[
                 ('ars', 'Pesos'),
@@ -46,7 +46,7 @@ class ExpenseForm(forms.ModelForm):
                 ('credit_card', 'Tarjeta de Cédito'),
                 ('other', 'Otro')
             ]),
-            'payer': forms.Select(attrs={'class': 'form-control'}, choices=Payer.objects.all()),
+            'payer': forms.Select(attrs={'class': 'form-control'}),
             'receipt_number': forms.TextInput(attrs={'class': 'form-control'}),
             'receipt': forms.FileInput(attrs={'class': 'form-control'}),
             'accountant': forms.CheckboxInput(),
@@ -55,7 +55,7 @@ class ExpenseForm(forms.ModelForm):
                 ('ars', 'Pesos'),
                 ('usd', 'Dolares')
             ]),
-            'payment_receiver': forms.Select(attrs={'class': 'form-control'}, choices=PaymentReceiver.objects.all()),
+            'payment_receiver': forms.Select(attrs={'class': 'form-control'}),
             'notes': forms.TextInput(attrs={'class': 'form-control'})
 
         }

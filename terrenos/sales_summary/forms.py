@@ -8,7 +8,7 @@ class SaleSummaryForm(forms.ModelForm):
         fields = ['sale', 'amount', 'date', 'type', 'payment_option', 'accountant', 'notes', 'exchange_rate', 'seller']
         widgets = {
             'sale': forms.HiddenInput(),
-            'seller': forms.Select(choices=Seller.objects.all()),
+            'seller': forms.Select(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'type': 'date'}),
             'type': forms.Select(choices=[
                 ('initial_payment', 'Pago Inicial'),
