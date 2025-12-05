@@ -28,7 +28,7 @@
                     <tr>
                         <td>{{ investment.id }}</td>
                         <td>{{ investment.project.name }}</td>
-                        <td>{{ investment.date }}</td>
+                        <td data-order="{{ investment.date|date:'Y-m-d' }}">{{ investment.date|date:'d/m/Y' }}</td>
                         <td>{{ investment.expense_type_detail.description }} ({{ investment.expense_type.description }})</td>
                         <td>{{ investment.payer.name }}</td>
                         <td>{{ investment.amount|floatformat }} {{ investment.currency|upper }}</td>
