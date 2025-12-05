@@ -2,20 +2,138 @@
 
 {% block content %}
 
-    <div class="card text-center">
-        <div class="card-header">
-            Inversión {{ investment.id }}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2>Detalle de Inversión: {{ investment.expense_type.description }} ({{ investment.expense_type_detail.description }})</h2>
+            <div>
+                <a href="{% url 'investments:edit' investment.pk %}" class="btn btn-warning">Editar</a>
+                <a href="{% url 'investments:index' %}" class="btn btn-secondary">Volver</a>
+            </div>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">{{ investment.detail }}</p>
-            <p class="card-text">{{ investment.amoun }}</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-        <div class="card-footer text-muted">
-            <a href="{% url 'investments:edit' investment.id %}" class="btn btn-warning">Editar Inversión</a>
-            <a href="{% url 'investments:delete' investment.id %}" class="btn btn-danger">Eliminar Inversión</a>
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h4 class="border-bottom pb-2">Información General</h4>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Proyecto:</strong>
+                    <p>{{ investment.project }}</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>Fecha de Pago:</strong>
+                    <p>{{ investment.date|date:"d/m/Y" }}</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Tipo de Inversión:</strong>
+                    <p>{{ investment.expense_type.description }}</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>Detalle de Inversión:</strong>
+                    <p>{{ investment.expense_type_detail.description }}</p>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h4 class="border-bottom pb-2 mt-3">Información Financiera</h4>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Valor:</strong>
+                    <p>{{ investment.amount|floatformat:2 }}</p>
+                </div>
+                <div class="col-md-4">
+                    <strong>Moneda:</strong>
+                    <p>{{ investment.get_currency_display }}</p>
+                </div>
+                <div class="col-md-4">
+                    <strong>Tasa de Cambio:</strong>
+                    <p>{{ investment.exchange_rate|floatformat:4 }}</p>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h4 class="border-bottom pb-2 mt-3">Información de Pago</h4>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Tipo de Pago:</strong>
+                    <p>{{ investment.get_payment_type_display }}</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>Pagó:</strong>
+                    <p>{{ investment.payer|default:"No especificado" }}</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Número de Comprobante:</strong>
+                    <p>{{ investment.receipt_number|default:"No especificado" }}</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>Se pagó a:</strong>
+                    <p>{{ investment.payment_receiver|default:"No especificado" }}</p>
+                </div>
+            </div>
+
+            {% if investment.accountant %}
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h4 class="border-bottom pb-2 mt-3">Información Contable</h4>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Contable:</strong>
+                    <p><span class="badge bg-success">Sí</span></p>
+                </div>
+                <div class="col-md-4">
+                    <strong>Monto Contable:</strong>
+                    <p>{{ investment.accountant_amount|floatformat:2|default:"No especificado" }}</p>
+                </div>
+                <div class="col-md-4">
+                    <strong>Moneda Contable:</strong>
+                    <p>{{ investment.get_accountant_currency_display|default:"No especificado" }}</p>
+                </div>
+            </div>
+            {% else %}
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <strong>Contable:</strong>
+                    <p><span class="badge bg-secondary">No</span></p>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if investment.notes %}
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h4 class="border-bottom pb-2 mt-3">Notas</h4>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <p>{{ investment.notes }}</p>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
+</div>
 
 {% endblock %}

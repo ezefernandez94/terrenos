@@ -1,10 +1,5 @@
 from django import forms
 from .models import Investment
-from projects.models import Project
-from payers.models import Payer
-from payment_receivers.models import PaymentReceiver
-from expense_types.models import ExpenseType
-from expense_type_details.models import ExpenseTypeDetail
 
 class InvestmentForm(forms.ModelForm):
     class Meta:
@@ -29,7 +24,7 @@ class InvestmentForm(forms.ModelForm):
         }
         widgets = {
             'project': forms.Select(attrs={'class': 'form-control'}),
-            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'expense_type': forms.Select(attrs={'class': 'form-control'}),
             'expense_type_detail': forms.Select(attrs={'class': 'form-control'}),
             'amount': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -49,8 +44,8 @@ class InvestmentForm(forms.ModelForm):
             'payer': forms.Select(attrs={'class': 'form-control'}),
             'receipt_number': forms.TextInput(attrs={'class': 'form-control'}),
             'accountant': forms.CheckboxInput(),
-            'accountant_amount': forms.NumberInput(attrs={'class': 'form-control', 'style':'display: none;'}),
-            'accountant_currency': forms.Select(attrs={'class': 'form-control', 'style':'display: none;'}, choices=[
+            'accountant_amount': forms.NumberInput(attrs={'class': 'form-control'}),
+            'accountant_currency': forms.Select(attrs={'class': 'form-control'}, choices=[
                 ('ars', 'Pesos'),
                 ('usd', 'Dolares')
             ]),

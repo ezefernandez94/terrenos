@@ -2,13 +2,23 @@
 
 {% block content %}
 
-    <h2>Eliminar Inversión</h2>
-    <p>Esta seguro de querer eliminar la inversión "{{ investment.id }}"?</p>
 
-    <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Si, eliminar</button>
-    <a href="{% url 'investments:detail' investment.id %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Eliminar Inversión</h5>
+        </div>
+        <div class="card-body">
+        
+            <p>Esta seguro de querer eliminar la inversión "{{ investment.expense_type.description }} - {{ investment.expense_type_detail.description }}"?</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Si, eliminar</button>
+                <a href="{% url 'investments:detail' investment.id %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

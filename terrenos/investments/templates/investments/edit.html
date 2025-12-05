@@ -1,12 +1,153 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-    <h2>Editar Inversión</h2>
-    <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-    </form>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>Editar Inversión</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.project.id_for_label }}" class="form-label">{{ form.project.label }}</label>
+                        {{ form.project }}
+                        {% if form.project.errors %}
+                            <div class="text-danger">{{ form.project.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="{{ form.date.id_for_label }}" class="form-label">{{ form.date.label }}</label>
+                        {{ form.date }}
+                        {% if form.date.errors %}
+                            <div class="text-danger">{{ form.date.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.expense_type.id_for_label }}" class="form-label">{{ form.expense_type.label }}</label>
+                        {{ form.expense_type }}
+                        {% if form.expense_type.errors %}
+                            <div class="text-danger">{{ form.expense_type.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="{{ form.expense_type_detail.id_for_label }}" class="form-label">{{ form.expense_type_detail.label }}</label>
+                        {{ form.expense_type_detail }}
+                        {% if form.expense_type_detail.errors %}
+                            <div class="text-danger">{{ form.expense_type_detail.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="{{ form.amount.id_for_label }}" class="form-label">{{ form.amount.label }}</label>
+                        {{ form.amount }}
+                        {% if form.amount.errors %}
+                            <div class="text-danger">{{ form.amount.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ form.currency.id_for_label }}" class="form-label">{{ form.currency.label }}</label>
+                        {{ form.currency }}
+                        {% if form.currency.errors %}
+                            <div class="text-danger">{{ form.currency.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ form.exchange_rate.id_for_label }}" class="form-label">{{ form.exchange_rate.label }}</label>
+                        {{ form.exchange_rate }}
+                        {% if form.exchange_rate.errors %}
+                            <div class="text-danger">{{ form.exchange_rate.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.payment_type.id_for_label }}" class="form-label">{{ form.payment_type.label }}</label>
+                        {{ form.payment_type }}
+                        {% if form.payment_type.errors %}
+                            <div class="text-danger">{{ form.payment_type.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="{{ form.payer.id_for_label }}" class="form-label">{{ form.payer.label }}</label>
+                        {{ form.payer }}
+                        {% if form.payer.errors %}
+                            <div class="text-danger">{{ form.payer.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.receipt_number.id_for_label }}" class="form-label">{{ form.receipt_number.label }}</label>
+                        {{ form.receipt_number }}
+                        {% if form.receipt_number.errors %}
+                            <div class="text-danger">{{ form.receipt_number.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="{{ form.payment_receiver.id_for_label }}" class="form-label">{{ form.payment_receiver.label }}</label>
+                        {{ form.payment_receiver }}
+                        {% if form.payment_receiver.errors %}
+                            <div class="text-danger">{{ form.payment_receiver.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="form-check">
+                            {{ form.accountant }}
+                            <label class="form-check-label" for="{{ form.accountant.id_for_label }}">
+                                {{ form.accountant.label }}
+                            </label>
+                        </div>
+                        {% if form.accountant.errors %}
+                            <div class="text-danger">{{ form.accountant.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row mb-3" id="accountant-fields">
+                    <div class="col-md-6">
+                        <label for="{{ form.accountant_amount.id_for_label }}" class="form-label">{{ form.accountant_amount.label }}</label>
+                        {{ form.accountant_amount }}
+                        {% if form.accountant_amount.errors %}
+                            <div class="text-danger">{{ form.accountant_amount.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="{{ form.accountant_currency.id_for_label }}" class="form-label">{{ form.accountant_currency.label }}</label>
+                        {{ form.accountant_currency }}
+                        {% if form.accountant_currency.errors %}
+                            <div class="text-danger">{{ form.accountant_currency.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="{{ form.notes.id_for_label }}" class="form-label">{{ form.notes.label }}</label>
+                        {{ form.notes }}
+                        {% if form.notes.errors %}
+                            <div class="text-danger">{{ form.notes.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'investments:index' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

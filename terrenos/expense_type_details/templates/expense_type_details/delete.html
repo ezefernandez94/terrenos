@@ -2,13 +2,22 @@
 
 {% block content %}
 
-    <h2>Eliminar Detalle de Gasto</h2>
-    <p>Esta seguro de querer eliminar el detalle de gasto "{{ expense_type_detail.id }}"?</p>
-
-    <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Si, eliminar</button>
-    <a href="{% url 'expense_type_details:detail' expense_type_detail.id %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Eliminar Detalle de Inversión</h5>
+        </div>
+        <div class="card-body">
+        
+            <p>Esta seguro de querer eliminar el detalle de gasto "{{ expense_type_detail.description }}"?</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Si, eliminar</button>
+                <a href="{% url 'expense_type_details:detail' expense_type_detail.id %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

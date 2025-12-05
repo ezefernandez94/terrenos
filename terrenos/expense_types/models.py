@@ -9,9 +9,9 @@ class ExpenseType(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"Tipo de Gasto: {self.description} ({self.notes})"
+        return f"Concepto de Inversión: {self.description}"
 
     class Meta:
-        verbose_name = "Tipo de Gasto"
-        verbose_name_plural = "Tipos de Gasto"
+        verbose_name = "Concepto de Inversión"
+        verbose_name_plural = "Conceptos de Inversión"
         ordering = ['description']

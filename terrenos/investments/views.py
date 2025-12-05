@@ -32,7 +32,14 @@ def index(request):
     """
     Render the index page of the investments app.
     """
-    investments = Investment.objects.all()
+    ## investments = Investment.objects.all()
+    investments = Investment.objects.select_related(
+        'expense_type', 
+        'expense_type_detail',
+        'project',
+        'payer',
+        'payment_receiver'
+    ).all()
     return render(request, 'investments/index.html', {"investments": investments})
 
 @login_required

@@ -4,13 +4,13 @@
   <div class="container">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title">Cargar un Detalle de Gasto</h5>
+        <h5 class="card-title">Cargar un Detalle de Inversión</h5>
       </div>
       <div class="card-body">
         <form method="post">
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit" class="btn btn-success">Cargar</button>
+          <button type="submit" class="btn btn-success">Crear</button>
         </form>
       </div>
     </div>
