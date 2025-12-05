@@ -124,8 +124,9 @@
                                 <th>Eliminar</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            {% for street_investment in street_investments %}
+                            {% for street_investment in streets_investments %}
                                 <tr>
                                     <td>{{ street_investment.date }}</td>
                                     <td>{{ street_investment.get_detail_display }}</td>
