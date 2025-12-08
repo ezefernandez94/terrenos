@@ -2,13 +2,40 @@
 
 {% block content %}
     {% if sellers %}
-        <ul>
-        {% for seller in sellers %}
-            <li><a href="{% url 'sellers:detail' seller.id %}">{{ seller.name }}</a></li>
-        {% endfor %}
-        </ul>
+        <h1>Lista de Vendedores</h1>
+        <table id="sellers_table" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Ver</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for seller in sellers %}
+                    <tr>
+                        <td>{{ seller.name }}</td>
+                        <td><a href="{% url 'sellers:detail' seller.id %}">Ver {{ seller.name }}</a></td>
+                        <td><a href="{% url 'sellers:edit' seller.id %}">Editar {{ seller.name }}</a></td>
+                        <td><a href="{% url 'sellers:delete' seller.id %}">Eliminar {{ seller.name }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% else %}
         <p>No hay vendedores disponibles</p>
     {% endif %}
+
     <a href="{% url 'sellers:create' %}" class="btn btn-primary">Crear nuevo vendedor</a>
+
+    <script>
+        $(document).ready(function() {
+            $('#sellers_table').DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+                }
+            });
+        });
+    </script>
 {% endblock %}

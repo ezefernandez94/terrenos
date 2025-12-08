@@ -104,29 +104,30 @@ WSGI_APPLICATION = "terrenos.wsgi.app"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-## DATABASES = {
-##     "default": {
-##         "ENGINE": "django.db.backends.postgresql",
-##         "NAME": "terrenos_db",
-##         "USER": os.environ.get("db_dev_username"),
-##         "PASSWORD": os.environ.get("db_dev_password"),
-##         "HOST": "localhost",
-##         "PORT": "5432"
-##     }
-## }
-
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
-        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "terrenos_db",
+        "USER": "ezequiel",
+        "PASSWORD": "07bc#4F5w8WFq",
+        "HOST": "localhost",
+        "PORT": "5432"
     }
 }
+
+## tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+
+## DATABASES = {
+##     'default': {
+##         'ENGINE': 'django.db.backends.postgresql',
+##         'NAME': tmpPostgres.path.replace('/', ''),
+##         'USER': tmpPostgres.username,
+##         'PASSWORD': tmpPostgres.password,
+##         'HOST': tmpPostgres.hostname,
+##         'PORT': 5432,
+##         'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+##     }
+## }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

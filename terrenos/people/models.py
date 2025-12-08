@@ -11,11 +11,11 @@ class People(models.Model):
     type = models.CharField(
         max_length=50,
         choices=[
-            ('buyer', 'Comprador'),
             ('interested', 'Interesado'),
+            ('buyer', 'Comprador'),
             ('other', 'Otro')
         ],
-        default='individual'
+        default='interested'
     )
 
     def __str__(self):

@@ -73,7 +73,6 @@
             formsetBody.appendChild(newRow);
 
             totalForms.value = formCount + 1;
-            alert(totalForms.value);
         }
 
         // Add new blank row
@@ -89,7 +88,6 @@
                 const formCount = parseInt(totalForms.value);
                 e.target.closest('tr').remove();
                 totalForms.value = formCount - 1;
-                alert(totalForms.value);
             }
         });
 
@@ -128,7 +126,7 @@
         #land-formset {
             table-layout: fixed;
             width: 100%;
-            min-width: 1200px; /* or whatever fits your columns */
+            min-width: 1200px;
         }
 
         #land-formset th,

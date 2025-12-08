@@ -9,6 +9,7 @@ class Land(models.Model):
     length = models.DecimalField(max_digits=10, decimal_places=2)
     width = models.DecimalField(max_digits=10, decimal_places=2)
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    currency = models.CharField(max_length=5, blank=False, null=False, default='USD')
     notes = models.TextField(blank=True, null=True)
     project = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
     seller = models.ForeignKey('sellers.Seller', on_delete=models.CASCADE, blank=True, null=True)
