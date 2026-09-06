@@ -8,10 +8,10 @@ class Migration(migrations.Migration):
         ("expense_types", "0002_expensetype_key"),
     ]
 
-    operations = [
-        migrations.AlterField(
-            model_name="expensetype",
-            name="key",
-            field=models.CharField(max_length=100, unique=True),
-        ),
-    ]
+    ## operations = [
+    ##     migrations.AlterField(
+    ##         model_name="expensetype",
+    ##         name="key",
+    ##         field=models.CharField(max_length=100, unique=True),
+    ##     ),
+    ## ]

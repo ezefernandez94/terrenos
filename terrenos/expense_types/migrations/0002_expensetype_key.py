@@ -8,11 +8,11 @@ class Migration(migrations.Migration):
         ("expense_types", "0001_initial"),
     ]
 
-    operations = [
-        migrations.AddField(
-            model_name="expensetype",
-            name="key",
-            field=models.CharField(max_length=100, unique=True, null=True),
-            preserve_default=False,
-        ),
-    ]
+    ## operations = [
+    ##     migrations.AddField(
+    ##         model_name="expensetype",
+    ##         name="key",
+    ##         field=models.CharField(max_length=100, unique=True, null=True),
+    ##         preserve_default=False,
+    ##     ),
+    ## ]

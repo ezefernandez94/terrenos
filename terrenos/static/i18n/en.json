@@ -1,0 +1,203 @@
+{
+  "meta": {
+    "title": "Terrenos Bragado — Titled land plots in the heart of the province",
+    "description": "Planned land developments in Bragado. Serviced plots, in-house financing and guaranteed title deeds."
+  },
+  "nav": {
+    "skip": "Skip to main content",
+    "tagline": "Bragado",
+    "proyectos": "Projects",
+    "proximos": "Upcoming",
+    "buscador": "Find your land",
+    "seccion1": "Section 1",
+    "seccion2": "Section 2",
+    "contacto": "Contact",
+    "cta": "View projects",
+    "menu": "Open navigation menu",
+    "menu_close": "Close navigation menu",
+    "lang_label": "Change language",
+    "lang_menu": "Language"
+  },
+  "lang": {
+    "es": "Español",
+    "en": "English",
+    "pt": "Português"
+  },
+  "hero": {
+    "eyebrow": "Land developments in Bragado, Buenos Aires",
+    "title": "Your next square metre already has coordinates",
+    "subtitle": "We develop land with utilities, finished streets and guaranteed title deeds. Pick your plot, review the payment plan and start building where you actually want to live.",
+    "cta": "View projects",
+    "cta_secondary": "Find your land",
+    "cue": "Discover more",
+    "pause": "Pause the background video",
+    "play": "Play the background video"
+  },
+  "strip": {
+    "deed_label": "Title deed",
+    "deed_value": "Guaranteed ownership",
+    "services_label": "Utilities",
+    "services_value": "Power, water and streets",
+    "finance_label": "Financing",
+    "finance_value": "In-house instalment plan"
+  },
+  "projects": {
+    "eyebrow": "Available projects",
+    "title": "Developments on sale",
+    "subtitle": "Every development has an approved survey, finished streets and its own payment plan. The data in this grid is sample content.",
+    "cta": "See more",
+    "items": {
+      "p1": {
+        "name": "Los Álamos",
+        "desc": "Residential development with 84 plots and mature tree cover along the main avenue.",
+        "meta": "84 plots",
+        "price": "From USD 12,500"
+      },
+      "p2": {
+        "name": "Santa Rosa",
+        "desc": "Generous blocks ten minutes from downtown, with power and water at the property line.",
+        "meta": "56 plots",
+        "price": "From USD 15,900"
+      },
+      "p3": {
+        "name": "El Mirador",
+        "desc": "Elevated plots with open countryside views and internal streets already opened.",
+        "meta": "42 plots",
+        "price": "From USD 18,400"
+      },
+      "p4": {
+        "name": "Las Acacias",
+        "desc": "Family-oriented development with a central green space and 12-metre frontages.",
+        "meta": "70 plots",
+        "price": "From USD 11,200"
+      },
+      "p5": {
+        "name": "Don Bosco",
+        "desc": "Mixed-use parcels on a paved access road, well suited to retail.",
+        "meta": "38 plots",
+        "price": "From USD 21,000"
+      },
+      "p6": {
+        "name": "La Estancia",
+        "desc": "Large semi-rural plots designed for country houses and home gardens.",
+        "meta": "24 plots",
+        "price": "From USD 26,750"
+      }
+    }
+  },
+  "upcoming": {
+    "eyebrow": "In preparation",
+    "title": "Upcoming projects",
+    "subtitle": "Developments awaiting approval. They are not on sale yet — leave your details and we will let you know when the pre-sale opens.",
+    "badge": "Coming soon",
+    "cta": "See more",
+    "items": {
+      "u1": {
+        "name": "Ribera Norte",
+        "desc": "Riverside development with a green setback and a planned cycle path.",
+        "eta": "Pre-sale expected 2027"
+      },
+      "u2": {
+        "name": "Altos del Parque",
+        "desc": "Second phase bordering the municipal park, currently being surveyed.",
+        "eta": "Pre-sale expected 2027"
+      },
+      "u3": {
+        "name": "Camino Real",
+        "desc": "Parcels along the historic access road, pending utility feasibility.",
+        "eta": "Pre-sale expected 2028"
+      }
+    }
+  },
+  "finder": {
+    "eyebrow": "Plot finder",
+    "title": "Find your land",
+    "subtitle": "Filter by project, budget and size. The results shown here are for demonstration only.",
+    "project_label": "Project or location",
+    "project_any": "All projects",
+    "price_label": "Price range (USD)",
+    "price_min": "Minimum",
+    "price_max": "Maximum",
+    "price_hint": "Leave a field empty for no limit.",
+    "size_label": "Plot size",
+    "size_any": "Any size",
+    "size_1": "Up to 300 m²",
+    "size_2": "300 to 500 m²",
+    "size_3": "500 to 800 m²",
+    "size_4": "Over 800 m²",
+    "submit": "Search plots",
+    "reset": "Clear filters",
+    "results_title": "Results",
+    "results_count_one": "{n} plot available",
+    "results_count_other": "{n} plots available",
+    "empty_title": "No plots match those filters",
+    "empty_body": "Try widening the price range or removing the size filter.",
+    "area": "{n} m²",
+    "status_available": "Available",
+    "status_reserved": "Reserved"
+  },
+  "s1": {
+    "eyebrow": "Section 1",
+    "title": "Section heading still to be defined",
+    "body1": "This block is reserved for the content you decide on about the company, its track record or the value proposition of the development. The current text is filler and must be replaced before launch.",
+    "body2": "The layout comfortably holds two or three paragraphs without hurting readability. The image on the left can be swapped for a real photo of the development or a short video.",
+    "img_alt": "Sample image block for section 1",
+    "note": "Sample content",
+    "stat1_value": "1,200+",
+    "stat1_label": "Plots deeded",
+    "stat2_value": "18",
+    "stat2_label": "Years in business",
+    "stat3_value": "6",
+    "stat3_label": "Active developments"
+  },
+  "s2": {
+    "eyebrow": "Section 2",
+    "title": "Second content block to be completed",
+    "body1": "A space intended for a short, centred message: it could be a brand statement, a featured testimonial, or the purchase process explained in a few lines.",
+    "body2": "With no image, this section works as a visual pause between two dense blocks. Keep the text short and stick to one idea per paragraph.",
+    "note": "Sample content"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let's talk about your plot",
+    "subtitle": "Write to us and we will reply with availability, payment plans and a guided visit to the development.",
+    "name_label": "Full name",
+    "name_ph": "e.g. María Fernández",
+    "name_err": "Please enter your full name.",
+    "email_label": "Email address",
+    "email_ph": "name@example.com",
+    "email_help": "We only use it to reply to you.",
+    "email_err": "Enter a valid email address, for example name@example.com.",
+    "msg_label": "Message",
+    "msg_ph": "Tell us which project interests you and what size you are looking for.",
+    "msg_help": "At least 10 characters.",
+    "msg_err": "Please write a message of at least 10 characters.",
+    "submit": "Send enquiry",
+    "required": "required",
+    "summary_title": "Please check the following fields:",
+    "success": "Thank you! We received your enquiry and will reply within two business days.",
+    "phone_label": "Phone",
+    "phone_value": "+54 9 2342 00-0000",
+    "mail_label": "Email",
+    "mail_value": "contacto@ejemplo.com.ar",
+    "address_label": "Office",
+    "address_value": "Av. Placeholder 1234, Bragado, Buenos Aires",
+    "hours_label": "Opening hours",
+    "hours_value": "Monday to Friday, 9 am to 5 pm",
+    "map_tag": "Sample map — integration pending"
+  },
+  "footer": {
+    "blurb": "Development and sale of land plots in Bragado, Buenos Aires province. Sample content for internal review.",
+    "col_nav": "Navigation",
+    "col_legal": "Company",
+    "privacy": "Privacy policy",
+    "terms": "Terms and conditions",
+    "cookies": "Cookie notice",
+    "social_fb": "Follow us on Facebook",
+    "social_ig": "Follow us on Instagram",
+    "social_wa": "Message us on WhatsApp",
+    "social_li": "Follow us on LinkedIn",
+    "copyright": "© {year} Terrenos Bragado. All rights reserved.",
+    "made": "Demonstration site"
+  }
+}

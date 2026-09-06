@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" width="880" height="520" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8F0F3"/>
+      <stop offset="100%" stop-color="#CCFBF1"/>
+    </linearGradient>
+  </defs>
+  <rect width="880" height="520" fill="url(#mg)"/>
+  <g stroke="#0F766E" stroke-opacity="0.16" stroke-width="1.5" fill="none">
+    <path d="M 0 40 H 880"/><path d="M 0 92 H 880"/><path d="M 0 144 H 880"/><path d="M 0 196 H 880"/><path d="M 0 248 H 880"/><path d="M 0 300 H 880"/><path d="M 0 352 H 880"/><path d="M 0 404 H 880"/><path d="M 0 456 H 880"/><path d="M 0 508 H 880"/>
+    <path d="M 44 0 V 520"/><path d="M 102 0 V 520"/><path d="M 160 0 V 520"/><path d="M 218 0 V 520"/><path d="M 276 0 V 520"/><path d="M 334 0 V 520"/><path d="M 392 0 V 520"/><path d="M 450 0 V 520"/><path d="M 508 0 V 520"/><path d="M 566 0 V 520"/><path d="M 624 0 V 520"/><path d="M 682 0 V 520"/><path d="M 740 0 V 520"/><path d="M 798 0 V 520"/><path d="M 856 0 V 520"/>
+  </g>
+  <path d="M -10 354 Q 264 234 484 312 T 890 218"
+        fill="none" stroke="#0F766E" stroke-opacity="0.5" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 106 -10 Q 246 208 176 530"
+        fill="none" stroke="#0369A1" stroke-opacity="0.35" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="484" cy="270" r="46" fill="#0F766E" fill-opacity="0.12"/>
+  <circle cx="484" cy="270" r="16" fill="#0F766E"/>
+  <circle cx="484" cy="270" r="6" fill="#FFFFFF"/>
+</svg>

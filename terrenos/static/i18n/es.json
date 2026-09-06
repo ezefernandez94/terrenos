@@ -1,0 +1,203 @@
+{
+  "meta": {
+    "title": "Terrenos Bragado — Lotes con escritura en el corazón de la provincia",
+    "description": "Loteos planificados en Bragado. Terrenos con servicios, financiación propia y escritura garantizada."
+  },
+  "nav": {
+    "skip": "Saltar al contenido principal",
+    "tagline": "Bragado",
+    "proyectos": "Proyectos",
+    "proximos": "Próximos",
+    "buscador": "Encontrá tu terreno",
+    "seccion1": "Sección 1",
+    "seccion2": "Sección 2",
+    "contacto": "Contacto",
+    "cta": "Ver proyectos",
+    "menu": "Abrir menú de navegación",
+    "menu_close": "Cerrar menú de navegación",
+    "lang_label": "Cambiar idioma",
+    "lang_menu": "Idioma"
+  },
+  "lang": {
+    "es": "Español",
+    "en": "English",
+    "pt": "Português"
+  },
+  "hero": {
+    "eyebrow": "Loteos en Bragado, Buenos Aires",
+    "title": "Tu próximo metro cuadrado ya tiene coordenadas",
+    "subtitle": "Desarrollamos loteos con servicios, calles abiertas y escritura garantizada. Elegí tu lote, conocé el plan de pagos y empezá a construir donde querés vivir.",
+    "cta": "Ver proyectos",
+    "cta_secondary": "Encontrá tu terreno",
+    "cue": "Descubrí más",
+    "pause": "Pausar el video de fondo",
+    "play": "Reproducir el video de fondo"
+  },
+  "strip": {
+    "deed_label": "Escritura",
+    "deed_value": "Título garantizado",
+    "services_label": "Servicios",
+    "services_value": "Luz, agua y calles",
+    "finance_label": "Financiación",
+    "finance_value": "Plan propio en cuotas"
+  },
+  "projects": {
+    "eyebrow": "Proyectos disponibles",
+    "title": "Loteos abiertos a la venta",
+    "subtitle": "Cada desarrollo cuenta con mensura aprobada, calles consolidadas y un plan de pagos propio. Los datos de esta grilla son de muestra.",
+    "cta": "Ver más",
+    "items": {
+      "p1": {
+        "name": "Los Álamos",
+        "desc": "Loteo residencial con 84 parcelas y arbolado consolidado sobre la Av. principal.",
+        "meta": "84 lotes",
+        "price": "Desde USD 12.500"
+      },
+      "p2": {
+        "name": "Santa Rosa",
+        "desc": "Manzanas amplias a diez minutos del centro, con luz y agua sobre línea municipal.",
+        "meta": "56 lotes",
+        "price": "Desde USD 15.900"
+      },
+      "p3": {
+        "name": "El Mirador",
+        "desc": "Lotes en altura con vista abierta al campo y calles internas ya abiertas.",
+        "meta": "42 lotes",
+        "price": "Desde USD 18.400"
+      },
+      "p4": {
+        "name": "Las Acacias",
+        "desc": "Desarrollo familiar con espacio verde central y frentes de 12 metros.",
+        "meta": "70 lotes",
+        "price": "Desde USD 11.200"
+      },
+      "p5": {
+        "name": "Don Bosco",
+        "desc": "Parcelas de uso mixto sobre acceso pavimentado, ideales para comercio.",
+        "meta": "38 lotes",
+        "price": "Desde USD 21.000"
+      },
+      "p6": {
+        "name": "La Estancia",
+        "desc": "Lotes grandes de perfil semirrural, pensados para casa quinta y huerta.",
+        "meta": "24 lotes",
+        "price": "Desde USD 26.750"
+      }
+    }
+  },
+  "upcoming": {
+    "eyebrow": "En preparación",
+    "title": "Próximos proyectos",
+    "subtitle": "Desarrollos en trámite de aprobación. Todavía no están a la venta: dejanos tus datos y te avisamos cuando abra la preventa.",
+    "badge": "Próximamente",
+    "cta": "Ver más",
+    "items": {
+      "u1": {
+        "name": "Ribera Norte",
+        "desc": "Loteo sobre la ribera con retiro verde y ciclovía proyectada.",
+        "eta": "Preventa estimada 2027"
+      },
+      "u2": {
+        "name": "Altos del Parque",
+        "desc": "Segunda etapa lindera al parque municipal, en etapa de mensura.",
+        "eta": "Preventa estimada 2027"
+      },
+      "u3": {
+        "name": "Camino Real",
+        "desc": "Parcelas sobre el acceso histórico, pendientes de factibilidad de servicios.",
+        "eta": "Preventa estimada 2028"
+      }
+    }
+  },
+  "finder": {
+    "eyebrow": "Buscador de lotes",
+    "title": "Encontrá tu terreno",
+    "subtitle": "Filtrá por proyecto, presupuesto y superficie. Los resultados que se muestran son de demostración.",
+    "project_label": "Proyecto o ubicación",
+    "project_any": "Todos los proyectos",
+    "price_label": "Rango de precio (USD)",
+    "price_min": "Mínimo",
+    "price_max": "Máximo",
+    "price_hint": "Dejá los campos vacíos para no aplicar límite.",
+    "size_label": "Superficie",
+    "size_any": "Cualquier superficie",
+    "size_1": "Hasta 300 m²",
+    "size_2": "300 a 500 m²",
+    "size_3": "500 a 800 m²",
+    "size_4": "Más de 800 m²",
+    "submit": "Buscar lotes",
+    "reset": "Limpiar filtros",
+    "results_title": "Resultados",
+    "results_count_one": "{n} lote disponible",
+    "results_count_other": "{n} lotes disponibles",
+    "empty_title": "No encontramos lotes con esos filtros",
+    "empty_body": "Probá ampliar el rango de precio o quitar el filtro de superficie.",
+    "area": "{n} m²",
+    "status_available": "Disponible",
+    "status_reserved": "Reservado"
+  },
+  "s1": {
+    "eyebrow": "Sección 1",
+    "title": "Título de sección pendiente de definir",
+    "body1": "Este bloque queda reservado para el contenido que definan sobre la empresa, la trayectoria o la propuesta de valor del desarrollo. El texto actual es de relleno y debe reemplazarse antes de publicar.",
+    "body2": "El diseño admite dos o tres párrafos sin perder legibilidad. La imagen de la izquierda puede reemplazarse por una foto real del loteo o por un video corto.",
+    "img_alt": "Bloque de imagen de muestra para la sección 1",
+    "note": "Contenido de muestra",
+    "stat1_value": "1.200+",
+    "stat1_label": "Lotes escriturados",
+    "stat2_value": "18",
+    "stat2_label": "Años de trayectoria",
+    "stat3_value": "6",
+    "stat3_label": "Loteos activos"
+  },
+  "s2": {
+    "eyebrow": "Sección 2",
+    "title": "Segundo bloque de contenido a completar",
+    "body1": "Espacio pensado para un mensaje breve y centrado: puede ser una declaración de marca, un testimonio destacado o la explicación del proceso de compra en pocas líneas.",
+    "body2": "Al no llevar imagen, esta sección funciona como pausa visual entre dos bloques densos. Conviene mantener el texto corto y una sola idea por párrafo.",
+    "note": "Contenido de muestra"
+  },
+  "contact": {
+    "eyebrow": "Contacto",
+    "title": "Hablemos de tu lote",
+    "subtitle": "Escribinos y te respondemos con la disponibilidad, los planes de pago y una visita guiada al loteo.",
+    "name_label": "Nombre y apellido",
+    "name_ph": "Ej. María Fernández",
+    "name_err": "Ingresá tu nombre y apellido.",
+    "email_label": "Correo electrónico",
+    "email_ph": "nombre@ejemplo.com",
+    "email_help": "Lo usamos únicamente para responderte.",
+    "email_err": "Ingresá un correo válido, por ejemplo nombre@ejemplo.com.",
+    "msg_label": "Mensaje",
+    "msg_ph": "Contanos qué proyecto te interesa y qué superficie buscás.",
+    "msg_help": "Mínimo 10 caracteres.",
+    "msg_err": "Escribí un mensaje de al menos 10 caracteres.",
+    "submit": "Enviar consulta",
+    "required": "obligatorio",
+    "summary_title": "Revisá los siguientes campos:",
+    "success": "¡Gracias! Recibimos tu consulta y te respondemos dentro de las 48 horas hábiles.",
+    "phone_label": "Teléfono",
+    "phone_value": "+54 9 2342 00-0000",
+    "mail_label": "Correo",
+    "mail_value": "contacto@ejemplo.com.ar",
+    "address_label": "Oficina",
+    "address_value": "Av. Placeholder 1234, Bragado, Buenos Aires",
+    "hours_label": "Horarios",
+    "hours_value": "Lunes a viernes de 9 a 17 h",
+    "map_tag": "Mapa de muestra — pendiente de integración"
+  },
+  "footer": {
+    "blurb": "Desarrollo y comercialización de loteos en Bragado, provincia de Buenos Aires. Contenido de muestra para revisión interna.",
+    "col_nav": "Navegación",
+    "col_legal": "Institucional",
+    "privacy": "Política de privacidad",
+    "terms": "Términos y condiciones",
+    "cookies": "Uso de cookies",
+    "social_fb": "Seguinos en Facebook",
+    "social_ig": "Seguinos en Instagram",
+    "social_wa": "Escribinos por WhatsApp",
+    "social_li": "Seguinos en LinkedIn",
+    "copyright": "© {year} Terrenos Bragado. Todos los derechos reservados.",
+    "made": "Sitio de demostración"
+  }
+}
