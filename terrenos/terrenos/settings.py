@@ -183,4 +183,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = "/"
 
-django_heroku.settings(locals())
+## Solo en Heroku. django_heroku reescribe DATABASES (forzando sslmode=require),
+## ALLOWED_HOSTS, STATIC_* y LOGGING; corriendolo en desarrollo le imponia SSL al
+## Postgres local apenas DATABASE_URL aparecio en el .env. DYNO existe en los dynos
+## (web, run y release) pero no durante el build, que solo necesita STATIC_*.
+if os.environ.get("DYNO"):
+    django_heroku.settings(locals())
