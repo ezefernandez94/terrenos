@@ -13,8 +13,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-from urllib.parse import urlparse, parse_qsl
+import dj_database_url
 import django_heroku
+from django.core.exceptions import ImproperlyConfigured
 
 load_dotenv()
 
@@ -29,9 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DJANGO_TERRENOS_DEBUG")
+DEBUG = os.environ.get("DJANGO_TERRENOS_DEBUG", "").strip().lower() in ("1", "true", "yes", "on")
 
-ALLOWED_HOSTS = ['terrenos-429b9d4cf9d7.herokuapp.com/', 'localhost']
+ALLOWED_HOSTS = ['terrenos-429b9d4cf9d7.herokuapp.com', 'localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://terrenos-429b9d4cf9d7.herokuapp.com',
@@ -104,20 +105,29 @@ WSGI_APPLICATION = "terrenos.wsgi.app"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-## Para hacer las migraciones a neon, descomentar lo siguiente y correr las migraciones de nuevo (tuve que comentar las del key en expense_type y expense_type_detail porque sino tiraba error. Ademas tuve que reemplazar la variable de env por el string literal porque no lo estaba leyendo bien)
-## Actualizar el nombre de la variable en Heroku al subir que me estaba causando problemas en mu dev env
-tmpPostgres = urlparse(os.getenv("NEON_TERRENOS_DATABASE_URL"))
+## La conexion sale siempre del entorno, nunca hardcodeada:
+##   - en Heroku, de la config var DATABASE_URL (hoy apunta a Neon)
+##   - en desarrollo, de DATABASE_URL en el .env local
+## dj_database_url parsea la URL entera (usuario, password, host, sslmode, ...),
+## asi que no hace falta desarmarla a mano con urlparse. Ojo: si la variable no
+## existe, urlparse(None) devuelve bytes y el error resultante no dice nada util.
+DATABASE_URL = os.environ.get("DATABASE_URL") or os.environ.get("NEON_TERRENOS_DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ImproperlyConfigured(
+        "Falta DATABASE_URL. En local definila en .env; en Heroku es una config var "
+        "(heroku config:set DATABASE_URL=...)."
+    )
+
+## Neon exige SSL; el Postgres local normalmente no lo tiene configurado.
+_IS_LOCAL_DB = "localhost" in DATABASE_URL or "127.0.0.1" in DATABASE_URL
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
-        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
-    }
+    "default": dj_database_url.parse(
+        DATABASE_URL,
+        conn_max_age=600,
+        ssl_require=not _IS_LOCAL_DB,
+    )
 }
 
 # Password validation
@@ -156,7 +166,7 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATIC_URL = "staticfiles/"
+STATIC_URL = "/static/"
 
 # Project-level static assets (currently only the public landing page).
 # Without this, AppDirectoriesFinder alone would never see terrenos/static/.
