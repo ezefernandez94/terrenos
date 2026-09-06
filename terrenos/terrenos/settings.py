@@ -104,30 +104,21 @@ WSGI_APPLICATION = "terrenos.wsgi.app"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+## Para hacer las migraciones a neon, descomentar lo siguiente y correr las migraciones de nuevo (tuve que comentar las del key en expense_type y expense_type_detail porque sino tiraba error. Ademas tuve que reemplazar la variable de env por el string literal porque no lo estaba leyendo bien)
+## Actualizar el nombre de la variable en Heroku al subir que me estaba causando problemas en mu dev env
+tmpPostgres = urlparse(os.getenv("NEON_TERRENOS_DATABASE_URL"))
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "terrenos_db",
-        "USER": "ezequiel",
-        "PASSWORD": "07bc#4F5w8WFq",
-        "HOST": "localhost",
-        "PORT": "5432"
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
+        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
     }
 }
-
-## tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
-
-## DATABASES = {
-##     'default': {
-##         'ENGINE': 'django.db.backends.postgresql',
-##         'NAME': tmpPostgres.path.replace('/', ''),
-##         'USER': tmpPostgres.username,
-##         'PASSWORD': tmpPostgres.password,
-##         'HOST': tmpPostgres.hostname,
-##         'PORT': 5432,
-##         'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
-##     }
-## }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -166,6 +157,10 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATIC_URL = "staticfiles/"
+
+# Project-level static assets (currently only the public landing page).
+# Without this, AppDirectoriesFinder alone would never see terrenos/static/.
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
