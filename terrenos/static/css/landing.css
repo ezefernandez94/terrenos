@@ -1905,3 +1905,56 @@ a.contact-item__value:hover {
     display: none !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Real data (projects + finder from the DB)
+   -------------------------------------------------------------------------- */
+/* Project plans are drawings, not photos: show them whole on white */
+.p-card__media--plan {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(15, 118, 110, 0.1);
+}
+
+.p-card__media--plan img {
+  object-fit: contain;
+  padding: var(--space-md);
+}
+
+.projects-empty {
+  padding: var(--space-2xl) var(--space-lg);
+  text-align: center;
+  color: var(--color-muted-foreground);
+  background: var(--color-card);
+  border: 1px dashed rgba(15, 118, 110, 0.3);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+}
+
+/* Whole result card links to the lot on its project's map */
+.lot {
+  position: relative;
+}
+
+.lot__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.lot__cta {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(236, 254, 255, 0.86);
+}
+
+.lot:hover .lot__cta {
+  color: #ffffff;
+}
+
+.results__more {
+  margin-top: var(--space-lg);
+  text-align: center;
+  font-size: 0.9375rem;
+  color: rgba(236, 254, 255, 0.8);
+}

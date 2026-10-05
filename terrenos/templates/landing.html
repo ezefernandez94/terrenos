@@ -268,118 +268,48 @@
         <h2 class="section-title" data-i18n="projects.title">Loteos abiertos a la venta</h2>
         <p class="section-sub" data-i18n="projects.subtitle">
           Cada desarrollo cuenta con mensura aprobada, calles consolidadas y un plan de pagos propio.
-          Los datos de esta grilla son de muestra.
         </p>
       </header>
 
-      {% comment %} TODO: replace these six static cards with a queryset over
-         projects.models.Project once a landing view exists. Detail hrefs point
-         at /proyectos/<slug>/, which is not routed yet. {% endcomment %}
+      {% comment %} Real projects: every Project with is_public=True, built by
+         projects.public_views.landing. Card copy is generated from the lots, since
+         Project has no description/cover fields; projects with a plan show it as the
+         card image (served sanitized from /proyectos/<slug>/plano.svg). {% endcomment %}
+      {% if project_cards %}
       <div class="card-grid" data-stagger>
-
+        {% for card in project_cards %}
         <article class="p-card reveal">
-          <div class="p-card__media">
-            <img src="{% static 'img/parcela-1.svg' %}" alt="" loading="lazy" width="800" height="500">
+          <div class="p-card__media{% if card.has_map %} p-card__media--plan{% endif %}">
+            {% if card.has_map %}
+            <img src="{% url 'public_projects:plan_svg' card.project.slug %}" alt="" loading="lazy" width="800" height="500">
+            {% else %}
+            <img src="{% static card.placeholder %}" alt="" loading="lazy" width="800" height="500">
+            {% endif %}
           </div>
           <div class="p-card__body">
             <h3 class="p-card__title">
-              <a class="p-card__link" href="/proyectos/los-alamos/" data-i18n="projects.items.p1.name">Los Álamos</a>
+              <a class="p-card__link" href="{% url 'public_projects:detail' card.project.slug %}">{{ card.project.name }}</a>
             </h3>
-            <p class="p-card__desc" data-i18n="projects.items.p1.desc">Loteo residencial con 84 parcelas y arbolado consolidado sobre la Av. principal.</p>
+            <p class="p-card__desc"
+               data-i18n="projects.card_desc{% if not card.has_map %}_nomap{% endif %}"
+               data-i18n-vars='{"n": {{ card.available_lots }}, "total": {{ card.total_lots }}}'>
+              {{ card.available_lots }} de {{ card.total_lots }} lotes disponibles{% if card.has_map %}, con plano interactivo{% endif %}.</p>
             <div class="p-card__meta">
-              <span class="chip"><svg aria-hidden="true"><use href="#icon-map-pin"></use></svg><span data-i18n="projects.items.p1.meta">84 lotes</span></span>
-              <span class="chip chip--price" data-i18n="projects.items.p1.price">Desde USD 12.500</span>
+              <span class="chip"><svg aria-hidden="true"><use href="#icon-map-pin"></use></svg><span
+                    data-i18n="projects.card_lots" data-i18n-vars='{"n": {{ card.total_lots }}}'>{{ card.total_lots }} lotes</span></span>
+              {% if card.min_price is not None %}
+              <span class="chip chip--price" data-i18n="projects.card_from"
+                    data-i18n-vars='{"price": {"money": {{ card.min_price|stringformat:"f" }}, "currency": "{{ card.price_currency|escapejs }}"}}'>Desde {{ card.price_currency }} {{ card.min_price|floatformat:0 }}</span>
+              {% endif %}
             </div>
-            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="projects.cta">Ver más</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
+            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="projects.cta_map">Ver plano y lotes</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
           </div>
         </article>
-
-        <article class="p-card reveal">
-          <div class="p-card__media">
-            <img src="{% static 'img/parcela-2.svg' %}" alt="" loading="lazy" width="800" height="500">
-          </div>
-          <div class="p-card__body">
-            <h3 class="p-card__title">
-              <a class="p-card__link" href="/proyectos/santa-rosa/" data-i18n="projects.items.p2.name">Santa Rosa</a>
-            </h3>
-            <p class="p-card__desc" data-i18n="projects.items.p2.desc">Manzanas amplias a diez minutos del centro, con luz y agua sobre línea municipal.</p>
-            <div class="p-card__meta">
-              <span class="chip"><svg aria-hidden="true"><use href="#icon-map-pin"></use></svg><span data-i18n="projects.items.p2.meta">56 lotes</span></span>
-              <span class="chip chip--price" data-i18n="projects.items.p2.price">Desde USD 15.900</span>
-            </div>
-            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="projects.cta">Ver más</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
-          </div>
-        </article>
-
-        <article class="p-card reveal">
-          <div class="p-card__media">
-            <img src="{% static 'img/parcela-3.svg' %}" alt="" loading="lazy" width="800" height="500">
-          </div>
-          <div class="p-card__body">
-            <h3 class="p-card__title">
-              <a class="p-card__link" href="/proyectos/el-mirador/" data-i18n="projects.items.p3.name">El Mirador</a>
-            </h3>
-            <p class="p-card__desc" data-i18n="projects.items.p3.desc">Lotes en altura con vista abierta al campo y calles internas ya abiertas.</p>
-            <div class="p-card__meta">
-              <span class="chip"><svg aria-hidden="true"><use href="#icon-map-pin"></use></svg><span data-i18n="projects.items.p3.meta">42 lotes</span></span>
-              <span class="chip chip--price" data-i18n="projects.items.p3.price">Desde USD 18.400</span>
-            </div>
-            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="projects.cta">Ver más</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
-          </div>
-        </article>
-
-        <article class="p-card reveal">
-          <div class="p-card__media">
-            <img src="{% static 'img/parcela-4.svg' %}" alt="" loading="lazy" width="800" height="500">
-          </div>
-          <div class="p-card__body">
-            <h3 class="p-card__title">
-              <a class="p-card__link" href="/proyectos/las-acacias/" data-i18n="projects.items.p4.name">Las Acacias</a>
-            </h3>
-            <p class="p-card__desc" data-i18n="projects.items.p4.desc">Desarrollo familiar con espacio verde central y frentes de 12 metros.</p>
-            <div class="p-card__meta">
-              <span class="chip"><svg aria-hidden="true"><use href="#icon-map-pin"></use></svg><span data-i18n="projects.items.p4.meta">70 lotes</span></span>
-              <span class="chip chip--price" data-i18n="projects.items.p4.price">Desde USD 11.200</span>
-            </div>
-            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="projects.cta">Ver más</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
-          </div>
-        </article>
-
-        <article class="p-card reveal">
-          <div class="p-card__media">
-            <img src="{% static 'img/parcela-5.svg' %}" alt="" loading="lazy" width="800" height="500">
-          </div>
-          <div class="p-card__body">
-            <h3 class="p-card__title">
-              <a class="p-card__link" href="/proyectos/don-bosco/" data-i18n="projects.items.p5.name">Don Bosco</a>
-            </h3>
-            <p class="p-card__desc" data-i18n="projects.items.p5.desc">Parcelas de uso mixto sobre acceso pavimentado, ideales para comercio.</p>
-            <div class="p-card__meta">
-              <span class="chip"><svg aria-hidden="true"><use href="#icon-map-pin"></use></svg><span data-i18n="projects.items.p5.meta">38 lotes</span></span>
-              <span class="chip chip--price" data-i18n="projects.items.p5.price">Desde USD 21.000</span>
-            </div>
-            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="projects.cta">Ver más</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
-          </div>
-        </article>
-
-        <article class="p-card reveal">
-          <div class="p-card__media">
-            <img src="{% static 'img/parcela-6.svg' %}" alt="" loading="lazy" width="800" height="500">
-          </div>
-          <div class="p-card__body">
-            <h3 class="p-card__title">
-              <a class="p-card__link" href="/proyectos/la-estancia/" data-i18n="projects.items.p6.name">La Estancia</a>
-            </h3>
-            <p class="p-card__desc" data-i18n="projects.items.p6.desc">Lotes grandes de perfil semirrural, pensados para casa quinta y huerta.</p>
-            <div class="p-card__meta">
-              <span class="chip"><svg aria-hidden="true"><use href="#icon-map-pin"></use></svg><span data-i18n="projects.items.p6.meta">24 lotes</span></span>
-              <span class="chip chip--price" data-i18n="projects.items.p6.price">Desde USD 26.750</span>
-            </div>
-            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="projects.cta">Ver más</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
-          </div>
-        </article>
-
+        {% endfor %}
       </div>
+      {% else %}
+      <p class="projects-empty reveal" data-i18n="projects.empty">Muy pronto vas a poder ver acá nuestros loteos a la venta.</p>
+      {% endif %}
     </div>
   </section>
 
@@ -455,30 +385,30 @@
   </section>
 
   <!-- =====================================================================
-       ENCONTRÁ TU TERRENO — filters wired to a client-side mock dataset
+       ENCONTRÁ TU TERRENO — filters over the available/reserved lots of every
+       public project (embedded below as JSON; filtered client-side)
        ===================================================================== -->
+  {{ finder_lots|json_script:"finder-data" }}
   <section class="section section--deep on-dark" id="buscador">
     <div class="container">
       <header class="section-head section-head--center reveal">
         <p class="eyebrow" data-i18n="finder.eyebrow">Buscador de lotes</p>
         <h2 class="section-title" data-i18n="finder.title">Encontrá tu terreno</h2>
         <p class="section-sub" data-i18n="finder.subtitle">
-          Filtrá por proyecto, presupuesto y superficie. Los resultados que se muestran son de demostración.
+          Filtrá por proyecto, presupuesto y superficie entre todos los lotes disponibles y reservados.
         </p>
       </header>
 
-      <form class="finder reveal" id="finder-form" novalidate>
+      <form class="finder reveal" id="finder-form" novalidate
+            data-lot-url="{% url 'public_projects:detail' '__slug__' %}">
         <div class="finder__grid">
           <div class="field">
             <label class="field__label" for="f-project" data-i18n="finder.project_label">Proyecto o ubicación</label>
             <select class="select" id="f-project" name="project">
               <option value="" data-i18n="finder.project_any">Todos los proyectos</option>
-              <option value="p1" data-i18n="projects.items.p1.name">Los Álamos</option>
-              <option value="p2" data-i18n="projects.items.p2.name">Santa Rosa</option>
-              <option value="p3" data-i18n="projects.items.p3.name">El Mirador</option>
-              <option value="p4" data-i18n="projects.items.p4.name">Las Acacias</option>
-              <option value="p5" data-i18n="projects.items.p5.name">Don Bosco</option>
-              <option value="p6" data-i18n="projects.items.p6.name">La Estancia</option>
+              {% for card in project_cards %}
+              <option value="{{ card.project.slug }}">{{ card.project.name }}</option>
+              {% endfor %}
             </select>
           </div>
 
@@ -493,7 +423,7 @@
                      inputmode="numeric" placeholder="Máximo" aria-label="Precio máximo en dólares"
                      data-i18n-attr="placeholder:finder.price_max;aria-label:finder.price_max">
             </div>
-            <span class="field__hint" data-i18n="finder.price_hint">Dejá los campos vacíos para no aplicar límite.</span>
+            <span class="field__hint" data-i18n="finder.price_hint">Dejá los campos vacíos para no aplicar límite. Sólo compara lotes con precio en USD.</span>
           </div>
 
           <div class="field">

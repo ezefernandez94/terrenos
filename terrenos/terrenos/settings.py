@@ -181,6 +181,10 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+## WhatsApp number for the public lot map's "Consultar este lote" button, digits only with
+## country code (e.g. 5492342123456). While empty, the button is not shown.
+PUBLIC_WHATSAPP_NUMBER = "".join(ch for ch in os.environ.get("PUBLIC_WHATSAPP_NUMBER", "") if ch.isdigit())
+
 LOGIN_REDIRECT_URL = "/"
 
 ## Solo en Heroku. django_heroku reescribe DATABASES (forzando sslmode=require),

@@ -44,46 +44,14 @@
   "projects": {
     "eyebrow": "Available projects",
     "title": "Developments on sale",
-    "subtitle": "Every development has an approved survey, finished streets and its own payment plan. The data in this grid is sample content.",
+    "subtitle": "Every development has an approved survey, finished streets and its own payment plan.",
     "cta": "See more",
-    "items": {
-      "p1": {
-        "name": "Los Álamos",
-        "desc": "Residential development with 84 plots and mature tree cover along the main avenue.",
-        "meta": "84 plots",
-        "price": "From USD 12,500"
-      },
-      "p2": {
-        "name": "Santa Rosa",
-        "desc": "Generous blocks ten minutes from downtown, with power and water at the property line.",
-        "meta": "56 plots",
-        "price": "From USD 15,900"
-      },
-      "p3": {
-        "name": "El Mirador",
-        "desc": "Elevated plots with open countryside views and internal streets already opened.",
-        "meta": "42 plots",
-        "price": "From USD 18,400"
-      },
-      "p4": {
-        "name": "Las Acacias",
-        "desc": "Family-oriented development with a central green space and 12-metre frontages.",
-        "meta": "70 plots",
-        "price": "From USD 11,200"
-      },
-      "p5": {
-        "name": "Don Bosco",
-        "desc": "Mixed-use parcels on a paved access road, well suited to retail.",
-        "meta": "38 plots",
-        "price": "From USD 21,000"
-      },
-      "p6": {
-        "name": "La Estancia",
-        "desc": "Large semi-rural plots designed for country houses and home gardens.",
-        "meta": "24 plots",
-        "price": "From USD 26,750"
-      }
-    }
+    "card_desc": "{n} of {total} lots available, with an interactive site plan.",
+    "card_desc_nomap": "{n} of {total} lots available.",
+    "card_lots": "{n} lots",
+    "card_from": "From {price}",
+    "cta_map": "See plan and lots",
+    "empty": "Our developments for sale will be listed here very soon."
   },
   "upcoming": {
     "eyebrow": "In preparation",
@@ -112,13 +80,13 @@
   "finder": {
     "eyebrow": "Plot finder",
     "title": "Find your land",
-    "subtitle": "Filter by project, budget and size. The results shown here are for demonstration only.",
+    "subtitle": "Filter by project, budget and size across every available and reserved lot.",
     "project_label": "Project or location",
     "project_any": "All projects",
     "price_label": "Price range (USD)",
     "price_min": "Minimum",
     "price_max": "Maximum",
-    "price_hint": "Leave a field empty for no limit.",
+    "price_hint": "Leave the fields empty for no limit. Only compares lots priced in USD.",
     "size_label": "Plot size",
     "size_any": "Any size",
     "size_1": "Up to 300 m²",
@@ -128,13 +96,17 @@
     "submit": "Search plots",
     "reset": "Clear filters",
     "results_title": "Results",
-    "results_count_one": "{n} plot available",
-    "results_count_other": "{n} plots available",
+    "results_count_one": "{n} lot found",
+    "results_count_other": "{n} lots found",
     "empty_title": "No plots match those filters",
     "empty_body": "Try widening the price range or removing the size filter.",
     "area": "{n} m²",
     "status_available": "Available",
-    "status_reserved": "Reserved"
+    "status_reserved": "Reserved",
+    "more": "Showing {shown} of {n} lots. Narrow the filters or open each project to see them all.",
+    "lot_title": "Lot {number} · Block {block}",
+    "price_on_request": "On request",
+    "view_on_map": "See on the map"
   },
   "s1": {
     "eyebrow": "Section 1",
@@ -199,5 +171,58 @@
     "social_li": "Follow us on LinkedIn",
     "copyright": "© {year} Terrenos Bragado. All rights reserved.",
     "made": "Demonstration site"
+  },
+  "lotmap": {
+    "back": "All projects",
+    "eyebrow": "Interactive site plan",
+    "stat_total": "{n} lots",
+    "stat_available": "{n} available",
+    "stat_from": "From {price}",
+    "filters_label": "Filter lots",
+    "price_label": "Price range",
+    "only_available": "Available lots only",
+    "match_count_one": "{n} of {total} lots matches your search",
+    "match_count_other": "{n} of {total} lots match your search",
+    "view_label": "View",
+    "view_map": "Map",
+    "view_list": "List",
+    "zoom_in": "Zoom in",
+    "zoom_out": "Zoom out",
+    "zoom_reset": "Reset view",
+    "map_label": "Lot map. Use Tab to move between lots and Enter to see details.",
+    "hint": "Drag to move the map; use the mouse wheel or pinch to zoom.",
+    "legend_title": "Legend",
+    "status_available": "Available",
+    "status_reserved": "Reserved",
+    "status_sold": "Sold",
+    "status_unavailable": "Not available",
+    "disclaimer": "Reference plan only: sizes and locations are approximate. The approved survey plan is the legal reference.",
+    "lot_title": "Lot {number}",
+    "block": "Block {block}",
+    "lot_aria": "Lot {number}, block {block}, {status}",
+    "area": "Area",
+    "area_value": "{n} m²",
+    "dims": "Size (front × depth)",
+    "dims_value": "{width} × {length} m",
+    "price": "Price",
+    "price_on_request": "On request",
+    "cta": "Ask about this lot",
+    "cta_hint": "Opens WhatsApp with a ready-to-send message.",
+    "reserved_note": "This lot is reserved. If the reservation falls through it will show as available again.",
+    "sold_note": "This lot has already been sold.",
+    "unavailable_note": "This lot is not for sale at the moment.",
+    "whatsapp_msg": "Hi! I'm interested in lot {number}, block {block} at {project}. Could you send me more information?",
+    "close": "Close details",
+    "panel_empty": "Tap or click a lot to see its size, price and status.",
+    "no_map": "The interactive plan for this project isn't available yet. Here is the list of lots.",
+    "load_error": "We couldn't load the lots. Reload the page to try again.",
+    "list_empty": "No lots match the filters.",
+    "col_lot": "Lot",
+    "col_block": "Block",
+    "col_status": "Status",
+    "view_details": "View details",
+    "not_on_map": "Not shown on the map",
+    "page_title": "{project} — Lot map | Terrenos Bragado",
+    "page_description": "Interactive lot map for {project}, Bragado: availability, sizes and prices."
   }
 }

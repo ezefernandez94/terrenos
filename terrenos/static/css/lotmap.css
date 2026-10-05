@@ -1,0 +1,772 @@
+/* ==========================================================================
+   Terrenos Bragado — public project page + interactive lot map
+   Loaded after landing.css and built only on its tokens/components. Nothing
+   here restyles landing classes outside .lotpage.
+
+   Status never relies on colour alone:
+     available  → teal fill
+     reserved   → amber dots
+     sold       → slate diagonal hatch + "Vendido" label
+     unavailable→ grey cross-hatch
+   ========================================================================== */
+
+.lotpage {
+  --lot-available-fill: rgba(20, 184, 166, 0.3);
+  --lot-available-fill-hover: rgba(20, 184, 166, 0.62);
+  --lot-available-stroke: var(--color-primary);
+  --lot-reserved-bg: var(--color-gold-surface);
+  --lot-reserved-ink: #b45309;
+  --lot-reserved-stroke: var(--color-gold);
+  --lot-sold-bg: #e2e8f0;
+  --lot-sold-ink: #64748b;
+  --lot-sold-stroke: #475569;
+  --lot-unavailable-bg: #f1f5f9;
+  --lot-unavailable-ink: #94a3b8;
+  --lot-unavailable-stroke: #94a3b8;
+  --lotmap-panel-w: 22rem;
+}
+
+/* --------------------------------------------------------------------------
+   Page chrome
+   -------------------------------------------------------------------------- */
+.lotpage__head {
+  padding-top: calc(var(--nav-h) + clamp(2rem, 5vw, 3.5rem));
+  padding-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.lotpage__head .section-head {
+  margin-bottom: var(--space-xl);
+}
+
+.lotpage__head .section-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.lotpage__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+/* The landing's price chip is tuned for light cards; lift it on the deep header */
+.lotpage__stats .chip--price {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: transparent;
+  color: #025b8a;
+}
+
+.lotpage__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding-inline: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.lotpage__back svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.lotpage__back:hover {
+  color: var(--color-primary);
+}
+
+@media (max-width: 479px) {
+  .lotpage__back span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+
+.lotpage__filters .finder__grid {
+  align-items: end;
+}
+
+@media (min-width: 1024px) {
+  .lotpage__filters .finder__grid {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+}
+
+.lotpage__check-field {
+  justify-content: flex-end;
+}
+
+.lotpage__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  color: #ecfeff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lotpage__check input {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: var(--color-secondary);
+  cursor: pointer;
+}
+
+.lotpage__filters .finder__actions {
+  justify-content: space-between;
+  margin-top: var(--space-md);
+}
+
+.lotpage__count {
+  color: rgba(236, 254, 255, 0.9);
+  font-weight: 600;
+}
+
+.lotpage__body {
+  padding-top: clamp(2rem, 4vw, 3rem);
+}
+
+.lotpage__footer {
+  padding-block: var(--space-lg);
+}
+
+.lotpage__footer .footer-bottom {
+  border-top: 0;
+  padding-top: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Toolbar: view switch + legend
+   -------------------------------------------------------------------------- */
+.lotmap__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.lotmap__views {
+  display: inline-flex;
+  padding: 0.25rem;
+  background: var(--color-muted);
+  border-radius: var(--radius-pill);
+}
+
+.lotmap__view {
+  min-height: 2.75rem;
+  min-width: 6rem;
+  padding: 0.4rem 1.1rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-muted-foreground);
+  font: 600 0.9375rem/1 var(--font-body);
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+
+.lotmap__view[aria-pressed="true"] {
+  background: var(--color-card);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.lotmap__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-muted-foreground);
+}
+
+.lotmap__legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.lotmap__swatch {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 3px;
+  border: 1.5px solid;
+}
+
+.lotmap__swatch[data-status="available"] {
+  background: var(--lot-available-fill);
+  border-color: var(--lot-available-stroke);
+}
+
+.lotmap__swatch[data-status="reserved"] {
+  background: radial-gradient(circle, var(--lot-reserved-ink) 22%, transparent 26%) 0 0 / 6px 6px, var(--lot-reserved-bg);
+  border-color: var(--lot-reserved-stroke);
+}
+
+.lotmap__swatch[data-status="sold"] {
+  background: repeating-linear-gradient(45deg, var(--lot-sold-ink) 0 2px, var(--lot-sold-bg) 2px 5px);
+  border-color: var(--lot-sold-stroke);
+}
+
+.lotmap__swatch[data-status="unavailable"] {
+  background:
+    repeating-linear-gradient(45deg, var(--lot-unavailable-ink) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(-45deg, var(--lot-unavailable-ink) 0 1px, transparent 1px 5px),
+    var(--lot-unavailable-bg);
+  border-color: var(--lot-unavailable-stroke);
+}
+
+/* --------------------------------------------------------------------------
+   Layout: map/list + detail panel
+   -------------------------------------------------------------------------- */
+.lotmap__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .lotmap__layout {
+    grid-template-columns: minmax(0, 1fr) var(--lotmap-panel-w);
+  }
+}
+
+.lotmap__stage {
+  position: relative;
+}
+
+.lotmap__viewport {
+  position: relative;
+  /* aspect-ratio is set from the SVG viewBox by lotmap.js */
+  width: 100%;
+  min-height: 320px;
+  max-height: clamp(340px, 72vh, 820px);
+  overflow: hidden;
+  background: var(--color-card);
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  /* We handle pan/pinch ourselves; the page still scrolls outside the map */
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@media (max-width: 767px) {
+  /* Leave room above/below the map so the page can still be scrolled by touch */
+  .lotmap__viewport {
+    max-height: 62vh;
+  }
+}
+
+.lotmap.is-dragging .lotmap__viewport {
+  cursor: grabbing;
+}
+
+.lotmap__svg {
+  width: 100%;
+  height: 100%;
+}
+
+.lotmap__zoom {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.lotmap__zoombtn {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--color-foreground);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.lotmap__zoombtn:hover {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.lotmap__zoombtn svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.lotmap__hint,
+.lotmap__disclaimer {
+  margin-top: var(--space-sm);
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+}
+
+.lotmap__disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: var(--space-lg);
+  max-width: 60rem;
+}
+
+.lotmap__disclaimer svg,
+.lotmap__notice svg {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.15rem;
+}
+
+.lotmap__notice,
+.lotmap__error {
+  display: flex;
+  gap: 0.6rem;
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-muted);
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+
+.lotmap__error {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+/* --------------------------------------------------------------------------
+   SVG lots. !important is deliberate: drawings exported from Inkscape/Illustrator
+   carry inline style="fill:…", and the map must always paint by status.
+   -------------------------------------------------------------------------- */
+.lotmap__svg .lot-shape {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.25px !important;
+  cursor: pointer;
+  transition: fill var(--dur-fast) var(--ease-out), opacity var(--dur-base) var(--ease-out);
+}
+
+.lotmap__svg .lot-shape[data-status="available"] {
+  fill: var(--lot-available-fill) !important;
+  stroke: var(--lot-available-stroke) !important;
+}
+
+.lotmap__svg .lot-shape[data-status="reserved"] {
+  fill: url(#lotmap-dots-reserved) !important;
+  stroke: var(--lot-reserved-stroke) !important;
+}
+
+.lotmap__svg .lot-shape[data-status="sold"] {
+  fill: url(#lotmap-hatch-sold) !important;
+  stroke: var(--lot-sold-stroke) !important;
+}
+
+.lotmap__svg .lot-shape[data-status="unavailable"] {
+  fill: url(#lotmap-cross-unavailable) !important;
+  stroke: var(--lot-unavailable-stroke) !important;
+}
+
+.lotmap__svg .lot-shape--unlinked {
+  fill: #f8fafc !important;
+  stroke: #cbd5e1 !important;
+  pointer-events: none;
+}
+
+.lotmap__svg .lot-shape[data-status="available"]:hover {
+  fill: var(--lot-available-fill-hover) !important;
+}
+
+.lotmap__svg .lot-shape:hover {
+  stroke-width: 2.5px !important;
+}
+
+/* Visible keyboard focus: thick accent stroke instead of the bbox outline */
+.landing .lotmap__svg .lot-shape:focus-visible {
+  outline: none;
+  stroke: var(--color-accent) !important;
+  stroke-width: 3.5px !important;
+}
+
+.lotmap__svg .lot-shape.is-selected {
+  stroke: var(--color-accent) !important;
+  stroke-width: 3.5px !important;
+}
+
+/* Raised copy of the selected lot, drawn above its neighbours */
+.lotmap__selected {
+  pointer-events: none;
+  filter: drop-shadow(0 2px 3px rgba(4, 47, 46, 0.45));
+}
+
+.lotmap__svg .is-dimmed {
+  opacity: 0.22;
+}
+
+.lotmap__labels {
+  pointer-events: none;
+}
+
+.lotmap__label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  fill: var(--color-foreground);
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 0.18em;
+  stroke-linejoin: round;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.lotmap__label[data-status="sold"],
+.lotmap__label[data-status="unavailable"] {
+  fill: #1e293b;
+}
+
+.lotmap__label-tag {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.lotmap__pat-bg--sold { fill: var(--lot-sold-bg); }
+.lotmap__pat-line--sold { stroke: var(--lot-sold-ink); }
+.lotmap__pat-bg--reserved { fill: var(--lot-reserved-bg); }
+.lotmap__pat-dot { fill: var(--lot-reserved-ink); }
+.lotmap__pat-bg--unavailable { fill: var(--lot-unavailable-bg); }
+.lotmap__pat-line--unavailable { stroke: var(--lot-unavailable-ink); }
+
+/* --------------------------------------------------------------------------
+   Status badge (panel + list)
+   -------------------------------------------------------------------------- */
+.lotmap__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.lotmap__badge::before {
+  content: "";
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+}
+
+.lotmap__badge[data-status="available"] {
+  background: rgba(20, 184, 166, 0.14);
+  border-color: rgba(15, 118, 110, 0.4);
+  color: #0f5f58;
+}
+
+.lotmap__badge[data-status="available"]::before { background: var(--lot-available-fill); }
+
+.lotmap__badge[data-status="reserved"] {
+  background: var(--lot-reserved-bg);
+  border-color: var(--color-gold-border);
+  color: var(--color-gold);
+}
+
+.lotmap__badge[data-status="reserved"]::before {
+  background: radial-gradient(circle, currentColor 25%, transparent 30%) 0 0 / 4px 4px;
+}
+
+.lotmap__badge[data-status="sold"] {
+  background: var(--lot-sold-bg);
+  border-color: #94a3b8;
+  color: #334155;
+}
+
+.lotmap__badge[data-status="sold"]::before {
+  background: repeating-linear-gradient(45deg, currentColor 0 1px, transparent 1px 3px);
+}
+
+.lotmap__badge[data-status="unavailable"] {
+  background: var(--lot-unavailable-bg);
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+/* --------------------------------------------------------------------------
+   Detail panel — side card on desktop, bottom sheet below 900px
+   -------------------------------------------------------------------------- */
+.lotmap__panel {
+  background: var(--color-card);
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-lg);
+}
+
+@media (min-width: 900px) {
+  .lotmap__panel {
+    position: sticky;
+    top: calc(var(--nav-h) + var(--space-md));
+  }
+}
+
+.lotmap__panel-empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-sm);
+  padding-block: var(--space-xl);
+  text-align: center;
+  color: var(--color-muted-foreground);
+}
+
+.lotmap__panel-empty svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-secondary);
+}
+
+.lotmap__panel-body {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.lotmap__panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.lotmap__panel-title {
+  font-size: 1.6rem;
+}
+
+.lotmap__panel-title:focus {
+  outline: none;
+}
+
+.lotmap__panel-title:focus-visible {
+  outline: 3px solid var(--color-ring);
+}
+
+.lotmap__panel-sub {
+  margin-top: 0.2rem;
+  color: var(--color-muted-foreground);
+  font-weight: 600;
+}
+
+.lotmap__close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-muted);
+  color: var(--color-foreground);
+  cursor: pointer;
+}
+
+.lotmap__close:hover {
+  background: #d7e5ea;
+}
+
+.lotmap__close svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.lotmap__facts {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.lotmap__facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--color-muted);
+}
+
+.lotmap__facts dt {
+  color: var(--color-muted-foreground);
+  font-size: 0.9375rem;
+}
+
+.lotmap__facts dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+
+.lotmap__facts [data-fact="price"] {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-accent);
+}
+
+.lotmap__note {
+  font-size: 0.9375rem;
+  color: var(--color-muted-foreground);
+}
+
+/* landing.css sets ".landing a { color: inherit }", which outranks .btn--primary */
+.lotmap__cta .btn--primary {
+  color: var(--color-on-accent);
+}
+
+.lotmap__cta-hint {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--color-muted-foreground);
+  text-align: center;
+}
+
+@media (max-width: 899px) {
+  .lotmap__panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 120;
+    max-height: 72vh;
+    overflow-y: auto;
+    padding-top: calc(var(--space-lg) + 0.5rem);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: 0 -12px 32px rgba(4, 47, 46, 0.22);
+    transform: translateY(105%);
+    visibility: hidden;
+    transition: transform var(--dur-slow) var(--ease-out), visibility 0s linear var(--dur-slow);
+  }
+
+  /* Grab handle */
+  .lotmap__panel::before {
+    content: "";
+    position: absolute;
+    top: 0.6rem;
+    left: 50%;
+    width: 2.5rem;
+    height: 0.3rem;
+    margin-left: -1.25rem;
+    border-radius: var(--radius-pill);
+    background: #cbd5e1;
+  }
+
+  .lotmap__panel[data-open="true"] {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform var(--dur-slow) var(--ease-out), visibility 0s;
+  }
+
+  .lotmap__panel-empty {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   List view
+   -------------------------------------------------------------------------- */
+.lotmap__rows {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lotrow__btn {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "title price" "stats stats";
+  gap: 0.5rem var(--space-md);
+  width: 100%;
+  min-height: 3rem;
+  padding: var(--space-md);
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--color-card);
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.lotrow__btn:hover {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-md);
+}
+
+.lotrow__title {
+  grid-area: title;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.lotrow__price {
+  grid-area: price;
+  font-weight: 700;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.lotrow__stats {
+  grid-area: stats;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.lotrow__stats .lotmap__badge {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+}
+
+.lotrow[data-status="sold"] .lotrow__btn,
+.lotrow[data-status="unavailable"] .lotrow__btn {
+  background: #f8fafc;
+}
+
+.lotmap__empty {
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--color-muted-foreground);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: no transitions on map or sheet (pan/zoom also skip easing in JS)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .lotmap__svg .lot-shape,
+  .lotmap__label,
+  .lotmap__panel,
+  .lotmap__panel[data-open="true"],
+  .lotmap__view,
+  .lotrow__btn {
+    transition: none;
+  }
+}

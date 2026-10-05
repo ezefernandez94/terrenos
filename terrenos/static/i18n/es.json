@@ -44,46 +44,14 @@
   "projects": {
     "eyebrow": "Proyectos disponibles",
     "title": "Loteos abiertos a la venta",
-    "subtitle": "Cada desarrollo cuenta con mensura aprobada, calles consolidadas y un plan de pagos propio. Los datos de esta grilla son de muestra.",
+    "subtitle": "Cada desarrollo cuenta con mensura aprobada, calles consolidadas y un plan de pagos propio.",
     "cta": "Ver más",
-    "items": {
-      "p1": {
-        "name": "Los Álamos",
-        "desc": "Loteo residencial con 84 parcelas y arbolado consolidado sobre la Av. principal.",
-        "meta": "84 lotes",
-        "price": "Desde USD 12.500"
-      },
-      "p2": {
-        "name": "Santa Rosa",
-        "desc": "Manzanas amplias a diez minutos del centro, con luz y agua sobre línea municipal.",
-        "meta": "56 lotes",
-        "price": "Desde USD 15.900"
-      },
-      "p3": {
-        "name": "El Mirador",
-        "desc": "Lotes en altura con vista abierta al campo y calles internas ya abiertas.",
-        "meta": "42 lotes",
-        "price": "Desde USD 18.400"
-      },
-      "p4": {
-        "name": "Las Acacias",
-        "desc": "Desarrollo familiar con espacio verde central y frentes de 12 metros.",
-        "meta": "70 lotes",
-        "price": "Desde USD 11.200"
-      },
-      "p5": {
-        "name": "Don Bosco",
-        "desc": "Parcelas de uso mixto sobre acceso pavimentado, ideales para comercio.",
-        "meta": "38 lotes",
-        "price": "Desde USD 21.000"
-      },
-      "p6": {
-        "name": "La Estancia",
-        "desc": "Lotes grandes de perfil semirrural, pensados para casa quinta y huerta.",
-        "meta": "24 lotes",
-        "price": "Desde USD 26.750"
-      }
-    }
+    "card_desc": "{n} de {total} lotes disponibles, con plano interactivo.",
+    "card_desc_nomap": "{n} de {total} lotes disponibles.",
+    "card_lots": "{n} lotes",
+    "card_from": "Desde {price}",
+    "cta_map": "Ver plano y lotes",
+    "empty": "Muy pronto vas a poder ver acá nuestros loteos a la venta."
   },
   "upcoming": {
     "eyebrow": "En preparación",
@@ -112,13 +80,13 @@
   "finder": {
     "eyebrow": "Buscador de lotes",
     "title": "Encontrá tu terreno",
-    "subtitle": "Filtrá por proyecto, presupuesto y superficie. Los resultados que se muestran son de demostración.",
+    "subtitle": "Filtrá por proyecto, presupuesto y superficie entre todos los lotes disponibles y reservados.",
     "project_label": "Proyecto o ubicación",
     "project_any": "Todos los proyectos",
     "price_label": "Rango de precio (USD)",
     "price_min": "Mínimo",
     "price_max": "Máximo",
-    "price_hint": "Dejá los campos vacíos para no aplicar límite.",
+    "price_hint": "Dejá los campos vacíos para no aplicar límite. Sólo compara lotes con precio en USD.",
     "size_label": "Superficie",
     "size_any": "Cualquier superficie",
     "size_1": "Hasta 300 m²",
@@ -128,13 +96,17 @@
     "submit": "Buscar lotes",
     "reset": "Limpiar filtros",
     "results_title": "Resultados",
-    "results_count_one": "{n} lote disponible",
-    "results_count_other": "{n} lotes disponibles",
+    "results_count_one": "{n} lote encontrado",
+    "results_count_other": "{n} lotes encontrados",
     "empty_title": "No encontramos lotes con esos filtros",
     "empty_body": "Probá ampliar el rango de precio o quitar el filtro de superficie.",
     "area": "{n} m²",
     "status_available": "Disponible",
-    "status_reserved": "Reservado"
+    "status_reserved": "Reservado",
+    "more": "Mostrando {shown} de {n} lotes. Afiná los filtros o entrá a cada proyecto para ver todos.",
+    "lot_title": "Lote {number} · Manzana {block}",
+    "price_on_request": "Consultar",
+    "view_on_map": "Ver en el plano"
   },
   "s1": {
     "eyebrow": "Sección 1",
@@ -199,5 +171,58 @@
     "social_li": "Seguinos en LinkedIn",
     "copyright": "© {year} Terrenos Bragado. Todos los derechos reservados.",
     "made": "Sitio de demostración"
+  },
+  "lotmap": {
+    "back": "Todos los proyectos",
+    "eyebrow": "Plano interactivo",
+    "stat_total": "{n} lotes",
+    "stat_available": "{n} disponibles",
+    "stat_from": "Desde {price}",
+    "filters_label": "Filtrar lotes",
+    "price_label": "Rango de precio",
+    "only_available": "Sólo lotes disponibles",
+    "match_count_one": "{n} de {total} lotes coincide con tu búsqueda",
+    "match_count_other": "{n} de {total} lotes coinciden con tu búsqueda",
+    "view_label": "Vista",
+    "view_map": "Plano",
+    "view_list": "Listado",
+    "zoom_in": "Acercar",
+    "zoom_out": "Alejar",
+    "zoom_reset": "Restablecer vista",
+    "map_label": "Plano de lotes. Usá Tab para recorrer los lotes y Enter para ver el detalle.",
+    "hint": "Arrastrá para mover el plano; usá la rueda del mouse o pellizcá para hacer zoom.",
+    "legend_title": "Referencias",
+    "status_available": "Disponible",
+    "status_reserved": "Reservado",
+    "status_sold": "Vendido",
+    "status_unavailable": "No disponible",
+    "disclaimer": "Plano referencial: medidas y ubicaciones aproximadas. La referencia legal es el plano de mensura aprobado.",
+    "lot_title": "Lote {number}",
+    "block": "Manzana {block}",
+    "lot_aria": "Lote {number}, manzana {block}, {status}",
+    "area": "Superficie",
+    "area_value": "{n} m²",
+    "dims": "Medidas (frente × fondo)",
+    "dims_value": "{width} × {length} m",
+    "price": "Precio",
+    "price_on_request": "Consultar",
+    "cta": "Consultar este lote",
+    "cta_hint": "Se abre WhatsApp con un mensaje listo para enviar.",
+    "reserved_note": "Este lote está reservado. Si la reserva se cae, vuelve a estar disponible en el plano.",
+    "sold_note": "Este lote ya fue vendido.",
+    "unavailable_note": "Este lote no está a la venta por el momento.",
+    "whatsapp_msg": "Hola! Me interesa el lote {number} de la manzana {block} en {project}. ¿Me podrían dar más información?",
+    "close": "Cerrar detalle",
+    "panel_empty": "Tocá o hacé clic en un lote para ver sus medidas, precio y estado.",
+    "no_map": "El plano interactivo de este proyecto todavía no está disponible. Te mostramos el listado de lotes.",
+    "load_error": "No pudimos cargar los lotes. Recargá la página para intentar de nuevo.",
+    "list_empty": "Ningún lote coincide con los filtros.",
+    "col_lot": "Lote",
+    "col_block": "Manzana",
+    "col_status": "Estado",
+    "view_details": "Ver detalle",
+    "not_on_map": "Sin ubicación en el plano",
+    "page_title": "{project} — Plano de lotes | Terrenos Bragado",
+    "page_description": "Plano interactivo de lotes de {project}, Bragado: disponibilidad, medidas y precios."
   }
 }

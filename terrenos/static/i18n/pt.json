@@ -44,46 +44,14 @@
   "projects": {
     "eyebrow": "Projetos disponíveis",
     "title": "Loteamentos à venda",
-    "subtitle": "Cada empreendimento tem levantamento aprovado, ruas consolidadas e plano de pagamento próprio. Os dados desta grade são de amostra.",
+    "subtitle": "Cada empreendimento tem agrimensura aprovada, ruas consolidadas e um plano de pagamento próprio.",
     "cta": "Ver mais",
-    "items": {
-      "p1": {
-        "name": "Los Álamos",
-        "desc": "Loteamento residencial com 84 lotes e arborização consolidada na avenida principal.",
-        "meta": "84 lotes",
-        "price": "A partir de USD 12.500"
-      },
-      "p2": {
-        "name": "Santa Rosa",
-        "desc": "Quadras amplas a dez minutos do centro, com luz e água na divisa do terreno.",
-        "meta": "56 lotes",
-        "price": "A partir de USD 15.900"
-      },
-      "p3": {
-        "name": "El Mirador",
-        "desc": "Lotes elevados com vista aberta para o campo e ruas internas já abertas.",
-        "meta": "42 lotes",
-        "price": "A partir de USD 18.400"
-      },
-      "p4": {
-        "name": "Las Acacias",
-        "desc": "Empreendimento familiar com área verde central e frentes de 12 metros.",
-        "meta": "70 lotes",
-        "price": "A partir de USD 11.200"
-      },
-      "p5": {
-        "name": "Don Bosco",
-        "desc": "Lotes de uso misto em acesso pavimentado, ideais para comércio.",
-        "meta": "38 lotes",
-        "price": "A partir de USD 21.000"
-      },
-      "p6": {
-        "name": "La Estancia",
-        "desc": "Lotes grandes de perfil semirrural, pensados para casa de campo e horta.",
-        "meta": "24 lotes",
-        "price": "A partir de USD 26.750"
-      }
-    }
+    "card_desc": "{n} de {total} lotes disponíveis, com planta interativa.",
+    "card_desc_nomap": "{n} de {total} lotes disponíveis.",
+    "card_lots": "{n} lotes",
+    "card_from": "A partir de {price}",
+    "cta_map": "Ver planta e lotes",
+    "empty": "Em breve você verá aqui nossos loteamentos à venda."
   },
   "upcoming": {
     "eyebrow": "Em preparação",
@@ -112,13 +80,13 @@
   "finder": {
     "eyebrow": "Busca de lotes",
     "title": "Encontre seu terreno",
-    "subtitle": "Filtre por projeto, orçamento e área. Os resultados exibidos são apenas demonstrativos.",
+    "subtitle": "Filtre por projeto, orçamento e área entre todos os lotes disponíveis e reservados.",
     "project_label": "Projeto ou localização",
     "project_any": "Todos os projetos",
     "price_label": "Faixa de preço (USD)",
     "price_min": "Mínimo",
     "price_max": "Máximo",
-    "price_hint": "Deixe o campo vazio para não aplicar limite.",
+    "price_hint": "Deixe os campos vazios para não aplicar limite. Compara apenas lotes com preço em USD.",
     "size_label": "Área",
     "size_any": "Qualquer área",
     "size_1": "Até 300 m²",
@@ -128,13 +96,17 @@
     "submit": "Buscar lotes",
     "reset": "Limpar filtros",
     "results_title": "Resultados",
-    "results_count_one": "{n} lote disponível",
-    "results_count_other": "{n} lotes disponíveis",
+    "results_count_one": "{n} lote encontrado",
+    "results_count_other": "{n} lotes encontrados",
     "empty_title": "Não encontramos lotes com esses filtros",
     "empty_body": "Tente ampliar a faixa de preço ou remover o filtro de área.",
     "area": "{n} m²",
     "status_available": "Disponível",
-    "status_reserved": "Reservado"
+    "status_reserved": "Reservado",
+    "more": "Mostrando {shown} de {n} lotes. Refine os filtros ou abra cada projeto para ver todos.",
+    "lot_title": "Lote {number} · Quadra {block}",
+    "price_on_request": "Sob consulta",
+    "view_on_map": "Ver na planta"
   },
   "s1": {
     "eyebrow": "Seção 1",
@@ -199,5 +171,58 @@
     "social_li": "Siga-nos no LinkedIn",
     "copyright": "© {year} Terrenos Bragado. Todos os direitos reservados.",
     "made": "Site de demonstração"
+  },
+  "lotmap": {
+    "back": "Todos os projetos",
+    "eyebrow": "Planta interativa",
+    "stat_total": "{n} lotes",
+    "stat_available": "{n} disponíveis",
+    "stat_from": "A partir de {price}",
+    "filters_label": "Filtrar lotes",
+    "price_label": "Faixa de preço",
+    "only_available": "Somente lotes disponíveis",
+    "match_count_one": "{n} de {total} lotes corresponde à sua busca",
+    "match_count_other": "{n} de {total} lotes correspondem à sua busca",
+    "view_label": "Visualização",
+    "view_map": "Planta",
+    "view_list": "Lista",
+    "zoom_in": "Aproximar",
+    "zoom_out": "Afastar",
+    "zoom_reset": "Restaurar visualização",
+    "map_label": "Planta de lotes. Use Tab para percorrer os lotes e Enter para ver os detalhes.",
+    "hint": "Arraste para mover a planta; use a roda do mouse ou o gesto de pinça para dar zoom.",
+    "legend_title": "Legenda",
+    "status_available": "Disponível",
+    "status_reserved": "Reservado",
+    "status_sold": "Vendido",
+    "status_unavailable": "Indisponível",
+    "disclaimer": "Planta de referência: medidas e localizações aproximadas. A referência legal é a planta de agrimensura aprovada.",
+    "lot_title": "Lote {number}",
+    "block": "Quadra {block}",
+    "lot_aria": "Lote {number}, quadra {block}, {status}",
+    "area": "Área",
+    "area_value": "{n} m²",
+    "dims": "Medidas (frente × fundo)",
+    "dims_value": "{width} × {length} m",
+    "price": "Preço",
+    "price_on_request": "Sob consulta",
+    "cta": "Consultar este lote",
+    "cta_hint": "Abre o WhatsApp com uma mensagem pronta para enviar.",
+    "reserved_note": "Este lote está reservado. Se a reserva for cancelada, ele voltará a aparecer como disponível.",
+    "sold_note": "Este lote já foi vendido.",
+    "unavailable_note": "Este lote não está à venda no momento.",
+    "whatsapp_msg": "Olá! Tenho interesse no lote {number} da quadra {block} em {project}. Poderiam me enviar mais informações?",
+    "close": "Fechar detalhes",
+    "panel_empty": "Toque ou clique em um lote para ver medidas, preço e status.",
+    "no_map": "A planta interativa deste projeto ainda não está disponível. Veja a lista de lotes.",
+    "load_error": "Não foi possível carregar os lotes. Recarregue a página para tentar novamente.",
+    "list_empty": "Nenhum lote corresponde aos filtros.",
+    "col_lot": "Lote",
+    "col_block": "Quadra",
+    "col_status": "Status",
+    "view_details": "Ver detalhes",
+    "not_on_map": "Sem localização na planta",
+    "page_title": "{project} — Planta de lotes | Terrenos Bragado",
+    "page_description": "Planta interativa de lotes de {project}, Bragado: disponibilidade, medidas e preços."
   }
 }

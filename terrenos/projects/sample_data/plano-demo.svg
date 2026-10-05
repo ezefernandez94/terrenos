@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" width="820" height="420">
+  <title>Loteo Demo (muestra) — plano de ejemplo</title>
+  <!-- Grupo "calco": imagen de fondo para dibujar encima. Se elimina al subir. -->
+  <g id="calco"><rect x="0" y="0" width="820" height="420" fill="#eee"/></g>
+  <!-- Grupo "plano": calles, textos, norte y perimetro. No es interactivo. -->
+  <g id="plano" font-family="sans-serif">
+    <rect x="0" y="0" width="820" height="420" fill="#f8fafc"/>
+    <rect x="0" y="40" width="820" height="40" fill="#e2e8f0"/>
+    <rect x="0" y="340" width="820" height="40" fill="#e2e8f0"/>
+    <rect x="390" y="40" width="40" height="340" fill="#e2e8f0"/>
+    <text x="200" y="65" font-size="13" fill="#64748b" text-anchor="middle">Calle 25 de Mayo</text>
+    <text x="620" y="65" font-size="13" fill="#64748b" text-anchor="middle">Calle 25 de Mayo</text>
+    <text x="410" y="365" font-size="13" fill="#64748b" text-anchor="middle">Av. San Martín</text>
+    <text x="410" y="210" font-size="13" fill="#64748b" text-anchor="middle" transform="rotate(-90 410 210)">Calle Belgrano</text>
+    <text x="200" y="400" font-size="15" fill="#334155" text-anchor="middle" font-weight="bold">Manzana A</text>
+    <text x="620" y="400" font-size="15" fill="#334155" text-anchor="middle" font-weight="bold">Manzana B</text>
+    <g transform="translate(785 20)"><path d="M0 -12 L7 8 L0 3 L-7 8 Z" fill="#334155"/><text x="0" y="20" font-size="11" text-anchor="middle" fill="#334155">N</text></g>
+    <rect x="20" y="90" width="780" height="240" fill="none" stroke="#94a3b8" stroke-dasharray="6 4"/>
+  </g>
+  <!-- Grupo "lotes": cada forma con id = shape_id del terreno. -->
+  <g id="lotes" fill="#ffffff" stroke="#334155" stroke-width="1">
+    <g id="manzana-a">
+      <polygon id="a-l1" points="64,90 104,90 104,210 40,210 40,114"/>
+      <rect id="a-l2" x="104" y="90" width="48" height="120"/>
+      <rect id="a-l3" x="152" y="90" width="48" height="120"/>
+      <rect id="a-l4" x="200" y="90" width="48" height="120"/>
+      <rect id="a-l5" x="248" y="90" width="48" height="120"/>
+      <rect id="a-l6" x="296" y="90" width="64" height="120"/>
+      <rect id="a-l7" x="40" y="210" width="64" height="120"/>
+      <rect id="a-l8" x="104" y="210" width="48" height="120"/>
+      <rect id="a-l9" x="152" y="210" width="48" height="120"/>
+      <rect id="a-l10" x="200" y="210" width="48" height="120"/>
+      <rect id="a-l11" x="248" y="210" width="48" height="120"/>
+      <rect id="a-l12" x="296" y="210" width="64" height="120"/>
+    </g>
+    <g id="manzana-b">
+      <rect id="b-l1" x="450" y="90" width="64" height="120"/>
+      <rect id="b-l2" x="514" y="90" width="48" height="120"/>
+      <rect id="b-l3" x="562" y="90" width="48" height="120"/>
+      <rect id="b-l4" x="610" y="90" width="48" height="120"/>
+      <rect id="b-l5" x="658" y="90" width="48" height="120"/>
+      <rect id="b-l6" x="706" y="90" width="64" height="120"/>
+      <rect id="b-l7" x="450" y="210" width="64" height="120"/>
+      <rect id="b-l8" x="514" y="210" width="48" height="120"/>
+      <rect id="b-l9" x="562" y="210" width="48" height="120"/>
+      <rect id="b-l10" x="610" y="210" width="48" height="120"/>
+      <rect id="b-l11" x="658" y="210" width="48" height="120"/>
+      <rect id="b-l12" x="706" y="210" width="64" height="120"/>
+    </g>
+  </g>
+</svg>

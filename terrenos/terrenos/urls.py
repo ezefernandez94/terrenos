@@ -19,12 +19,16 @@ from django.urls import include, path
 from django.conf import settings
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
+from projects.public_views import landing as landing_view
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html")),
     # Public landing page. Independent of the internal authenticated app; to
-    # promote it to the site root, swap the template_name on the "" route above.
-    path("inicio/", TemplateView.as_view(template_name="landing.html"), name="landing"),
+    # promote it to the site root, point the "" route above at landing_view.
+    ## Fed from the DB: public projects (is_public=True) and their available/reserved lots
+    path("inicio/", landing_view, name="landing"),
+    ## Public project pages and the lot map data (no login; only is_public projects)
+    path("proyectos/", include("projects.public_urls")),
     path("users/", include("users.urls")),
     path("admin/", admin.site.urls),
     path("expense_type_details/", include("expense_type_details.urls")),

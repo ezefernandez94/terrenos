@@ -74,9 +74,41 @@
       });
     }
 
+    function locale() {
+      return { en: "en-US", pt: "pt-BR" }[current] || "es-AR";
+    }
+
+    // data-i18n-vars='{"n": 24, "price": {"money": 15200, "currency": "USD"}}' — numbers
+    // and money are formatted for the current language before interpolation.
+    function readVars(el) {
+      var raw = el.getAttribute("data-i18n-vars");
+      if (!raw) return undefined;
+      var vars;
+      try {
+        vars = JSON.parse(raw);
+      } catch (err) {
+        return undefined;
+      }
+      Object.keys(vars).forEach(function (name) {
+        var v = vars[name];
+        try {
+          if (v && typeof v === "object" && typeof v.money === "number") {
+            vars[name] = new Intl.NumberFormat(locale(), {
+              style: "currency", currency: v.currency || "USD", maximumFractionDigits: 0
+            }).format(v.money);
+          } else if (typeof v === "number") {
+            vars[name] = new Intl.NumberFormat(locale()).format(v);
+          }
+        } catch (err) {
+          vars[name] = v && v.money !== undefined ? (v.currency || "") + " " + v.money : String(v);
+        }
+      });
+      return vars;
+    }
+
     function apply(root) {
       $$("[data-i18n]", root || document).forEach(function (el) {
-        var value = t(el.getAttribute("data-i18n"));
+        var value = t(el.getAttribute("data-i18n"), readVars(el));
         if (value !== null) el.textContent = value;
       });
 
@@ -155,6 +187,9 @@
       }
     };
   })();
+
+  // Shared with page-specific scripts (e.g. lotmap.js) so they follow the same language.
+  window.TerrenosI18N = I18N;
 
   /* ---- Language switcher (nav + footer instances stay in sync) ---------- */
   function initLangSwitchers() {
@@ -511,30 +546,11 @@
 
   /* ========================================================================
      5. Plot finder
-     Filters are fully wired; the dataset below is a client-side mock so the
-     UI can be reviewed before the backend search exists.
+     Searches the available/reserved lots of every public project. The data is
+     embedded by projects.public_views.landing as <script id="finder-data">
+     (only public fields; see projects.lot_map.public_lot) and filtered here.
+     Each result links to its lot on the project's interactive map.
      ====================================================================== */
-
-  // TODO: wire to backend search endpoint.
-  // Replace MOCK_LOTS + filterLots() with a fetch to a Django view, e.g.
-  //   GET /api/lands/search/?project=<id>&price_min=&price_max=&size=
-  // returning JSON rows from lands.models.Land (filter status='available').
-  // Keep the render/empty-state/aria-live plumbing below as-is.
-  var MOCK_LOTS = [
-    { id: "A-12", project: "p1", projectName: "Los Álamos", area: 480, dims: "16 × 30 m", price: 14200, status: "available" },
-    { id: "A-27", project: "p1", projectName: "Los Álamos", area: 300, dims: "10 × 30 m", price: 12500, status: "available" },
-    { id: "B-03", project: "p2", projectName: "Santa Rosa", area: 625, dims: "25 × 25 m", price: 19800, status: "available" },
-    { id: "B-14", project: "p2", projectName: "Santa Rosa", area: 450, dims: "15 × 30 m", price: 15900, status: "reserved" },
-    { id: "C-08", project: "p3", projectName: "El Mirador", area: 900, dims: "30 × 30 m", price: 28900, status: "available" },
-    { id: "C-11", project: "p3", projectName: "El Mirador", area: 720, dims: "24 × 30 m", price: 22400, status: "available" },
-    { id: "D-02", project: "p4", projectName: "Las Acacias", area: 288, dims: "12 × 24 m", price: 11200, status: "available" },
-    { id: "D-19", project: "p4", projectName: "Las Acacias", area: 384, dims: "12 × 32 m", price: 13750, status: "available" },
-    { id: "E-05", project: "p5", projectName: "Don Bosco", area: 550, dims: "22 × 25 m", price: 21000, status: "available" },
-    { id: "E-09", project: "p5", projectName: "Don Bosco", area: 275, dims: "11 × 25 m", price: 16400, status: "reserved" },
-    { id: "F-01", project: "p6", projectName: "La Estancia", area: 1250, dims: "25 × 50 m", price: 34500, status: "available" },
-    { id: "F-07", project: "p6", projectName: "La Estancia", area: 1000, dims: "25 × 40 m", price: 26750, status: "available" }
-  ];
-
   var SIZE_BUCKETS = {
     s1: [0, 300],
     s2: [300, 500],
@@ -542,15 +558,43 @@
     s4: [800, Infinity]
   };
 
+  // Rendering hundreds of cards at once is slow and unreadable; the rest are on each project page.
+  var MAX_RESULTS = 24;
+
+  // The price filter is labelled in USD, so it only compares lots priced in USD.
+  var FILTER_CURRENCY = "USD";
+
+  function readFinderData() {
+    var node = $("#finder-data");
+    if (!node) return [];
+    try {
+      return JSON.parse(node.textContent) || [];
+    } catch (err) {
+      if (window.console) console.error("[finder] invalid data", err);
+      return [];
+    }
+  }
+
   function initFinder() {
     var form = $("#finder-form");
     if (!form) return;
 
+    var LOTS = readFinderData();
     var list = $("#finder-results");
     var empty = $("#finder-empty");
     var count = $("#finder-count");
     var resetBtn = $("#finder-reset");
-    var lastResults = MOCK_LOTS.slice();
+    var lotUrl = form.getAttribute("data-lot-url") || "/proyectos/__slug__/";
+    var lastResults = LOTS.slice();
+
+    var more = document.createElement("p");
+    more.className = "results__more";
+    more.hidden = true;
+    list.parentNode.insertBefore(more, list.nextSibling);
+
+    function locale() {
+      return { en: "en-US", pt: "pt-BR" }[I18N.current()] || "es-AR";
+    }
 
     function filterLots() {
       var project = form.elements["project"].value;
@@ -558,9 +602,11 @@
       var max = parseFloat(form.elements["price_max"].value);
       var size = form.elements["size"].value;
       var bucket = SIZE_BUCKETS[size];
+      var priced = !isNaN(min) || !isNaN(max);
 
-      return MOCK_LOTS.filter(function (lot) {
+      return LOTS.filter(function (lot) {
         if (project && lot.project !== project) return false;
+        if (priced && (lot.price === null || lot.currency !== FILTER_CURRENCY)) return false;
         if (!isNaN(min) && lot.price < min) return false;
         if (!isNaN(max) && lot.price > max) return false;
         if (bucket && (lot.area < bucket[0] || lot.area >= bucket[1])) return false;
@@ -568,24 +614,29 @@
       });
     }
 
-    function money(value) {
+    function money(value, currency) {
       try {
-        return new Intl.NumberFormat(I18N.current() === "en" ? "en-US" : "es-AR", {
+        return new Intl.NumberFormat(locale(), {
           style: "currency",
-          currency: "USD",
+          currency: currency || "USD",
           maximumFractionDigits: 0
         }).format(value);
       } catch (err) {
-        return "USD " + value;
+        return (currency || "USD") + " " + value;
       }
     }
 
-    function number(value) {
+    function number(value, digits) {
       try {
-        return new Intl.NumberFormat(I18N.current() === "en" ? "en-US" : "es-AR").format(value);
+        return new Intl.NumberFormat(locale(), { maximumFractionDigits: digits || 0 }).format(value);
       } catch (err) {
         return String(value);
       }
+    }
+
+    function hrefFor(lot) {
+      var url = lotUrl.replace("__slug__", encodeURIComponent(lot.project));
+      return lot.shape_id ? url + "?lote=" + encodeURIComponent(lot.shape_id) : url;
     }
 
     function render(results) {
@@ -594,33 +645,43 @@
 
       var n = results.length;
       var key = n === 1 ? "finder.results_count_one" : "finder.results_count_other";
-      count.textContent = I18N.t(key, { n: number(n) }) || n + " / " + MOCK_LOTS.length;
+      count.textContent = I18N.t(key, { n: number(n) }) || String(n);
 
       empty.hidden = n > 0;
       list.hidden = n === 0;
 
-      results.forEach(function (lot) {
+      var shown = results.slice(0, MAX_RESULTS);
+      more.hidden = n <= MAX_RESULTS;
+      more.textContent = I18N.t("finder.more", { shown: number(shown.length), n: number(n) }) ||
+        shown.length + " / " + n;
+
+      shown.forEach(function (lot) {
         var li = document.createElement("li");
         li.className = "lot";
 
         var id = document.createElement("p");
         id.className = "lot__id";
-        id.textContent = "Lote " + lot.id;
+        var link = document.createElement("a");
+        link.className = "lot__link";
+        link.href = hrefFor(lot);
+        link.textContent = (I18N.t("finder.lot_title", { number: lot.number, block: lot.block }) ||
+          "Lote " + lot.number + " · Manzana " + lot.block);
+        id.appendChild(link);
 
         var project = document.createElement("p");
         project.className = "lot__project";
-        project.textContent = lot.projectName;
+        project.textContent = lot.project_name;
 
         var stats = document.createElement("div");
         stats.className = "lot__stats";
 
         var area = document.createElement("span");
         area.className = "chip";
-        area.textContent = (I18N.t("finder.area", { n: number(lot.area) }) || lot.area + " m²");
+        area.textContent = (I18N.t("finder.area", { n: number(lot.area, 2) }) || lot.area + " m²");
 
         var dims = document.createElement("span");
         dims.className = "chip";
-        dims.textContent = lot.dims;
+        dims.textContent = number(lot.width, 2) + " × " + number(lot.length, 2) + " m";
 
         var status = document.createElement("span");
         status.className = "chip";
@@ -632,9 +693,16 @@
 
         var price = document.createElement("p");
         price.className = "lot__price";
-        price.textContent = money(lot.price);
+        price.textContent = lot.price !== null
+          ? money(lot.price, lot.currency)
+          : (I18N.t("finder.price_on_request") || "Consultar");
 
-        li.append(id, project, stats, price);
+        var cta = document.createElement("p");
+        cta.className = "lot__cta";
+        cta.setAttribute("aria-hidden", "true");
+        cta.textContent = (I18N.t("finder.view_on_map") || "Ver en el plano") + " →";
+
+        li.append(id, project, stats, price, cta);
         list.appendChild(li);
       });
     }
@@ -647,14 +715,14 @@
     if (resetBtn) {
       resetBtn.addEventListener("click", function () {
         form.reset();
-        render(MOCK_LOTS.slice());
+        render(LOTS.slice());
       });
     }
 
     // Re-render so results follow a language change.
     I18N.onChange(function () { render(lastResults); });
 
-    render(MOCK_LOTS.slice());
+    render(LOTS.slice());
   }
 
   /* ========================================================================

@@ -36,6 +36,23 @@ class Land(models.Model):
         ],
         default='available'
     )
+    ## Public lot map: links this land to its shape in the project's SVG
+    shape_id = models.CharField(
+        max_length=50,
+        blank=True,
+        default='',
+        help_text="ID de la forma del lote en el SVG del proyecto (ej. fr8-l3). Único dentro del proyecto.",
+    )
+    label_x = models.FloatField(
+        blank=True,
+        null=True,
+        help_text="Posición X de la etiqueta en coordenadas del SVG. Vacío = centro de la forma.",
+    )
+    label_y = models.FloatField(
+        blank=True,
+        null=True,
+        help_text="Posición Y de la etiqueta en coordenadas del SVG. Vacío = centro de la forma.",
+    )
 
     def __str__(self):
         return f"{self.manual_id}{self.block}"
@@ -44,6 +61,14 @@ class Land(models.Model):
         verbose_name = "Terreno"
         verbose_name_plural = "Terrenos"
         ordering = ['manual_id']
+        constraints = [
+            ## Blank shape_id is allowed for any number of lands
+            models.UniqueConstraint(
+                fields=['project', 'shape_id'],
+                condition=~models.Q(shape_id=''),
+                name='uniq_land_shape_id_per_project',
+            ),
+        ]
 
     @property
     def area(self):
