@@ -36,7 +36,8 @@ def index(request):
     """
     Render the index page of the lands app.
     """
-    lands = Land.objects.all()
+    ## select/prefetch: the template reads land.project and each owner's person; without this it's one query per row
+    lands = Land.objects.select_related('project').prefetch_related('peopletolands_set__person')
     return render(request, 'lands/index.html', {"lands": lands})
 
 @login_required
