@@ -78,8 +78,9 @@
       return { en: "en-US", pt: "pt-BR" }[current] || "es-AR";
     }
 
-    // data-i18n-vars='{"n": 24, "price": {"money": 15200, "currency": "USD"}}' — numbers
-    // and money are formatted for the current language before interpolation.
+    // data-i18n-vars='{"n": 24, "price": {"money": 15200, "currency": "USD"}, "plans": {"list": [12, 24]}}'
+    // — numbers, money and lists ("12, 24 y 36" / "12, 24 and 36") are formatted for the
+    // current language before interpolation.
     function readVars(el) {
       var raw = el.getAttribute("data-i18n-vars");
       if (!raw) return undefined;
@@ -92,7 +93,11 @@
       Object.keys(vars).forEach(function (name) {
         var v = vars[name];
         try {
-          if (v && typeof v === "object" && typeof v.money === "number") {
+          if (v && typeof v === "object" && Array.isArray(v.list)) {
+            var numberFormat = new Intl.NumberFormat(locale());
+            vars[name] = new Intl.ListFormat(locale(), { style: "long", type: "conjunction" })
+              .format(v.list.map(function (item) { return numberFormat.format(item); }));
+          } else if (v && typeof v === "object" && typeof v.money === "number") {
             vars[name] = new Intl.NumberFormat(locale(), {
               style: "currency", currency: v.currency || "USD", maximumFractionDigits: 0
             }).format(v.money);
@@ -100,7 +105,8 @@
             vars[name] = new Intl.NumberFormat(locale()).format(v);
           }
         } catch (err) {
-          vars[name] = v && v.money !== undefined ? (v.currency || "") + " " + v.money : String(v);
+          if (v && Array.isArray(v.list)) vars[name] = v.list.join(", ");
+          else vars[name] = v && v.money !== undefined ? (v.currency || "") + " " + v.money : String(v);
         }
       });
       return vars;
@@ -821,11 +827,28 @@
     });
   }
 
+  /* ======================================================================
+     FAQ — questions and answers are typed in by the users. Spanish is inline;
+     data-faq-<lang> carries the optional translation, empty means "use Spanish".
+     ====================================================================== */
+  function initFaq() {
+    var nodes = $$("[data-faq-es]");
+    if (!nodes.length) return;
+    function render(lang) {
+      nodes.forEach(function (el) {
+        el.textContent = el.getAttribute("data-faq-" + lang) || el.getAttribute("data-faq-es");
+      });
+    }
+    I18N.onChange(render);
+    render(I18N.current());
+  }
+
   /* ========================================================================
      Boot
      ====================================================================== */
   function boot() {
     initLangSwitchers();
+    initFaq();
     initNav();
     initHeroMedia();
     initReveal();

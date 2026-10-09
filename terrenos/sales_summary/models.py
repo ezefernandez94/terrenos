@@ -15,7 +15,8 @@ class SaleSummary(models.Model):
             ('monthly_payment', 'Cuota'),
             ('remaining_payment', 'Pago de Saldo Restante')
         ],
-        default='sale'
+        ## Was 'sale', which is not one of the choices
+        default='monthly_payment'
     )
     payment_option = models.CharField(
         max_length=50,
@@ -37,16 +38,16 @@ class SaleSummary(models.Model):
     )
 
     def __str__(self):
-        return f"Summary for {self.land}"
+        return f"Summary for {self.sale}"
     
     def save(self, *args, **kwargs):
         if not self.exchange_rate:
-            ## Search USD value from an API
-            response = requests.get('https://api.exchangerate-api.com/v4/latest/USD')
-            if response.status_code == 200:
-                data = response.json()
-                self.exchange_rate = data['rates'].get('ARS', 1.0)
-            else:
+            ## Search USD value from an API; a network failure must not block saving the payment
+            try:
+                response = requests.get('https://api.exchangerate-api.com/v4/latest/USD', timeout=5)
+                response.raise_for_status()
+                self.exchange_rate = response.json()['rates'].get('ARS', 1.0)
+            except (requests.RequestException, ValueError, KeyError):
                 self.exchange_rate = 1.0
         super().save(*args, **kwargs)
 

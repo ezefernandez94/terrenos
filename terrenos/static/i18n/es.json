@@ -16,7 +16,8 @@
     "menu": "Abrir menú de navegación",
     "menu_close": "Cerrar menú de navegación",
     "lang_label": "Cambiar idioma",
-    "lang_menu": "Idioma"
+    "lang_menu": "Idioma",
+    "preguntas": "Preguntas"
   },
   "lang": {
     "es": "Español",
@@ -51,7 +52,9 @@
     "card_lots": "{n} lotes",
     "card_from": "Desde {price}",
     "cta_map": "Ver plano y lotes",
-    "empty": "Muy pronto vas a poder ver acá nuestros loteos a la venta."
+    "empty": "Muy pronto vas a poder ver acá nuestros loteos a la venta.",
+    "finished_badge": "Finalizado",
+    "finished_desc": "Proyecto finalizado. Conocé nuestros loteos a la venta."
   },
   "upcoming": {
     "eyebrow": "En preparación",
@@ -59,23 +62,8 @@
     "subtitle": "Desarrollos en trámite de aprobación. Todavía no están a la venta: dejanos tus datos y te avisamos cuando abra la preventa.",
     "badge": "Próximamente",
     "cta": "Ver más",
-    "items": {
-      "u1": {
-        "name": "Ribera Norte",
-        "desc": "Loteo sobre la ribera con retiro verde y ciclovía proyectada.",
-        "eta": "Preventa estimada 2027"
-      },
-      "u2": {
-        "name": "Altos del Parque",
-        "desc": "Segunda etapa lindera al parque municipal, en etapa de mensura.",
-        "eta": "Preventa estimada 2027"
-      },
-      "u3": {
-        "name": "Camino Real",
-        "desc": "Parcelas sobre el acceso histórico, pendientes de factibilidad de servicios.",
-        "eta": "Preventa estimada 2028"
-      }
-    }
+    "card_desc": "Muy pronto a la venta. Dejanos tus datos y te avisamos cuando abra la preventa.",
+    "cta_notify": "Quiero que me avisen"
   },
   "finder": {
     "eyebrow": "Buscador de lotes",
@@ -224,5 +212,12 @@
     "not_on_map": "Sin ubicación en el plano",
     "page_title": "{project} — Plano de lotes | Terrenos Bragado",
     "page_description": "Plano interactivo de lotes de {project}, Bragado: disponibilidad, medidas y precios."
+  },
+  "financing": {
+    "plans": "Tenemos planes de financiación en {plans} cuotas"
+  },
+  "faq": {
+    "eyebrow": "Preguntas frecuentes",
+    "title": "Lo que más nos consultan"
   }
 }

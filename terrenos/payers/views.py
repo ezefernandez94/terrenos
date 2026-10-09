@@ -1,12 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.http import HttpResponse, Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Payer
 from .forms import PayerForm
 from django.contrib.auth.decorators import login_required
 
-class PayerCreateView(CreateView):
+class PayerCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a new payer.
     """
@@ -19,7 +21,7 @@ class PayerCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class PayerDeleteView(DeleteView):
+class PayerDeleteView(LoginRequiredMixin, DeleteView):
     """
     View to delete a payer.
     """
@@ -77,6 +79,7 @@ def delete(request, payer_id):
     payer = get_object_or_404(Payer, pk=payer_id)
     if request.method == 'POST':
         payer.delete()
-        return HttpResponse("<h1>Payer deleted successfully</h1>")
+        messages.success(request, 'Pagador eliminado.')
+        return redirect('payers:index')
     
     return render(request, 'payers/delete.html', {'payer': payer})

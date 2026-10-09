@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Eliminar pregunta frecuente</h2>
+    <p>¿Está seguro de querer eliminar la pregunta "{{ faq.question }}" ({{ faq.scope }})?</p>
+
+    <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Si, eliminar</button>
+    <a href="{% url 'faqs:index' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+{% endblock %}

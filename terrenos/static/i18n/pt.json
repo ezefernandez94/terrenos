@@ -16,7 +16,8 @@
     "menu": "Abrir menu de navegação",
     "menu_close": "Fechar menu de navegação",
     "lang_label": "Alterar idioma",
-    "lang_menu": "Idioma"
+    "lang_menu": "Idioma",
+    "preguntas": "Perguntas"
   },
   "lang": {
     "es": "Español",
@@ -51,7 +52,9 @@
     "card_lots": "{n} lotes",
     "card_from": "A partir de {price}",
     "cta_map": "Ver planta e lotes",
-    "empty": "Em breve você verá aqui nossos loteamentos à venda."
+    "empty": "Em breve você verá aqui nossos loteamentos à venda.",
+    "finished_badge": "Finalizado",
+    "finished_desc": "Projeto finalizado. Conheça nossos loteamentos à venda."
   },
   "upcoming": {
     "eyebrow": "Em preparação",
@@ -59,23 +62,8 @@
     "subtitle": "Empreendimentos em processo de aprovação. Ainda não estão à venda: deixe seus dados e avisamos quando a pré-venda abrir.",
     "badge": "Em breve",
     "cta": "Ver mais",
-    "items": {
-      "u1": {
-        "name": "Ribera Norte",
-        "desc": "Loteamento à beira do rio com recuo verde e ciclovia projetada.",
-        "eta": "Pré-venda prevista para 2027"
-      },
-      "u2": {
-        "name": "Altos del Parque",
-        "desc": "Segunda etapa ao lado do parque municipal, em fase de levantamento.",
-        "eta": "Pré-venda prevista para 2027"
-      },
-      "u3": {
-        "name": "Camino Real",
-        "desc": "Lotes no acesso histórico, aguardando viabilidade de infraestrutura.",
-        "eta": "Pré-venda prevista para 2028"
-      }
-    }
+    "card_desc": "Em breve à venda. Deixe seus dados e avisaremos quando a pré-venda abrir.",
+    "cta_notify": "Quero ser avisado"
   },
   "finder": {
     "eyebrow": "Busca de lotes",
@@ -224,5 +212,12 @@
     "not_on_map": "Sem localização na planta",
     "page_title": "{project} — Planta de lotes | Terrenos Bragado",
     "page_description": "Planta interativa de lotes de {project}, Bragado: disponibilidade, medidas e preços."
+  },
+  "financing": {
+    "plans": "Temos planos de financiamento em {plans} parcelas"
+  },
+  "faq": {
+    "eyebrow": "Perguntas frequentes",
+    "title": "O que mais nos perguntam"
   }
 }

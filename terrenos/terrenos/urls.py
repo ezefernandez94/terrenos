@@ -34,6 +34,7 @@ urlpatterns = [
     path("expense_type_details/", include("expense_type_details.urls")),
     path("expense_types/", include("expense_types.urls")),
     path("expenses/", include("expenses.urls")),
+    path("faqs/", include("faqs.urls")),
     path("investments/", include("investments.urls")),
     path("lands/", include("lands.urls")),
     path("payers/", include("payers.urls")),

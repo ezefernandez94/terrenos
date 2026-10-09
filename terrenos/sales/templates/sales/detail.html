@@ -2,15 +2,47 @@
 
 {% block content %}
 
-    <div class="card text-center">
+    <div class="card">
         <div class="card-header">
-            {{ sale.land.manual_id }}{{ sale.land.block }}
+            Venta de {{ sale.land.manual_id }}{{ sale.land.block }} — {{ sale.land.project.name }}
         </div>
         <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">{{ sale.sale_price }}</p>
-            <p class="card-text">{{ sale.sale_date }}</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <dl class="row mb-0">
+                <dt class="col-sm-4">Fecha de venta</dt><dd class="col-sm-8">{{ sale.sale_date }}</dd>
+                <dt class="col-sm-4">Precio de venta</dt><dd class="col-sm-8">{{ sale.land.currency }} {{ sale.sale_price }}</dd>
+                {% if sale.down_payment %}
+                <dt class="col-sm-4">Anticipo</dt><dd class="col-sm-8">{{ sale.land.currency }} {{ sale.down_payment }}{% if sale.down_payment_date %} ({{ sale.down_payment_date }}){% endif %}</dd>
+                <dt class="col-sm-4">Saldo financiado</dt><dd class="col-sm-8">{{ sale.land.currency }} {{ sale.financed_amount }}</dd>
+                {% endif %}
+                <dt class="col-sm-4">Cuotas</dt>
+                <dd class="col-sm-8">{{ sale.n_payments }}{% if sale.installment_amount is not None %} de {{ sale.land.currency }} {{ sale.installment_amount }}{% endif %}</dd>
+                <dt class="col-sm-4">Fecha de boleto</dt><dd class="col-sm-8">{{ sale.boletus_date|default:"—" }}</dd>
+                <dt class="col-sm-4">Escritura</dt><dd class="col-sm-8">{{ sale.deed_date|default:"—" }}{% if sale.deed_number %} (N° {{ sale.deed_number }}){% endif %}</dd>
+                <dt class="col-sm-4">Compradores</dt>
+                <dd class="col-sm-8">
+                    {% for ownership in sale.land.peopletolands_set.all %}
+                        <a href="{% url 'people:detail' ownership.person.id %}">{{ ownership.person.name }}</a>{% if not forloop.last %}, {% endif %}
+                    {% empty %}—{% endfor %}
+                </dd>
+                {% if sale.notes %}<dt class="col-sm-4">Notas</dt><dd class="col-sm-8">{{ sale.notes|linebreaksbr }}</dd>{% endif %}
+            </dl>
+
+            <h5 class="mt-4">Pagos registrados</h5>
+            <table class="table table-sm">
+                <thead><tr><th>Fecha</th><th>Tipo</th><th>Monto</th><th>Forma de pago</th></tr></thead>
+                <tbody>
+                {% for payment in sale.salesummary_set.all %}
+                    <tr>
+                        <td>{{ payment.date }}</td>
+                        <td>{{ payment.get_type_display }}</td>
+                        <td>{{ payment.amount }}</td>
+                        <td>{{ payment.get_payment_option_display }}</td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="4">No hay pagos registrados</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
         <div class="card-footer text-muted">
             <a href="{% url 'sales:edit' sale.id %}" class="btn btn-warning">Editar Venta</a>

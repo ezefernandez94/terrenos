@@ -5,6 +5,7 @@ from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
 
 from .lot_map import SvgError, consistency_report, sanitize_svg
+from .forms import InstallmentPlansField
 from .models import Project
 
 
@@ -18,6 +19,7 @@ class ProjectAdminForm(forms.ModelForm):
                   "Ver docs/mapa-interactivo.md para las convenciones de dibujo.",
     )
     clear_map_svg = forms.BooleanField(label="Quitar el plano actual", required=False)
+    installment_plans = InstallmentPlansField()
 
     class Meta:
         model = Project
@@ -48,13 +50,13 @@ class ProjectAdminForm(forms.ModelForm):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     form = ProjectAdminForm
-    list_display = ["name", "slug", "is_public", "has_map", "public_link"]
-    list_filter = ["is_public"]
+    list_display = ["name", "status", "slug", "is_public", "has_map", "public_link"]
+    list_filter = ["status", "is_public"]
     search_fields = ["name", "slug"]
     readonly_fields = ["map_report", "map_preview"]
     fieldsets = [
-        (None, {"fields": ["name", "start_date", "end_date"]}),
-        ("Web pública", {"fields": ["slug", "is_public"]}),
+        (None, {"fields": ["name", "status", "start_date", "end_date"]}),
+        ("Web pública", {"fields": ["slug", "is_public", "installment_plans"]}),
         ("Plano interactivo", {"fields": ["map_svg_file", "clear_map_svg", "map_report", "map_preview"]}),
     ]
 
@@ -66,6 +68,9 @@ class ProjectAdmin(admin.ModelAdmin):
     def public_link(self, obj):
         if not obj.is_public:
             return "—"
+        ## Only projects on sale have a public page (see public_views.public_project_or_404)
+        if obj.status != Project.IN_PROGRESS:
+            return f"Sin página ({obj.get_status_display().lower()})"
         url = reverse("public_projects:detail", args=[obj.slug])
         return format_html('<a href="{}" target="_blank" rel="noopener">{}</a>', url, url)
 
@@ -122,6 +127,10 @@ class ProjectAdmin(admin.ModelAdmin):
             '<div style="max-width:640px;max-height:480px;overflow:auto;border:1px solid #ccc;background:#fff">{}</div>',
             mark_safe(obj.map_svg),
         )
+
+    def has_delete_permission(self, request, obj=None):
+        ## Projects are never deleted: a closed project is marked as finished instead
+        return False
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)

@@ -1,12 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.http import HttpResponse, Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import PaymentReceiver
 from .forms import PaymentReceiverForm
 from django.contrib.auth.decorators import login_required
 
-class PaymentReceiverCreateView(CreateView):
+class PaymentReceiverCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a new payment receiver.
     """
@@ -19,7 +21,7 @@ class PaymentReceiverCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class SellerDeleteView(DeleteView):
+class SellerDeleteView(LoginRequiredMixin, DeleteView):
     """
     View to delete a payment receiver.
     """
@@ -77,6 +79,7 @@ def delete(request, payment_receiver_id):
     payment_receiver = get_object_or_404(PaymentReceiver, pk=payment_receiver_id)
     if request.method == 'POST':
         payment_receiver.delete()
-        return HttpResponse("<h1>Cobrador eliminado exitosamente</h1>")
+        messages.success(request, 'Cobrador eliminado.')
+        return redirect('payment_receivers:index')
     
     return render(request, 'payment_receivers/delete.html', {'receiver': payment_receiver})

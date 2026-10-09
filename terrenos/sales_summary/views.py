@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.http import HttpResponse, Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import SaleSummary
@@ -7,7 +9,7 @@ from .forms import SaleSummaryForm
 from sales.models import Sale
 from django.contrib.auth.decorators import login_required
 
-class SaleSummaryCreateView(CreateView):
+class SaleSummaryCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a new sale_summary.
     """
@@ -20,7 +22,7 @@ class SaleSummaryCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class SaleSummaryDeleteView(DeleteView):
+class SaleSummaryDeleteView(LoginRequiredMixin, DeleteView):
     """
     View to delete a seller.
     """
@@ -78,7 +80,8 @@ def delete(request, sale_summary_id):
     sale_summary = get_object_or_404(SaleSummary, pk=sale_summary_id)
     if request.method == 'POST':
         sale_summary.delete()
-        return HttpResponse("<h1>Ingreso eliminado exitosamente</h1>")
+        messages.success(request, 'Ingreso eliminado.')
+        return redirect('sales_summary:index')
     
     return render(request, 'sales_summary/delete.html', {'sale_summary': sale_summary})
 

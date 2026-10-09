@@ -5,8 +5,8 @@
 
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <h4>Compradores</h4>
+        {% include "sales/_sale_fields.html" %}
+        <h4 class="mt-4">Compradores</h4>
         {{ formset.management_form }}
         <table class="table">
             <thead>
@@ -22,21 +22,28 @@
             <tbody class="formset-body" id="formset-body">
             {% if formset.non_form_errors %}
                 <tr>
-                    <td colspan="5">
+                    <td colspan="6">
                         <div class="alert alert-danger">
                             {{ formset.non_form_errors }}
                         </div>
                     </td>
                 </tr>
             {% endif %}
-            {% for form in formset %}
+            {% for buyer_form in formset %}
+                {% if buyer_form.errors %}
+                <tr class="table-danger">
+                    <td colspan="6">
+                        {% for field, errors in buyer_form.errors.items %}{% for error in errors %}<div>{{ error }}</div>{% endfor %}{% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
                 <tr class="form-row">
-                    <td>{{ form.person }}</td>
-                    <td>{{ form.notes }}</td>
-                    <td>{{ form.create_new_person }}</td>
-                    <td>{{ form.new_name }}</td>
-                    <td>{{ form.new_phone }}</td>
-                    <td><a class="btn btn-sm btn-outline-danger delete-row">Eliminar</a></td>
+                    <td>{{ buyer_form.id }}{{ buyer_form.person }}</td>
+                    <td>{{ buyer_form.notes }}</td>
+                    <td>{{ buyer_form.create_new_person }}</td>
+                    <td>{{ buyer_form.new_name }}</td>
+                    <td>{{ buyer_form.new_phone }}</td>
+                    <td>{{ buyer_form.DELETE.as_hidden }}<a class="btn btn-sm btn-outline-danger delete-row">Eliminar</a></td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -49,13 +56,13 @@
     <table style="display: none">
         <tbody>
             <tr id="empty-form-row">
-            {% with form=formset.empty_form %}
-                <td>{{ form.person }}</td>
-                <td>{{ form.notes }}</td>
-                <td>{{ form.create_new_person }}</td>
-                <td>{{ form.new_name }}</td>
-                <td>{{ form.new_phone }}</td>
-                <td><a class="btn btn-sm btn-outline-danger delete-row">Eliminar</a></td>
+            {% with buyer_form=formset.empty_form %}
+                <td>{{ buyer_form.id }}{{ buyer_form.person }}</td>
+                <td>{{ buyer_form.notes }}</td>
+                <td>{{ buyer_form.create_new_person }}</td>
+                <td>{{ buyer_form.new_name }}</td>
+                <td>{{ buyer_form.new_phone }}</td>
+                <td>{{ buyer_form.DELETE.as_hidden }}<a class="btn btn-sm btn-outline-danger delete-row">Eliminar</a></td>
             {% endwith %}
             </tr>
         </tbody>
@@ -111,7 +118,9 @@
             // Event delegation for copy/delete
             formsetBody.addEventListener('click', function (e) {
                 if (e.target.classList.contains('delete-row')) {
-                    e.target.closest('tr').remove();
+                    const row = e.target.closest('tr');
+                    row.querySelector("input[name$='-DELETE']").value = "on";
+                    row.hidden = true;
                 }
             });
         });

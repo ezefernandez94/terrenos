@@ -4,7 +4,8 @@ class PeopleToLands(models.Model):
     """
     Model representing the relationship between a person and a land plot.
     """
-    person = models.ForeignKey('people.People', on_delete=models.CASCADE)
+    ## PROTECT: deleting a buyer must not silently drop their ownership of a land
+    person = models.ForeignKey('people.People', on_delete=models.PROTECT)
     land = models.ForeignKey('lands.Land', on_delete=models.CASCADE)
     notes = models.TextField(blank=True, null=True)
 

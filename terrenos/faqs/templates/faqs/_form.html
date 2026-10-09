@@ -1,0 +1,22 @@
+{% load django_bootstrap5 %}
+{# Fields shared by create.html and edit.html #}
+{% csrf_token %}
+<div class="row g-3">
+    <div class="col-md-8">{% bootstrap_field form.project %}</div>
+    <div class="col-md-2">{% bootstrap_field form.order %}</div>
+    <div class="col-md-2 d-flex align-items-end">{% bootstrap_field form.is_published %}</div>
+</div>
+<h4 class="mt-3">Español</h4>
+{% bootstrap_field form.question %}
+{% bootstrap_field form.answer %}
+<p class="text-muted small">Las traducciones son opcionales: si faltan, la web muestra la versión en español.</p>
+<details class="mb-3" {% if form.question_en.value or form.answer_en.errors or form.question_en.errors %}open{% endif %}>
+    <summary class="h5">Inglés (opcional)</summary>
+    {% bootstrap_field form.question_en %}
+    {% bootstrap_field form.answer_en %}
+</details>
+<details class="mb-3" {% if form.question_pt.value or form.answer_pt.errors or form.question_pt.errors %}open{% endif %}>
+    <summary class="h5">Portugués (opcional)</summary>
+    {% bootstrap_field form.question_pt %}
+    {% bootstrap_field form.answer_pt %}
+</details>

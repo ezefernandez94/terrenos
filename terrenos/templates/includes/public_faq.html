@@ -1,0 +1,25 @@
+{% comment %} Public FAQ accordion (landing + project pages). Expects `faqs` and `faq_jsonld`.
+   The Spanish text is inline; landing.js swaps in data-faq-<lang> when that translation
+   exists, and falls back to Spanish otherwise. {% endcomment %}
+{% if faqs %}
+<section class="section section--muted faq" id="preguntas" aria-labelledby="faq-title">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow" data-i18n="faq.eyebrow">Preguntas frecuentes</p>
+      <h2 class="section-title" id="faq-title" data-i18n="faq.title">Lo que más nos consultan</h2>
+    </header>
+    <div class="faq__list reveal">
+      {% for faq in faqs %}
+      <details class="faq__item">
+        <summary class="faq__q">
+          <span data-faq-es="{{ faq.question }}" data-faq-en="{{ faq.question_en }}" data-faq-pt="{{ faq.question_pt }}">{{ faq.question }}</span>
+          <svg aria-hidden="true"><use href="#icon-caret-down"></use></svg>
+        </summary>
+        <p class="faq__a" data-faq-es="{{ faq.answer }}" data-faq-en="{{ faq.answer_en }}" data-faq-pt="{{ faq.answer_pt }}">{{ faq.answer }}</p>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<script type="application/ld+json">{{ faq_jsonld|safe }}</script>
+{% endif %}

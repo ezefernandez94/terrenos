@@ -7,18 +7,18 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
+                    <th>Estado</th>
                     <th>Ver</th>
                     <th>Editar</th>
-                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
                 {% for project in projects %}
                     <tr>
                         <td>{{ project.name }}</td>
+                        <td>{{ project.get_status_display }}</td>
                         <td><a href="{% url 'projects:detail' project.id %}">Ver {{ project.name }}</a></td>
                         <td><a href="{% url 'projects:edit' project.id %}">Editar {{ project.name }}</a></td>
-                        <td><a href="{% url 'projects:delete' project.id %}">Eliminar {{ project.name }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

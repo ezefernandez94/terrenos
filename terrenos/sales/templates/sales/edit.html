@@ -2,11 +2,12 @@
 
 {% block content %}
 
-    <h2>Editar Vendedor</h2>
+    <h2>Editar Venta de {{ sale.land }} ({{ sale.land.project.name }})</h2>
     <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
+    {% include "sales/_sale_fields.html" %}
+    <button type="submit" class="btn btn-success mt-3">Guardar</button>
+    <a href="{% url 'sales:detail' sale.id %}" class="btn btn-secondary mt-3">Cancelar</a>
     </form>
 
 {% endblock %}

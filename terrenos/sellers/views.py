@@ -1,12 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.http import HttpResponse, Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Seller
 from .forms import SellerForm
 from django.contrib.auth.decorators import login_required
 
-class SellerCreateView(CreateView):
+class SellerCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a new seller.
     """
@@ -19,7 +21,7 @@ class SellerCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class SellerDeleteView(DeleteView):
+class SellerDeleteView(LoginRequiredMixin, DeleteView):
     """
     View to delete a seller.
     """
@@ -76,7 +78,10 @@ def delete(request, seller_id):
     """
     seller = get_object_or_404(Seller, pk=seller_id)
     if request.method == 'POST':
+        ## Land.seller is SET_NULL: the lands stay, they just lose who sold them
         seller.delete()
-        return HttpResponse("<h1>Seller deleted successfully</h1>")
-    
-    return render(request, 'sellers/delete.html', {'seller': seller})
+        messages.success(request, 'Vendedor eliminado.')
+        return redirect('sellers:index')
+
+    lands = seller.land_set.select_related('project').order_by('project__name', 'block', 'manual_id')
+    return render(request, 'sellers/delete.html', {'seller': seller, 'lands': lands})

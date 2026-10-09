@@ -1,16 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from decimal import Decimal, InvalidOperation
 from .models import Land
 from .forms import LandForm
 from projects.models import Project
+from projects.lot_map import lot_sort_key
 from django.contrib.auth.decorators import login_required
 
-class LandCreateView(CreateView):
+class LandCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a new land.
     """
@@ -23,7 +25,7 @@ class LandCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class LandDeleteView(DeleteView):
+class LandDeleteView(LoginRequiredMixin, DeleteView):
     """
     View to delete a land.
     """
@@ -34,11 +36,31 @@ class LandDeleteView(DeleteView):
 @login_required
 def index(request):
     """
-    Render the index page of the lands app.
+    Render the index page of the lands app: one table per project.
     """
-    ## select/prefetch: the template reads land.project and each owner's person; without this it's one query per row
-    lands = Land.objects.select_related('project').prefetch_related('peopletolands_set__person')
-    return render(request, 'lands/index.html', {"lands": lands})
+    ## select/prefetch: the template reads each owner's person; without this it's one query per row
+    lands = Land.objects.prefetch_related('peopletolands_set__person')
+    projects = Project.objects.prefetch_related(Prefetch('land_set', queryset=lands)).order_by('start_date', 'name')
+    ## Finished projects are hidden unless ?finalizados=1
+    show_finished = request.GET.get('finalizados') == '1'
+    if not show_finished:
+        projects = projects.exclude(status=Project.FINISHED)
+    groups = []
+    for project in projects:
+        project_lands = sorted(project.land_set.all(), key=lot_sort_key)
+        if project_lands:
+            sold = sum(1 for land in project_lands if land.is_sold)
+            groups.append({"project": project, "lands": project_lands, "sold": sold, "unsold": len(project_lands) - sold})
+    ## ?estado=vendidos|no_vendidos preselects the filter (it is applied client-side)
+    status_filter = request.GET.get('estado', 'todos')
+    if status_filter not in ('todos', 'vendidos', 'no_vendidos'):
+        status_filter = 'todos'
+    return render(request, 'lands/index.html', {
+        "groups": groups,
+        "status_filter": status_filter,
+        "show_finished": show_finished,
+        "finished_count": Project.objects.filter(status=Project.FINISHED).count(),
+    })
 
 @login_required
 def detail(request, land_id):

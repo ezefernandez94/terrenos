@@ -56,6 +56,7 @@ CUSTOM_APPS = [
     "expense_type_details",
     "expense_types",
     "expenses",
+    "faqs",
     "investments",
     "lands",
     "payers",
@@ -185,6 +186,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ## country code (e.g. 5492342123456). While empty, the button is not shown.
 PUBLIC_WHATSAPP_NUMBER = "".join(ch for ch in os.environ.get("PUBLIC_WHATSAPP_NUMBER", "") if ch.isdigit())
 
+## Named URL: login lives under /users/accounts/, not Django's default /accounts/login/ (which 404s)
+LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "/"
 
 ## Solo en Heroku. django_heroku reescribe DATABASES (forzando sslmode=require),

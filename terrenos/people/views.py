@@ -1,12 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.http import HttpResponse, Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import People
 from .forms import PeopleForm
 from django.contrib.auth.decorators import login_required
 
-class PeopleCreateView(CreateView):
+class PeopleCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a new people.
     """
@@ -19,7 +21,7 @@ class PeopleCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class PeopleDeleteView(DeleteView):
+class PeopleDeleteView(LoginRequiredMixin, DeleteView):
     """
     View to delete a people.
     """
@@ -75,8 +77,11 @@ def delete(request, people_id):
     Render the delete confirmation page for a specific person.
     """
     people = get_object_or_404(People, pk=people_id)
-    if request.method == 'POST':
+    ## Lands owned by this person block the delete (PeopleToLands.person is PROTECT)
+    owned_lands = [ownership.land for ownership in people.peopletolands_set.select_related('land__project')]
+    if request.method == 'POST' and not owned_lands:
         people.delete()
-        return HttpResponse("<h1>People deleted successfully</h1>")
-    
-    return render(request, 'people/delete.html', {'people': people})
+        messages.success(request, f'Se eliminó el contacto "{people.name}".')
+        return redirect('people:index')
+
+    return render(request, 'people/delete.html', {'people': people, 'owned_lands': owned_lands})

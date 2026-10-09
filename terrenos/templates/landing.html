@@ -1,4 +1,4 @@
-{% load static %}<!DOCTYPE html>
+{% load static public_tags %}<!DOCTYPE html>
 {% comment %} =============================================================================
    Public landing page — Terrenos Bragado
    Standalone template: deliberately does NOT extend base.html, so none of the
@@ -114,10 +114,11 @@
     <nav aria-label="Principal">
       <ul class="nav-links">
         <li><a class="nav-link" href="#proyectos"  data-section="proyectos"  data-i18n="nav.proyectos">Proyectos</a></li>
-        <li><a class="nav-link" href="#proximos"   data-section="proximos"   data-i18n="nav.proximos">Próximos</a></li>
+        {% if upcoming_cards %}<li><a class="nav-link" href="#proximos"   data-section="proximos"   data-i18n="nav.proximos">Próximos</a></li>{% endif %}
         <li><a class="nav-link" href="#buscador"   data-section="buscador"   data-i18n="nav.buscador">Encontrá tu terreno</a></li>
         <li><a class="nav-link" href="#seccion-1"  data-section="seccion-1"  data-i18n="nav.seccion1">Sección 1</a></li>
         <li><a class="nav-link" href="#seccion-2"  data-section="seccion-2"  data-i18n="nav.seccion2">Sección 2</a></li>
+        {% if faqs %}<li><a class="nav-link" href="#preguntas" data-section="preguntas" data-i18n="nav.preguntas">Preguntas</a></li>{% endif %}
         <li><a class="nav-link" href="#contacto"   data-section="contacto"   data-i18n="nav.contacto">Contacto</a></li>
       </ul>
     </nav>
@@ -162,10 +163,11 @@
 <nav id="mobile-menu" class="mobile-menu" hidden aria-label="Navegación móvil">
   <ul class="mobile-menu__list">
     <li><a class="mobile-menu__link" href="#proyectos"  data-i18n="nav.proyectos">Proyectos</a></li>
-    <li><a class="mobile-menu__link" href="#proximos"   data-i18n="nav.proximos">Próximos</a></li>
+    {% if upcoming_cards %}<li><a class="mobile-menu__link" href="#proximos"   data-i18n="nav.proximos">Próximos</a></li>{% endif %}
     <li><a class="mobile-menu__link" href="#buscador"   data-i18n="nav.buscador">Encontrá tu terreno</a></li>
     <li><a class="mobile-menu__link" href="#seccion-1"  data-i18n="nav.seccion1">Sección 1</a></li>
     <li><a class="mobile-menu__link" href="#seccion-2"  data-i18n="nav.seccion2">Sección 2</a></li>
+    {% if faqs %}<li><a class="mobile-menu__link" href="#preguntas" data-i18n="nav.preguntas">Preguntas</a></li>{% endif %}
     <li><a class="mobile-menu__link" href="#contacto"   data-i18n="nav.contacto">Contacto</a></li>
   </ul>
   <a class="btn btn--primary btn--block" href="#proyectos" data-i18n="nav.cta">Ver proyectos</a>
@@ -278,8 +280,10 @@
       {% if project_cards %}
       <div class="card-grid" data-stagger>
         {% for card in project_cards %}
-        <article class="p-card reveal">
+        {% with finished=card.project.is_finished %}
+        <article class="p-card reveal{% if finished %} p-card--finished{% endif %}">
           <div class="p-card__media{% if card.has_map %} p-card__media--plan{% endif %}">
+            {% if finished %}<span class="badge-finished"><svg aria-hidden="true"><use href="#icon-check-circle"></use></svg><span data-i18n="projects.finished_badge">Finalizado</span></span>{% endif %}
             {% if card.has_map %}
             <img src="{% url 'public_projects:plan_svg' card.project.slug %}" alt="" loading="lazy" width="800" height="500">
             {% else %}
@@ -288,23 +292,34 @@
           </div>
           <div class="p-card__body">
             <h3 class="p-card__title">
-              <a class="p-card__link" href="{% url 'public_projects:detail' card.project.slug %}">{{ card.project.name }}</a>
+              {% if finished %}{{ card.project.name }}{% else %}<a class="p-card__link" href="{% url 'public_projects:detail' card.project.slug %}">{{ card.project.name }}</a>{% endif %}
             </h3>
+            {% if finished %}
+            <p class="p-card__desc" data-i18n="projects.finished_desc">Proyecto finalizado. Conocé nuestros loteos a la venta.</p>
+            {% else %}
             <p class="p-card__desc"
                data-i18n="projects.card_desc{% if not card.has_map %}_nomap{% endif %}"
                data-i18n-vars='{"n": {{ card.available_lots }}, "total": {{ card.total_lots }}}'>
               {{ card.available_lots }} de {{ card.total_lots }} lotes disponibles{% if card.has_map %}, con plano interactivo{% endif %}.</p>
+            {% endif %}
             <div class="p-card__meta">
               <span class="chip"><svg aria-hidden="true"><use href="#icon-map-pin"></use></svg><span
                     data-i18n="projects.card_lots" data-i18n-vars='{"n": {{ card.total_lots }}}'>{{ card.total_lots }} lotes</span></span>
-              {% if card.min_price is not None %}
+              {% if card.min_price is not None and not finished %}
               <span class="chip chip--price" data-i18n="projects.card_from"
                     data-i18n-vars='{"price": {"money": {{ card.min_price|stringformat:"f" }}, "currency": "{{ card.price_currency|escapejs }}"}}'>Desde {{ card.price_currency }} {{ card.min_price|floatformat:0 }}</span>
               {% endif %}
             </div>
+            {% with plans=card.project.sorted_installment_plans %}{% if plans and not finished %}
+            <p class="p-card__plans"><svg aria-hidden="true"><use href="#icon-check-circle"></use></svg><span
+                  data-i18n="financing.plans" data-i18n-vars='{"plans": {"list": [{{ plans|join:", " }}]}}'>Tenemos planes de financiación en {{ plans|spanish_list }} cuotas</span></p>
+            {% endif %}{% endwith %}
+            {% if not finished %}
             <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="projects.cta_map">Ver plano y lotes</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
+            {% endif %}
           </div>
         </article>
+        {% endwith %}
         {% endfor %}
       </div>
       {% else %}
@@ -316,6 +331,7 @@
   <!-- =====================================================================
        PRÓXIMOS PROYECTOS — gold "Próximamente" tier, visually distinct
        ===================================================================== -->
+  {% if upcoming_cards %}
   <section class="section section--muted" id="proximos">
     <div class="container">
       <header class="section-head reveal">
@@ -327,62 +343,38 @@
         </p>
       </header>
 
+      {% comment %} Projects with status "coming_soon" (and is_public). Not on sale yet, so the
+         card leads to the contact form instead of a project page. {% endcomment %}
       <div class="card-grid" data-stagger>
-
+        {% for card in upcoming_cards %}
         <article class="p-card p-card--upcoming reveal">
-          <div class="p-card__media">
+          <div class="p-card__media{% if card.has_map %} p-card__media--plan{% endif %}">
             <span class="badge-soon"><svg aria-hidden="true"><use href="#icon-hourglass"></use></svg><span data-i18n="upcoming.badge">Próximamente</span></span>
-            <img src="{% static 'img/parcela-7.svg' %}" alt="" loading="lazy" width="800" height="500">
+            {% if card.has_map %}
+            <img src="{% url 'public_projects:plan_svg' card.project.slug %}" alt="" loading="lazy" width="800" height="500">
+            {% else %}
+            <img src="{% static card.placeholder %}" alt="" loading="lazy" width="800" height="500">
+            {% endif %}
           </div>
           <div class="p-card__body">
             <h3 class="p-card__title">
-              <a class="p-card__link" href="/proyectos/ribera-norte/" data-i18n="upcoming.items.u1.name">Ribera Norte</a>
+              <a class="p-card__link" href="#contacto">{{ card.project.name }}</a>
             </h3>
-            <p class="p-card__desc" data-i18n="upcoming.items.u1.desc">Loteo sobre la ribera con retiro verde y ciclovía proyectada.</p>
+            <p class="p-card__desc" data-i18n="upcoming.card_desc">Muy pronto a la venta. Dejanos tus datos y te avisamos cuando abra la preventa.</p>
+            {% if card.total_lots %}
             <div class="p-card__meta">
-              <span class="chip"><svg aria-hidden="true"><use href="#icon-clock"></use></svg><span data-i18n="upcoming.items.u1.eta">Preventa estimada 2027</span></span>
+              <span class="chip"><svg aria-hidden="true"><use href="#icon-map-pin"></use></svg><span
+                    data-i18n="projects.card_lots" data-i18n-vars='{"n": {{ card.total_lots }}}'>{{ card.total_lots }} lotes</span></span>
             </div>
-            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="upcoming.cta">Ver más</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
+            {% endif %}
+            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="upcoming.cta_notify">Quiero que me avisen</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
           </div>
         </article>
-
-        <article class="p-card p-card--upcoming reveal">
-          <div class="p-card__media">
-            <span class="badge-soon"><svg aria-hidden="true"><use href="#icon-hourglass"></use></svg><span data-i18n="upcoming.badge">Próximamente</span></span>
-            <img src="{% static 'img/parcela-8.svg' %}" alt="" loading="lazy" width="800" height="500">
-          </div>
-          <div class="p-card__body">
-            <h3 class="p-card__title">
-              <a class="p-card__link" href="/proyectos/altos-del-parque/" data-i18n="upcoming.items.u2.name">Altos del Parque</a>
-            </h3>
-            <p class="p-card__desc" data-i18n="upcoming.items.u2.desc">Segunda etapa lindera al parque municipal, en etapa de mensura.</p>
-            <div class="p-card__meta">
-              <span class="chip"><svg aria-hidden="true"><use href="#icon-clock"></use></svg><span data-i18n="upcoming.items.u2.eta">Preventa estimada 2027</span></span>
-            </div>
-            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="upcoming.cta">Ver más</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
-          </div>
-        </article>
-
-        <article class="p-card p-card--upcoming reveal">
-          <div class="p-card__media">
-            <span class="badge-soon"><svg aria-hidden="true"><use href="#icon-hourglass"></use></svg><span data-i18n="upcoming.badge">Próximamente</span></span>
-            <img src="{% static 'img/parcela-9.svg' %}" alt="" loading="lazy" width="800" height="500">
-          </div>
-          <div class="p-card__body">
-            <h3 class="p-card__title">
-              <a class="p-card__link" href="/proyectos/camino-real/" data-i18n="upcoming.items.u3.name">Camino Real</a>
-            </h3>
-            <p class="p-card__desc" data-i18n="upcoming.items.u3.desc">Parcelas sobre el acceso histórico, pendientes de factibilidad de servicios.</p>
-            <div class="p-card__meta">
-              <span class="chip"><svg aria-hidden="true"><use href="#icon-clock"></use></svg><span data-i18n="upcoming.items.u3.eta">Preventa estimada 2028</span></span>
-            </div>
-            <p class="p-card__foot"><span class="p-card__cta" aria-hidden="true"><span data-i18n="upcoming.cta">Ver más</span><svg><use href="#icon-arrow-right"></use></svg></span></p>
-          </div>
-        </article>
-
+        {% endfor %}
       </div>
     </div>
   </section>
+  {% endif %}
 
   <!-- =====================================================================
        ENCONTRÁ TU TERRENO — filters over the available/reserved lots of every
@@ -406,8 +398,8 @@
             <label class="field__label" for="f-project" data-i18n="finder.project_label">Proyecto o ubicación</label>
             <select class="select" id="f-project" name="project">
               <option value="" data-i18n="finder.project_any">Todos los proyectos</option>
-              {% for card in project_cards %}
-              <option value="{{ card.project.slug }}">{{ card.project.name }}</option>
+              {% for project in finder_projects %}
+              <option value="{{ project.slug }}">{{ project.name }}</option>
               {% endfor %}
             </select>
           </div>
@@ -526,6 +518,11 @@
       </div>
     </div>
   </section>
+
+  <!-- =====================================================================
+       PREGUNTAS FRECUENTES — general FAQs (Faq rows without a project)
+       ===================================================================== -->
+  {% include "includes/public_faq.html" %}
 
   <!-- =====================================================================
        CONTACTO
@@ -704,7 +701,7 @@
         <p class="footer-col__title" data-i18n="footer.col_nav">Navegación</p>
         <ul class="footer-list">
           <li><a href="#proyectos"  data-i18n="nav.proyectos">Proyectos</a></li>
-          <li><a href="#proximos"   data-i18n="nav.proximos">Próximos</a></li>
+          {% if upcoming_cards %}<li><a href="#proximos"   data-i18n="nav.proximos">Próximos</a></li>{% endif %}
           <li><a href="#buscador"   data-i18n="nav.buscador">Encontrá tu terreno</a></li>
           <li><a href="#seccion-1"  data-i18n="nav.seccion1">Sección 1</a></li>
           <li><a href="#seccion-2"  data-i18n="nav.seccion2">Sección 2</a></li>

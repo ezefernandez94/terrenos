@@ -1,12 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.http import HttpResponse, Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Investment
 from .forms import InvestmentForm
 from django.contrib.auth.decorators import login_required
 
-class InvestmentCreateView(CreateView):
+class InvestmentCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a new investment.
     """
@@ -19,7 +21,7 @@ class InvestmentCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class InvestmentDeleteView(DeleteView):
+class InvestmentDeleteView(LoginRequiredMixin, DeleteView):
     """
     View to delete a investment.
     """
@@ -84,7 +86,8 @@ def delete(request, investment_id):
     investment = get_object_or_404(Investment, pk=investment_id)
     if request.method == 'POST':
         investment.delete()
-        return HttpResponse("<h1>Investment deleted successfully</h1>")
+        messages.success(request, 'Inversión eliminada.')
+        return redirect('investments:index')
     
     return render(request, 'investments/delete.html', {'investment': investment})
 

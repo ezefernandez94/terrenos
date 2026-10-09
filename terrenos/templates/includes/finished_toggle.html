@@ -1,0 +1,10 @@
+{# Finished projects are hidden by default #}
+{% if finished_count %}
+    <p class="small">
+        {% if show_finished %}
+            <a href="?">Ocultar proyectos finalizados</a>
+        {% else %}
+            {{ finished_count }} proyecto{{ finished_count|pluralize }} finalizado{{ finished_count|pluralize }} oculto{{ finished_count|pluralize }}. <a href="?finalizados=1">Mostrar</a>
+        {% endif %}
+    </p>
+{% endif %}

@@ -11,59 +11,37 @@ class PeopleToLandsForm(forms.ModelForm):
     class Meta:
         model = PeopleToLands
         fields = ['person', 'notes']
+        widgets = {
+            'person': forms.Select(attrs={'class': 'form-select'}),
+            'notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.fields['person'].required = False  # Always start as not required
-
-        # Handle POST data if present
-        data = args[0] if args else None
-        if data:
-            full_prefix = self.prefix if self.prefix else ''
-            field_name = f"{full_prefix}-create_new_person" if full_prefix else "create_new_person"
-            create_new_value = data.get(field_name)
-
-            if create_new_value in ["on", "true", "True", True, "1"]:
-                # New person will be created — skip requiring person
-                self.fields['person'].required = False
+        ## Either an existing person or a new one is required; clean() enforces it
+        self.fields['person'].required = False
+        self.fields['new_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['new_phone'].widget.attrs.update({'class': 'form-control'})
 
     def clean(self):
         cleaned_data = super().clean()
-        
-        create_new = cleaned_data.get('create_new_person')
-        new_name = cleaned_data.get('new_name')
-        new_phone = cleaned_data.get('new_phone')
 
-        if create_new:
-            
-            if not cleaned_data.get('new_name') or not cleaned_data.get('new_phone'):
-                raise forms.ValidationError("Debe completar nombre y documento para la nueva persona.")
-
-            # Create or get person here and inject it into cleaned_data
-            person, created = People.objects.get_or_create(
-                name=new_name,
-                phone=new_phone,
-                type='buyer'
-            )
-
-            cleaned_data['person'] = person
-            self.instance.person = person
-            print("Person created or retrieved:", person, "Created:", created, "CLeaned Data:", cleaned_data)
-
+        if cleaned_data.get('create_new_person'):
+            ## Only the name is required; the phone can be completed later
+            if not cleaned_data.get('new_name'):
+                self.add_error('new_name', "Ingresá el nombre de la nueva persona.")
         elif not cleaned_data.get('person'):
-            raise forms.ValidationError("Debe seleccionar una persona existente o crear una nueva.")
-        
+            self.add_error('person', "Seleccioná una persona existente o marcá «Agregar nueva persona».")
+
         return cleaned_data
 
     def save(self, commit=True):
-        create_new = self.cleaned_data.get('create_new_person')
-
-        if create_new:
-            person = People.objects.create(
+        ## The person is created here and not in clean(), so a failed form leaves no orphan rows
+        if self.cleaned_data.get('create_new_person'):
+            self.instance.person = People.objects.create(
                 name=self.cleaned_data['new_name'],
-                phone=self.cleaned_data['new_phone']
+                phone=self.cleaned_data.get('new_phone') or None,
+                type='buyer',
             )
-            self.instance.person = person
 
         return super().save(commit=commit)

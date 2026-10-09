@@ -32,9 +32,10 @@ python terrenos/manage.py collectstatic      # WhiteNoise serves from terrenos/s
 ```
 
 Tests: `pytest.ini` sits at the repo root but points at `testpaths = tests/`, which does not exist, and
-enforces `--cov-fail-under=80` against `expense_type_details` only. Every app's `tests.py` is an empty stub.
-A bare `pytest` therefore collects nothing and fails the coverage gate — run Django's own runner instead
-(`python terrenos/manage.py test <app>`), or fix `pytest.ini` before adding pytest tests. `pytest.ini`'s
+enforces `--cov-fail-under=80` against `expense_type_details` only. A bare `pytest` therefore collects
+nothing and fails the coverage gate — run Django's own runner instead (`python terrenos/manage.py test`;
+tests live in `people`, `sales`, `lands`, `projects` and `faqs`), or fix `pytest.ini` before adding pytest
+tests. `SaleSummary.save()` calls an exchange-rate API: tests mock `sales_summary.models.requests.get`. `pytest.ini`'s
 `DJANGO_SETTINGS_MODULE = terrenos.settings` only resolves with `terrenos/` on the path.
 
 ## Architecture
@@ -57,6 +58,8 @@ Domain graph:
 - `Project` ← `Investment` and `Project` ← `Expense` — near-identical models (`Expense` adds a `receipt`
   file upload), both categorized by `ExpenseType` (concepto) + `ExpenseTypeDetail` (detalle)
 - Lookup tables: `Seller`, `Payer`, `PaymentReceiver`, `People`, `PeopleToLands`
+- `Faq` (app `faqs`): public FAQ; `project=None` means general (landing). Spanish required, `_en`/`_pt` optional
+- `Project.installment_plans`: Postgres `ArrayField` of 12/24/36/48, shown on the public pages
 
 **Exchange rates are fetched in `Model.save()`** when `exchange_rate` is blank — `Investment` hits
 dolarapi blue, `Expense` hits dolarapi oficial, `SaleSummary` hits exchangerate-api. This means saving
@@ -93,6 +96,7 @@ for sortable index tables). Auth templates live in `users/templates/registration
 
 - Migrations in `expense_types/` and `expense_type_details/` (`0002_*_key`, `0003_alter_*_key`) currently have
   their `operations` commented out to work around a Neon migration error — check `git diff` before touching
-  those apps' schema, and expect `makemigrations` to want to re-add the `key` field.
+  those apps' schema, and expect `makemigrations` to want to re-add the `key` field. Because of that, `makemigrations`
+  aborts (or hangs on a prompt) even when scoped to another app; write other apps' migrations by hand.
 - Commit messages in this repo are written in Spanish.
 - Comments in this codebase use `##` rather than `#`; commented-out code is left in place as history.

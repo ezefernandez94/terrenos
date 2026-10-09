@@ -3,7 +3,19 @@
 {% block content %}
 
     <h2>Eliminar Vendedor</h2>
-    <p>Esta seguro de querer eliminar el vendedor "{{ seller.name }}"?</p>
+    {% if lands %}
+        <div class="alert alert-warning">
+            Estos terrenos van a perder el registro de quien los vendió:
+            <ul class="mb-0">
+                {% for land in lands %}
+                    <li><a href="{% url 'lands:detail' land.id %}">{{ land.manual_id }} - {{ land.block }} ({{ land.project.name }})</a></li>
+                {% endfor %}
+            </ul>
+            ¿Desea continuar?
+        </div>
+    {% else %}
+        <p>Esta seguro de querer eliminar el vendedor "{{ seller.name }}"?</p>
+    {% endif %}
 
     <form method="post">
     {% csrf_token %}

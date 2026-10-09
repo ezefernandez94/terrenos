@@ -11,8 +11,10 @@ class Land(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     currency = models.CharField(max_length=5, blank=False, null=False, default='USD')
     notes = models.TextField(blank=True, null=True)
-    project = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
-    seller = models.ForeignKey('sellers.Seller', on_delete=models.CASCADE, blank=True, null=True)
+    ## PROTECT: projects are never deleted, and a stray delete must not take its lands with it
+    project = models.ForeignKey('projects.Project', on_delete=models.PROTECT)
+    ## SET_NULL: deleting a seller only loses who sold the land, never the land itself
+    seller = models.ForeignKey('sellers.Seller', on_delete=models.SET_NULL, blank=True, null=True)
     type = models.CharField(
         max_length=50,
         choices=[

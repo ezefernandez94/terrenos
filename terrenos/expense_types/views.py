@@ -1,12 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.http import HttpResponse, Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DeleteView
 from django.urls import reverse_lazy
 from .models import ExpenseType
 from .forms import ExpenseTypeForm
 from django.contrib.auth.decorators import login_required
 
-class ExpenseTypeCreateView(CreateView):
+class ExpenseTypeCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a new expense_type.
     """
@@ -19,7 +21,7 @@ class ExpenseTypeCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class ExpenseDeleteView(DeleteView):
+class ExpenseDeleteView(LoginRequiredMixin, DeleteView):
     """
     View to delete a expense_type.
     """
@@ -77,7 +79,8 @@ def delete(request, expense_type_id):
     expense_type = get_object_or_404(ExpenseType, pk=expense_type_id)
     if request.method == 'POST':
         expense_type.delete()
-        return HttpResponse("<h1>Expense deleted successfully</h1>")
+        messages.success(request, 'Concepto eliminado.')
+        return redirect('expense_types:index')
     
     return render(request, 'expense_types/delete.html', {'expense_type': expense_type})
 

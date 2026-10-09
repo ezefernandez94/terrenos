@@ -995,6 +995,24 @@ body.landing {
   margin-top: 0.25rem;
 }
 
+/* "Tenemos planes de financiación en 12, 24 y 36 cuotas" — Project.installment_plans */
+.p-card__plans {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin-top: var(--space-sm);
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.p-card__plans svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: none;
+  margin-top: 0.1rem;
+}
+
 .p-card__foot {
   margin-top: var(--space-md);
 }
@@ -1091,6 +1109,55 @@ body.landing {
   text-transform: uppercase;
   line-height: 1.35;
   white-space: normal;
+}
+
+/* Finished projects: still listed, but not clickable and visually quieter */
+.badge-finished {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: calc(100% - 2 * var(--space-md));
+  padding: 0.34rem 0.75rem;
+  background: var(--color-card);
+  color: var(--color-muted-foreground);
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge-finished svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex: none;
+}
+
+.p-card--finished {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.p-card--finished .p-card__media img {
+  filter: grayscale(0.85);
+  opacity: 0.75;
+}
+
+.p-card--finished:hover,
+.p-card--finished:focus-within {
+  box-shadow: none;
+  transform: none;
+  border-color: #e2e8f0;
+}
+
+.p-card--finished:hover .p-card__media img {
+  transform: none;
 }
 
 .badge-soon svg {
@@ -1957,4 +2024,61 @@ a.contact-item__value:hover {
   text-align: center;
   font-size: 0.9375rem;
   color: rgba(236, 254, 255, 0.8);
+}
+
+/* --------------------------------------------------------------------------
+   FAQ — general (landing) and per project; content comes from the Faq model
+   -------------------------------------------------------------------------- */
+.faq__list {
+  display: grid;
+  gap: var(--space-sm);
+  max-width: 52rem;
+}
+
+.faq__item {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 44px;
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  list-style: none;
+  color: var(--color-card-foreground);
+  font-weight: 600;
+}
+
+.faq__q::-webkit-details-marker {
+  display: none;
+}
+
+.faq__q svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: none;
+  transition: transform 0.2s ease;
+}
+
+.faq__item[open] .faq__q svg {
+  transform: rotate(180deg);
+}
+
+.faq__a {
+  margin: 0;
+  padding: 0 var(--space-lg) var(--space-lg);
+  color: var(--color-muted-foreground);
+  /* Answers are plain text typed by the users; keep their line breaks */
+  white-space: pre-line;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__q svg {
+    transition: none;
+  }
 }

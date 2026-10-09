@@ -5,7 +5,8 @@ class Expense(models.Model):
     """
     Model representing a expense related to a project
     """
-    project = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
+    ## PROTECT: projects are never deleted, and a stray delete must not take the project's costs with it
+    project = models.ForeignKey('projects.Project', on_delete=models.PROTECT)
     date = models.DateField()
     expense_type = models.ForeignKey('expense_types.ExpenseType', on_delete=models.CASCADE)
     expense_type_detail = models.ForeignKey('expense_type_details.ExpenseTypeDetail', on_delete=models.CASCADE)

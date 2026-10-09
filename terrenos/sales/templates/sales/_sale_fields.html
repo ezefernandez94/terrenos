@@ -1,0 +1,69 @@
+{% load django_bootstrap5 %}
+{# Sale fields shared by sell_land.html and edit.html. Expects `form` (a SaleForm). #}
+{{ form.land }}
+{% if form.non_field_errors %}
+    <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+{% endif %}
+<div class="row g-3">
+    <div class="col-md-6">{% bootstrap_field form.sale_date %}</div>
+    <div class="col-md-6">{% bootstrap_field form.sale_price %}</div>
+</div>
+
+<h4 class="mt-3">Financiación</h4>
+<div class="row g-3">
+    <div class="col-md-4">{% bootstrap_field form.down_payment %}</div>
+    <div class="col-md-4">{% bootstrap_field form.down_payment_option %}</div>
+    <div class="col-md-4">{% bootstrap_field form.down_payment_date %}</div>
+    <div class="col-md-4">{% bootstrap_field form.n_payments %}</div>
+    <div class="col-md-8 d-flex align-items-center">
+        {# Filled by the script below #}
+        <p class="mb-0 text-muted" id="financing-summary" aria-live="polite"></p>
+    </div>
+</div>
+
+<h4 class="mt-3">Documentación</h4>
+<div class="row g-3">
+    <div class="col-md-4">
+        {% bootstrap_field form.boletus_date %}
+        <a href="#" id="use-sale-date" class="small">Usar la misma fecha de venta</a>
+    </div>
+    <div class="col-md-4">{% bootstrap_field form.deed_date %}</div>
+    <div class="col-md-4">{% bootstrap_field form.deed_number %}</div>
+</div>
+<div class="mt-3">{% bootstrap_field form.notes %}</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const saleDate = document.getElementById("{{ form.sale_date.id_for_label }}");
+        const boletusDate = document.getElementById("{{ form.boletus_date.id_for_label }}");
+        document.getElementById("use-sale-date").addEventListener("click", (e) => {
+            e.preventDefault();
+            boletusDate.value = saleDate.value;
+        });
+
+        const price = document.getElementById("{{ form.sale_price.id_for_label }}");
+        const downPayment = document.getElementById("{{ form.down_payment.id_for_label }}");
+        const nPayments = document.getElementById("{{ form.n_payments.id_for_label }}");
+        const summary = document.getElementById("financing-summary");
+        const money = new Intl.NumberFormat("es-AR", { maximumFractionDigits: 2 });
+
+        function updateSummary() {
+            const total = parseFloat(price.value) || 0;
+            const down = parseFloat(downPayment.value) || 0;
+            const n = parseInt(nPayments.value, 10) || 0;
+            if (total <= 0) { summary.textContent = ""; return; }
+            const remaining = total - down;
+            const parts = [];
+            if (down > 0) {
+                parts.push(`Anticipo: ${money.format(down)} (${money.format(down / total * 100)}%)`);
+            }
+            parts.push(`Saldo: ${money.format(remaining)}`);
+            if (n > 0) {
+                parts.push(`${n} cuotas de ${money.format(remaining / n)}`);
+            }
+            summary.textContent = parts.join(" · ");
+        }
+        [price, downPayment, nPayments].forEach(el => el.addEventListener("input", updateSummary));
+        updateSummary();
+    });
+</script>

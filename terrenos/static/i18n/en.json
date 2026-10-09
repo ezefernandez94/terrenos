@@ -16,7 +16,8 @@
     "menu": "Open navigation menu",
     "menu_close": "Close navigation menu",
     "lang_label": "Change language",
-    "lang_menu": "Language"
+    "lang_menu": "Language",
+    "preguntas": "FAQ"
   },
   "lang": {
     "es": "Español",
@@ -51,7 +52,9 @@
     "card_lots": "{n} lots",
     "card_from": "From {price}",
     "cta_map": "See plan and lots",
-    "empty": "Our developments for sale will be listed here very soon."
+    "empty": "Our developments for sale will be listed here very soon.",
+    "finished_badge": "Completed",
+    "finished_desc": "Completed project. Check out our developments on sale."
   },
   "upcoming": {
     "eyebrow": "In preparation",
@@ -59,23 +62,8 @@
     "subtitle": "Developments awaiting approval. They are not on sale yet — leave your details and we will let you know when the pre-sale opens.",
     "badge": "Coming soon",
     "cta": "See more",
-    "items": {
-      "u1": {
-        "name": "Ribera Norte",
-        "desc": "Riverside development with a green setback and a planned cycle path.",
-        "eta": "Pre-sale expected 2027"
-      },
-      "u2": {
-        "name": "Altos del Parque",
-        "desc": "Second phase bordering the municipal park, currently being surveyed.",
-        "eta": "Pre-sale expected 2027"
-      },
-      "u3": {
-        "name": "Camino Real",
-        "desc": "Parcels along the historic access road, pending utility feasibility.",
-        "eta": "Pre-sale expected 2028"
-      }
-    }
+    "card_desc": "Coming soon. Leave us your details and we will let you know when pre-sales open.",
+    "cta_notify": "Notify me"
   },
   "finder": {
     "eyebrow": "Plot finder",
@@ -224,5 +212,12 @@
     "not_on_map": "Not shown on the map",
     "page_title": "{project} — Lot map | Terrenos Bragado",
     "page_description": "Interactive lot map for {project}, Bragado: availability, sizes and prices."
+  },
+  "financing": {
+    "plans": "We offer financing plans in {plans} installments"
+  },
+  "faq": {
+    "eyebrow": "Frequently asked questions",
+    "title": "What people ask us most"
   }
 }

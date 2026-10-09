@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.http import HttpResponse, Http404
-from django.views.generic import CreateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.db.models import Q, Sum, Case, When, DecimalField, F, Value, Avg
 
@@ -11,7 +13,7 @@ from expense_types.models import ExpenseType
 from expense_type_details.models import ExpenseTypeDetail
 from django.contrib.auth.decorators import login_required
 
-class ProjectCreateView(CreateView):
+class ProjectCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a new project.
     """
@@ -25,14 +27,6 @@ class ProjectCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class ProjectDeleteView(DeleteView):
-    """
-    View to delete a project.
-    """
-    model = Project
-    template_name = 'projects/delete.html'
-    success_url = reverse_lazy('projects:index')
-
 @login_required
 def index(request):
     """
@@ -193,14 +187,3 @@ def edit(request, project_id):
         form = ProjectForm(instance=project)
     return render(request, 'projects/edit.html', {'form': form})
 
-@login_required
-def delete(request, project_id):
-    """
-    Render the delete confirmation page for a specific project.
-    """
-    project = get_object_or_404(Project, pk=project_id)
-    if request.method == 'POST':
-        project.delete()
-        return HttpResponse("<h1>Project deleted successfully</h1>")
-    
-    return render(request, 'projects/delete.html', {'project': project})

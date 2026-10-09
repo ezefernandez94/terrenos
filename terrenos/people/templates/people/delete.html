@@ -3,12 +3,25 @@
 {% block content %}
 
     <h2>Eliminar Contacto</h2>
-    <p>Esta seguro de querer eliminar el contacto "{{ people.name }}"?</p>
+    {% if owned_lands %}
+        <div class="alert alert-warning">
+            No se puede eliminar a "{{ people.name }}" porque figura como dueño de:
+            <ul class="mb-0">
+                {% for land in owned_lands %}
+                    <li><a href="{% url 'lands:detail' land.id %}">{{ land.manual_id }} - {{ land.block }} ({{ land.project.name }})</a></li>
+                {% endfor %}
+            </ul>
+            Primero quitalo de esos terrenos.
+        </div>
+        <a href="{% url 'people:detail' people.id %}" class="btn btn-secondary">Volver</a>
+    {% else %}
+        <p>Esta seguro de querer eliminar el contacto "{{ people.name }}"?</p>
 
-    <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Si, eliminar</button>
-    <a href="{% url 'people:detail' seller.id %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+        <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Si, eliminar</button>
+        <a href="{% url 'people:detail' people.id %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    {% endif %}
 
 {% endblock %}

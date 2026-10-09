@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Nueva pregunta frecuente</h2>
+  <form method="post">
+    {% include "faqs/_form.html" %}
+    <button type="submit" class="btn btn-success">Crear</button>
+    <a href="{% url 'faqs:index' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+{% endblock %}
