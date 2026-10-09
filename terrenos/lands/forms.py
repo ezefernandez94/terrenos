@@ -13,7 +13,7 @@ class LandForm(forms.ModelForm):
             'length': 'Largo',
             'type': 'Tipo',
             'price': 'Precio',
-            'currency': 'Modeda',
+            'currency': 'Moneda',
             'status': 'Estado',
             'seller': 'Vendió',
             'notes': 'Notas'

@@ -156,3 +156,25 @@ class PublicStatusTests(TestCase):
         response = self.client.get(reverse("landing"))
         self.assertNotContains(response, 'id="proximos"')
         self.assertNotContains(response, 'href="#proximos"')
+
+
+class ProjectCreatePageTests(TestCase):
+    def setUp(self):
+        self.client.force_login(User.objects.create_user("tester"))
+
+    def test_create_page_renders_every_form_field(self):
+        ## Regression: create.html is laid out by hand and lacked the new required status field,
+        ## so every submit failed with an error the page never showed
+        response = self.client.get(reverse("projects:create"))
+        for field in ProjectForm().fields:
+            with self.subTest(field=field):
+                self.assertContains(response, f'name="{field}"')
+
+    def test_create_finished_project_with_plans(self):
+        response = self.client.post(reverse("projects:create"), {
+            "name": "Nuevo", "status": Project.FINISHED, "start_date": "2026-01-01", "end_date": "",
+            "installment_plans": ["24", "12"],
+        })
+        self.assertRedirects(response, reverse("projects:index"))
+        project = Project.objects.get(name="Nuevo")
+        self.assertEqual((project.status, project.installment_plans), (Project.FINISHED, [12, 24]))

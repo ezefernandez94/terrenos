@@ -117,6 +117,14 @@ class SellLandTests(TestCase):
         response = self.client.get(self.url)
         self.assertContains(response, "Usar la misma fecha de venta")
 
+    def test_sale_fields_are_rendered_once(self, _get):
+        ## Regression: the navbar's logout form rendered {{ form.as_p }}, so every field existed twice
+        ## (a hidden copy first) and the page scripts (same-date link, financing summary) used the hidden one
+        response = self.client.get(self.url)
+        for field_id in ("id_sale_date", "id_boletus_date", "id_sale_price", "id_down_payment", "id_n_payments"):
+            with self.subTest(field_id=field_id):
+                self.assertContains(response, f'id="{field_id}"', count=1)
+
     def test_detail_and_summary_str(self, _get):
         self.client.post(self.url, {**self.sale_data(down_payment="2000", down_payment_option="usd"),
                                     **management(1), **self.new_buyer(0)})

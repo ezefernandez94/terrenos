@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-28.94 -10 111.34 216.5" role="img" aria-labelledby="map-title" font-family="Helvetica, Arial, sans-serif">
+  <title id="map-title">Plano referencial - Ibarguren (Chacra 8)</title>
+  <g id="streets" pointer-events="none">
+    <rect x="-28.94" y="-10" width="111.34" height="216.5" fill="#E6E6E6"/>
+  </g>
+  <g id="context-labels" pointer-events="none" fill="#555555" text-anchor="middle">
+    <text id="lbl-ibarguren" x="34" y="-4" font-size="3.6">Calle Ibarguren (T)</text>
+    <text id="lbl-los-eucaliptus" x="34" y="69.6" font-size="3.6">Calle Los Eucaliptus (T)</text>
+    <text id="lbl-los-jacarandas" x="34" y="144" font-size="3.6">Calle Los Jacarandas (T)</text>
+    <text id="lbl-la-limpia" x="-16" y="40" font-size="3.6" transform="rotate(-77 -16 40)">Calle La Limpia (T)</text>
+    <text id="lbl-sin-nombre" x="66" y="40" font-size="3.6" transform="rotate(-77 66 40)">Calle sin nombre (T)</text>
+  </g>
+  <g id="lotes">
+    <g id="mza-8ae">
+      <polygon id="8ae-l1a" class="lot" points="0,0 10.2,0 4.38,25.2 -5.82,25.2" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l2" class="lot" points="10.2,0 22.2,0 16.38,25.2 4.38,25.2" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l3" class="lot" points="22.2,0 34.2,0 28.38,25.2 16.38,25.2" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l4" class="lot" points="34.2,0 46.2,0 40.38,25.2 28.38,25.2" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l5" class="lot" points="46.2,0 58.2,0 52.38,25.2 40.38,25.2" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l6" class="lot" points="58.2,0 68.4,0 62.58,25.2 52.38,25.2" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l14" class="lot" points="-8.82,25.2 28.38,25.2 25.61,37.2 -11.59,37.2" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l7" class="lot" points="28.38,25.2 65.58,25.2 62.81,37.2 25.61,37.2" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l13" class="lot" points="-8.59,37.2 1.59,37.2 -4.23,62.4 -14.41,62.4" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l12" class="lot" points="1.59,37.2 13.59,37.2 7.77,62.4 -4.23,62.4" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l11" class="lot" points="13.59,37.2 25.59,37.2 19.77,62.4 7.77,62.4" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l10" class="lot" points="25.59,37.2 37.59,37.2 31.77,62.4 19.77,62.4" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l9" class="lot" points="37.59,37.2 49.59,37.2 43.77,62.4 31.77,62.4" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ae-l8" class="lot" points="49.59,37.2 59.77,37.2 53.95,62.4 43.77,62.4" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+    </g>
+    <g id="mza-8ag">
+      <polygon id="8ag-l1a" class="lot" points="0,74.4 10.17,74.4 4.35,99.6 -5.82,99.6" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l2" class="lot" points="10.17,74.4 22.17,74.4 16.35,99.6 4.35,99.6" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l3" class="lot" points="22.17,74.4 34.17,74.4 28.35,99.6 16.35,99.6" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l4" class="lot" points="34.17,74.4 46.17,74.4 40.35,99.6 28.35,99.6" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l5" class="lot" points="46.17,74.4 58.17,74.4 52.35,99.6 40.35,99.6" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l6" class="lot" points="58.17,74.4 68.34,74.4 62.52,99.6 52.35,99.6" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l14" class="lot" points="-8.82,99.6 28.32,99.6 25.55,111.6 -11.59,111.6" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l7" class="lot" points="28.32,99.6 65.45,99.6 62.68,111.6 25.55,111.6" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l13" class="lot" points="-8.59,111.6 1.51,111.6 -4.31,136.8 -14.41,136.8" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l12" class="lot" points="1.51,111.6 13.51,111.6 7.69,136.8 -4.31,136.8" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l11" class="lot" points="13.51,111.6 25.51,111.6 19.69,136.8 7.69,136.8" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l10" class="lot" points="25.51,111.6 37.51,111.6 31.69,136.8 19.69,136.8" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l9" class="lot" points="37.51,111.6 49.51,111.6 43.69,136.8 31.69,136.8" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ag-l8" class="lot" points="49.51,111.6 59.61,111.6 53.79,136.8 43.69,136.8" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+    </g>
+    <g id="mza-8ac">
+      <polygon id="8ac-l1c" class="lot" points="0,148.8 10.08,148.8 3.68,176.5 -6.4,176.5" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ac-l1d" class="lot" points="10.08,148.8 22.08,148.8 15.68,176.5 3.68,176.5" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ac-l1e" class="lot" points="22.08,148.8 34.08,148.8 27.68,176.5 15.68,176.5" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ac-l1f" class="lot" points="34.08,148.8 46.08,148.8 39.68,176.5 27.68,176.5" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ac-l1g" class="lot" points="46.08,148.8 58.08,148.8 51.68,176.5 39.68,176.5" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ac-l1k" class="lot" points="58.08,148.8 68.16,148.8 61.76,176.5 51.68,176.5" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ac-l1l" class="lot" points="-9.4,176.5 27.65,176.5 24.88,188.5 -12.17,188.5" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ac-l1m" class="lot" points="27.65,176.5 64.7,176.5 61.93,188.5 24.88,188.5" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ac-l1o" class="lot" points="-12.17,188.5 24.85,188.5 22.08,200.5 -14.94,200.5" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+      <polygon id="8ac-l1n" class="lot" points="24.85,188.5 61.87,188.5 59.1,200.5 22.08,200.5" fill="#F4F0E6" stroke="#8A8577" stroke-width="0.4"/>
+    </g>
+  </g>
+  <g id="mza-labels" pointer-events="none" text-anchor="middle" fill="#333333" font-size="3" stroke="#F4F0E6" stroke-width="1" paint-order="stroke">
+    <text id="lbl-mza-8ae" x="27" y="32.2">Mza. 8ae</text>
+    <text id="lbl-mza-8ag" x="27" y="106.6">Mza. 8ag</text>
+    <text id="lbl-mza-8ac" x="27" y="181">Mza. 8ac</text>
+  </g>
+  <g id="lot-labels" pointer-events="none" font-size="3" text-anchor="middle" fill="#333333">
+    <circle cx="2.19" cy="12.6" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l1a-label" x="2.19" y="13.65">1a</text>
+    <circle cx="13.29" cy="12.6" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l2-label" x="13.29" y="13.65">2</text>
+    <circle cx="25.29" cy="12.6" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l3-label" x="25.29" y="13.65">3</text>
+    <circle cx="37.29" cy="12.6" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l4-label" x="37.29" y="13.65">4</text>
+    <circle cx="49.29" cy="12.6" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l5-label" x="49.29" y="13.65">5</text>
+    <circle cx="60.39" cy="12.6" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l6-label" x="60.39" y="13.65">6</text>
+    <circle cx="8.4" cy="31.2" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l14-label" x="8.4" y="32.25">14</text>
+    <circle cx="45.6" cy="31.2" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l7-label" x="45.6" y="32.25">7</text>
+    <circle cx="-6.41" cy="49.8" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l13-label" x="-6.41" y="50.85">13</text>
+    <circle cx="4.68" cy="49.8" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l12-label" x="4.68" y="50.85">12</text>
+    <circle cx="16.68" cy="49.8" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l11-label" x="16.68" y="50.85">11</text>
+    <circle cx="28.68" cy="49.8" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l10-label" x="28.68" y="50.85">10</text>
+    <circle cx="40.68" cy="49.8" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l9-label" x="40.68" y="50.85">9</text>
+    <circle cx="51.77" cy="49.8" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ae-l8-label" x="51.77" y="50.85">8</text>
+    <circle cx="2.18" cy="87" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l1a-label" x="2.18" y="88.05">1a</text>
+    <circle cx="13.26" cy="87" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l2-label" x="13.26" y="88.05">2</text>
+    <circle cx="25.26" cy="87" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l3-label" x="25.26" y="88.05">3</text>
+    <circle cx="37.26" cy="87" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l4-label" x="37.26" y="88.05">4</text>
+    <circle cx="49.26" cy="87" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l5-label" x="49.26" y="88.05">5</text>
+    <circle cx="60.35" cy="87" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l6-label" x="60.35" y="88.05">6</text>
+    <circle cx="8.37" cy="105.6" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l14-label" x="8.37" y="106.65">14</text>
+    <circle cx="45.5" cy="105.6" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l7-label" x="45.5" y="106.65">7</text>
+    <circle cx="-6.45" cy="124.2" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l13-label" x="-6.45" y="125.25">13</text>
+    <circle cx="4.6" cy="124.2" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l12-label" x="4.6" y="125.25">12</text>
+    <circle cx="16.6" cy="124.2" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l11-label" x="16.6" y="125.25">11</text>
+    <circle cx="28.6" cy="124.2" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l10-label" x="28.6" y="125.25">10</text>
+    <circle cx="40.6" cy="124.2" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l9-label" x="40.6" y="125.25">9</text>
+    <circle cx="51.65" cy="124.2" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ag-l8-label" x="51.65" y="125.25">8</text>
+    <circle cx="1.84" cy="162.65" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ac-l1c-label" x="1.84" y="163.7">1c</text>
+    <circle cx="12.88" cy="162.65" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ac-l1d-label" x="12.88" y="163.7">1d</text>
+    <circle cx="24.88" cy="162.65" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ac-l1e-label" x="24.88" y="163.7">1e</text>
+    <circle cx="36.88" cy="162.65" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ac-l1f-label" x="36.88" y="163.7">1f</text>
+    <circle cx="48.88" cy="162.65" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ac-l1g-label" x="48.88" y="163.7">1g</text>
+    <circle cx="59.92" cy="162.65" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ac-l1k-label" x="59.92" y="163.7">1k</text>
+    <circle cx="7.74" cy="182.5" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ac-l1l-label" x="7.74" y="183.55">1l</text>
+    <circle cx="44.79" cy="182.5" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ac-l1m-label" x="44.79" y="183.55">1m</text>
+    <circle cx="4.96" cy="194.5" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ac-l1o-label" x="4.96" y="195.55">1o</text>
+    <circle cx="41.98" cy="194.5" r="2.4" fill="#FFFFFF" stroke="#8A8577" stroke-width="0.25"/>
+    <text id="8ac-l1n-label" x="41.98" y="195.55">1n</text>
+  </g>
+</svg>

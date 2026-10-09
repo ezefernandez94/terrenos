@@ -25,3 +25,15 @@ class LandIndexTests(TestCase):
         self.assertEqual((groups[0]["sold"], groups[0]["unsold"]), (1, 1))
         self.assertEqual(response.context["status_filter"], "vendidos")
         self.assertContains(response, 'data-sold="1"', count=1)
+
+
+class LandCreatePageTests(TestCase):
+    def test_create_page_renders_every_form_field(self):
+        ## Regression: create.html is laid out by hand and lacked the required currency field,
+        ## so creating a single land failed with an error the page never showed
+        from lands.forms import LandForm
+        self.client.force_login(User.objects.create_user("tester"))
+        response = self.client.get(reverse("lands:create"))
+        for field in LandForm().fields:
+            with self.subTest(field=field):
+                self.assertContains(response, f'name="{field}"')

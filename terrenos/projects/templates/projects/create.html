@@ -9,6 +9,13 @@
     <div class="card-body">
       <form method="post">
         {% csrf_token %}
+        {# Catch-all, so an error on a field missing from this layout is never silent #}
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                Revisá los datos del proyecto.
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
         <div class="row mb-3">
           <div class="col-md-4">
             <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
@@ -32,7 +39,29 @@
             {% endif %}
           </div>
         </div>
-  
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="{{ form.status.id_for_label }}" class="form-label">{{ form.status.label }}</label>
+            {{ form.status }}
+            {% if form.status.errors %}
+                <div class="text-danger">{{ form.status.errors }}</div>
+            {% endif %}
+          </div>
+          <div class="col-md-8">
+            <span class="form-label d-block">{{ form.installment_plans.label }}</span>
+            {% for checkbox in form.installment_plans %}
+                <div class="form-check form-check-inline">
+                    {{ checkbox.tag }}
+                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                </div>
+            {% endfor %}
+            <div class="form-text">{{ form.installment_plans.help_text }}</div>
+            {% if form.installment_plans.errors %}
+                <div class="text-danger">{{ form.installment_plans.errors }}</div>
+            {% endif %}
+          </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">Crear</button>
         <a href="{% url 'projects:index' %}" class="btn btn-secondary">Cancelar</a>
       </form>
